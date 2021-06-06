@@ -2,6 +2,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:hooa/page/signIn.dart';
+import 'package:hooa/page/signUpSecondPage.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -16,19 +17,18 @@ class SignUpPageState extends State<SignUpPage> {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+          highlightColor: Colors.transparent,
+          splashColor: Colors.transparent,
+          onPressed: () => Navigator.of(context).pop(),
+        ), 
+      ),
       body: Column( 
         children: <Widget>[
-          Container(
-            height: height / 10,
-            alignment: Alignment(-0.95, 1),
-            child: IconButton(
-              icon: Icon(Icons.arrow_back_ios),
-              color: Colors.grey,
-              highlightColor: Colors.transparent,
-              splashColor: Colors.transparent,
-              onPressed: () { Navigator.pop(context);}
-            ),
-          ),
 
           Container(
             height: height / 4,
@@ -87,14 +87,18 @@ class SignUpPageState extends State<SignUpPage> {
             margin: EdgeInsets.only(top: 60),
             height: height / 18,
             width: width - 40,
-            child: ElevatedButton(
-              style: getStyleButton(),
+            child: MaterialButton(
+              shape: RoundedRectangleBorder(
+                side: BorderSide(color: Colors.orange),
+                borderRadius: BorderRadius.all(Radius.circular(40)),
+              ),
+              color: Colors.orange,
+              highlightColor: Colors.transparent,
+              splashColor: Colors.transparent,
               onPressed: () { 
-                if(choose == 1) {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => null)
-                  );
-                }
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => SignUpSecondPage())
+                );
               },
               child: Text(
                 "Продолжить", 
@@ -143,14 +147,4 @@ class SignUpPageState extends State<SignUpPage> {
       borderRadius: BorderRadius.all(Radius.circular(10)),
     );
   }
-
-  ButtonStyle getStyleButton() {
-    return ElevatedButton.styleFrom(
-      shape: RoundedRectangleBorder(
-        side: BorderSide(color: Colors.orange),
-        borderRadius: BorderRadius.all(Radius.circular(40)),
-      ),
-      primary: Colors.orange
-    );
-  } 
 }
