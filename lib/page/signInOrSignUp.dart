@@ -27,8 +27,7 @@ class SignInOrSignUpPage extends StatelessWidget {
                     width: MediaQuery.of(context).size.width / 2 - 20,
                     height: 40 
                   ), 
-                  child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
+                  child: MaterialButton(
                     shape: RoundedRectangleBorder(
                       side: BorderSide(color: Colors.orange),
                       borderRadius: BorderRadius.only(
@@ -36,9 +35,10 @@ class SignInOrSignUpPage extends StatelessWidget {
                         bottomLeft: Radius.circular(20) 
                       )
                     ),
-                    primary: Colors.orange
-                  ), 
-                  onPressed: () { 
+                    color: Colors.orange,
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent, 
+                    onPressed: () { 
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => SignInPage())
@@ -57,18 +57,17 @@ class SignInOrSignUpPage extends StatelessWidget {
                     width: MediaQuery.of(context).size.width / 2 - 20, 
                     height: 40
                   ), 
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(      
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(color: Colors.orange),
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(20),
-                          bottomRight: Radius.circular(20)
-                        ),
-                        
-                      ),
-                      primary: Colors.white
-                    ),                
+                  child: MaterialButton(     
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(color: Colors.orange),
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(20),
+                        bottomRight: Radius.circular(20)
+                      ),  
+                    ),
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent,  
+                    color: Colors.white,                
                     onPressed: () { 
                       Navigator.push(
                         context,
