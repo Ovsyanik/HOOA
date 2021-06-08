@@ -106,17 +106,3 @@ class SignUpPageState extends State<SignUpPage> {
     );
   }
 }
-          
-
-
-
-
-
-  // RoundedRectangleBorder getStyleButtonSelected() {
-  //   return RoundedRectangleBorder(
-  //     side: BorderSide(color: Colors.grey[500]),
-  //     borderRadius: BorderRadius.all(Radius.circular(10)),
-  //   );
-  // }
-
-// }
