@@ -1,7 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:hooa/model/TypeInstitution.dart';
 import 'package:hooa/page/SignIn.dart';
+import 'package:hooa/page/records.dart';
 
 class SignUpSecondPageState extends State<SignUpSecondPage> {
   TextEditingController institutionController = new TextEditingController();
@@ -22,9 +25,11 @@ class SignUpSecondPageState extends State<SignUpSecondPage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            color: Color(0xFF424242)
+          icon: SvgPicture.asset(
+            'assets/icons/return.svg',
+            color: HexColor("#262626"),
+            height: 20,
+            width: 20,
           ),
           highlightColor: Colors.transparent,
           splashColor: Colors.transparent,
@@ -35,34 +40,37 @@ class SignUpSecondPageState extends State<SignUpSecondPage> {
         children: <Widget>[
 
           Positioned(
-            top: height * 0.01,
-            left: width / 25,
+            top: height * 0.005,
+            left: 16,
             child: Text(
               'Регистрация',
               style: TextStyle(
-                fontWeight: FontWeight.bold, 
-                fontSize: 26
+                fontWeight: FontWeight.w600,
+                color: HexColor("#262626"),
+                fontSize: 34
               )
             ),
           ),
 
           Positioned(
             top: height * 0.09,
-            left: width / 25,
-            width: width - (width / 12.5),
+            left: 16,
+            width: width - 32,
             child: TextField(
               controller: this.institutionController,
               decoration: InputDecoration(
                 hintText: "Название заведения",
-                  // labelText: "Email",
-                labelStyle: TextStyle(color: Color(0xFF424242))
+                labelStyle: TextStyle(
+                  fontSize: 124,
+                  color: HexColor("#4D262626")
+                )
               ),
             )
           ),
 
           Positioned(
             top: height * 0.175,
-            left: width / 25,
+            left: 16,
             width: width,
             child: Row(
               children: <Widget>[
@@ -72,7 +80,7 @@ class SignUpSecondPageState extends State<SignUpSecondPage> {
                       alignment: Alignment(-10, 0),
                       child: Text(
                         TypeInstitution.HairdressingSalon.value,
-                        style: TextStyle(fontSize: 16)
+                        style: TextStyle(fontSize: 17)
                       ),
                     ),
                     contentPadding: EdgeInsets.all(0),
@@ -92,7 +100,7 @@ class SignUpSecondPageState extends State<SignUpSecondPage> {
                       alignment: Alignment(-2, 0),
                       child: Text(
                         TypeInstitution.Barbershop.value,
-                        style: TextStyle(fontSize: 16)
+                        style: TextStyle(fontSize: 17)
                       ),
                     ),
                     contentPadding: EdgeInsets.all(0),
@@ -111,13 +119,13 @@ class SignUpSecondPageState extends State<SignUpSecondPage> {
           
           Positioned(
             top: height * 0.26,
-            left: width / 25,
-            width: width - (width / 12.5),
+            left: 16,
+            width: width - 32,
             child: TextField(
               controller: this.addressController,
               decoration: InputDecoration(
                 hintText: "Адрес",
-                labelStyle: TextStyle(color: Color(0xFF424242)),
+                labelStyle: TextStyle(color: HexColor("#4D262626")),
                 suffixIcon: InkWell(
                   child: Icon(Icons.location_on_outlined),
                   highlightColor: Colors.transparent,
@@ -132,42 +140,40 @@ class SignUpSecondPageState extends State<SignUpSecondPage> {
 
           Positioned(
             top: height * 0.345,
-            left: width / 25,
-            width: width - (width / 12.5),
+            left: 16,
+            width: width - 32,
             child: TextField(
               controller: this.numberPhoneController,
               decoration: InputDecoration(
                   hintText: "Номер телефона",
-                  labelStyle: TextStyle(color: Color(0xFF424242))
+                  labelStyle: TextStyle(color: HexColor("#4D262626"))
               ),
             )
           ),
             
           Positioned(
             top: height * 0.43,
-            left: width / 25,
-            width: width - (width / 12.5),
+            left: 16,
+            width: width - 32,
             child: TextField(
               controller: this.emailController,
               decoration: InputDecoration(
                 hintText: "E-mail",
-                // labelText: "Email",
-                labelStyle: TextStyle(color: Color(0xFF424242))
+                labelStyle: TextStyle(color: HexColor("#4D262626"))
               ),
             )
           ),
 
           Positioned(
             top: height * 0.515,
-            left: width / 25,
-            width: width - (width / 12.5),
+            left: 16,
+            width: width - 32,
             child: TextField(
               obscureText: isHidden,
               controller: this.passwordController,
               decoration: InputDecoration(
                 hintText: "Пароль",
-                  // labelText: "Email",
-                labelStyle: TextStyle(color: Color(0xFF424242)),
+                labelStyle: TextStyle(color: HexColor("#4D262626")),
                 suffixIcon: InkWell(
                   child: Icon(Icons.visibility_outlined),
                   highlightColor: Colors.transparent,
@@ -180,29 +186,31 @@ class SignUpSecondPageState extends State<SignUpSecondPage> {
             
           Positioned(
             top: height * 0.63,
-            left: width / 25,
-            width: width - (width / 12.5),
-            height: height / 18,
+            left: 16,
+            width: width - 32,
+            height: 50,
             child: MaterialButton(
               shape: RoundedRectangleBorder(
-                side: BorderSide(color: Colors.orange),
+                side: BorderSide(color: HexColor("#FF844B")),
                 borderRadius: BorderRadius.all(Radius.circular(40))
               ),
-              color: Colors.orange,
+              color: HexColor("#FF844B"),
               highlightColor: Colors.transparent,
               splashColor: Colors.transparent, 
               child: Text(
                 'Зарегистрироваться',
-                style: TextStyle(color: Colors.white)
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16)
                 ),
-              onPressed: () => 
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => null)
+              onPressed: () => Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => RecordsPage())
               ),
             )
           ),
 
           Positioned(
-            top: height * 0.7,
+            top: height * 0.72,
             width: width,
             child: Container(
               child:Column( 
@@ -213,21 +221,23 @@ class SignUpSecondPageState extends State<SignUpSecondPage> {
                       text: TextSpan(
                         text: 'Регистрируясь вы принимаете условия',
                         style:  TextStyle(
-                          fontSize: 14,
-                          color: Color(0xFF424242)
+                          fontSize: 13,
+                          color: HexColor("#828282")
                         ),
                       ),
                     )
                   ),
                   
                   Container(
+                    margin: EdgeInsets.only(top: 5),
                     alignment: Alignment.center,
                     child: RichText(
                       text: TextSpan(
                         text: 'Политики конфиденциальности',
                         style:  TextStyle(
-                          fontSize: 14,
-                          color: Colors.orange
+                          fontSize: 13,
+                          color: HexColor("#FF844B"),
+                          fontWeight: FontWeight.w700
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () { Navigator.of(context).push(
@@ -253,16 +263,16 @@ class SignUpSecondPageState extends State<SignUpSecondPage> {
                 text: TextSpan(
                   text: 'Зарегистрированы? ',
                   style:  TextStyle(
-                    fontSize: 18,
-                    color: Colors.orange
+                    fontSize: 15,
+                    color: HexColor("#FF844B")
                   ),
                   children: <TextSpan> [
                     TextSpan(
                       text: 'Войти',
                       style:  TextStyle(
-                        fontSize: 18,
-                        color: Colors.orange,
-                        fontWeight: FontWeight.bold
+                        fontSize: 15,
+                        color: HexColor("#FF844B"),
+                        fontWeight: FontWeight.w600
                       ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () { Navigator.of(context).push(

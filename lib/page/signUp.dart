@@ -1,30 +1,33 @@
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:hooa/page/signIn.dart';
 import 'package:hooa/page/signUpSecondPage.dart';
 import 'package:hooa/widget/customRadioSignUp.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
-  SignUpPageState createState () => SignUpPageState (); 
-
+  SignUpPageState createState () => SignUpPageState(); 
 }
 
 class SignUpPageState extends State<SignUpPage> {
-  int choose;
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar:  AppBar(
+      backgroundColor: HexColor("#F2F2F2"),
+      appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black
+          icon: SvgPicture.asset(
+            'assets/icons/return.svg',
+            color: HexColor("#262626"),
+            height: 20,
+            width: 20,
           ),
           highlightColor: Colors.transparent,
           splashColor: Colors.transparent,
@@ -36,12 +39,12 @@ class SignUpPageState extends State<SignUpPage> {
 
           Positioned(
             top: height * 0.12,
-            left: width / 20,
+            left: 16,
             child: Text(
               "Регистрация", 
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 30
+                fontSize: 48
               ),
             ), 
           ),
@@ -50,47 +53,51 @@ class SignUpPageState extends State<SignUpPage> {
 
           Positioned(
             top: height * 0.5,
-            left: width / 20,
-            height: height / 18,
-            width: width - 40,
+            left: 16,
+            height: 50,
+            width: width - 32,
             child: MaterialButton(
               shape: RoundedRectangleBorder(
-                side: BorderSide(color: Colors.orange),
+                side: BorderSide(color: HexColor("#FF844B")),
                 borderRadius: BorderRadius.all(Radius.circular(40)),
               ),
-              color: Colors.orange,
+              color: HexColor("#FF844B"),
               highlightColor: Colors.transparent,
               splashColor: Colors.transparent,
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => SignUpSecondPage()));
-              },
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => SignUpSecondPage())),
               child: Text(
                 "Продолжить",
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16
+                  ),
               )
             ),
           ),
 
           Positioned(
-            top: height * 0.85,
+            top: height * 0.8,
             width: width,
             child: Align(
               alignment: Alignment.center,
               child: RichText(
                 text: TextSpan(
                   text: 'Зарегистрированы? ',
-                  style: TextStyle(fontSize: 18, color: Colors.orange),
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
+                    color: HexColor("#FF844B")),
                   children: <TextSpan>[
                     TextSpan(
                       text: 'Войти',
                       style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.orange,
-                        fontWeight: FontWeight.bold
+                        fontSize: 15,
+                        color: HexColor("#FF844B"),
+                        fontWeight: FontWeight.w600
                       ),
                       recognizer: TapGestureRecognizer()
-                        ..onTap = () => Navigator.of(context).push(MaterialPageRoute(
+                        ..onTap = () => Navigator.push(context, MaterialPageRoute(
                           builder: (context) => SignInPage()
                         )
                       )

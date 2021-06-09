@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class CustomRadio extends StatefulWidget {
-  double width, height;
+  final double width, height;
 
   CustomRadio(this.width, this.height);
 
@@ -10,7 +11,6 @@ class CustomRadio extends StatefulWidget {
 }
 
 class CustomRadioState extends State<CustomRadio> {
-  // ignore: deprecated_member_use
   List<RadioModel> sampleData = new List<RadioModel>();
 
   @override
@@ -24,10 +24,11 @@ class CustomRadioState extends State<CustomRadio> {
   Widget build(BuildContext context) {
     return Positioned(
       top: widget.height * 0.22,
-      left: widget.width / 20,
-      width: widget.width - 40,
+      left: 16,
+      width: widget.width - 32,
       height: widget.height / 5,
       child: ListView.builder(
+        primary: false,
         itemCount: sampleData.length,
         itemBuilder: (BuildContext context, int index) {
           return new InkWell(
@@ -57,20 +58,20 @@ class RadioItem extends StatelessWidget {
       child: Container(
         height: 50.0,
         width: 50.0,
-        child: Center(
+        child: Align(
+          alignment: Alignment(-0.82, 0),
           child: Text(
             _item.buttonText,
             style: TextStyle(
-              color: _item.isSelected ? Colors.orange : Colors.grey,
-                  //fontWeight: FontWeight.bold,
-              fontSize: 18.0
+              color: _item.isSelected ? HexColor("#FF844B") : HexColor('#99262626'),
+              fontSize: 17.0
             )
           ),
         ),
         decoration: BoxDecoration(
           border: Border.all(
             width: 1.0,
-            color: _item.isSelected ? Colors.orange : Colors.grey),
+            color: _item.isSelected ? HexColor("#FF844B") : HexColor('#99262626')),
             borderRadius: const BorderRadius.all(const Radius.circular(15.0),
           ),
         ),
