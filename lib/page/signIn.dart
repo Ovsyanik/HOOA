@@ -3,14 +3,33 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:hooa/page/passwordRecovery.dart';
 import 'package:hooa/page/records.dart';
 import 'package:hooa/page/signUp.dart';
 
 class SignInPageState extends State<SignInPage> {
-  TextEditingController emailController = new TextEditingController();
-  TextEditingController passwordController = new TextEditingController();
+  final emailController = new TextEditingController();
+  final passwordController = new TextEditingController();
 
   bool isHidden = true;
+  bool eMail = false;
+  bool password = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    emailController.addListener(() { eMail = emailController.value.text.isNotEmpty ? true : false; });
+    passwordController.addListener(() { password = passwordController.value.text.isNotEmpty ? true : false; });
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+
+    super.dispose();
+  }
 
   @override 
   Widget build(BuildContext context) {
@@ -23,7 +42,6 @@ class SignInPageState extends State<SignInPage> {
         leading: IconButton(
           icon: SvgPicture.asset(
             'assets/icons/return.svg',
-            color: HexColor("#262626"),
             height: 20,
             width: 20,
           ),
@@ -56,7 +74,7 @@ class SignInPageState extends State<SignInPage> {
               controller: this.emailController,
               decoration: InputDecoration(
                 hintText: "E-mail",
-                labelStyle: TextStyle(color: HexColor("#4D262626"))
+                labelStyle: TextStyle(color: HexColor("#4D262626"), fontSize: 17)
               ),
             )
           ),
@@ -68,14 +86,24 @@ class SignInPageState extends State<SignInPage> {
             child: TextField(
               obscureText: isHidden,
               controller: this.passwordController,
+              cursorColor: HexColor("#FF844B"),
               decoration: InputDecoration(
                 hintText: "Пароль",
-                labelStyle: TextStyle(color: HexColor("#4D262626")),
-                  suffixIcon: InkWell(
-                    child: Icon(Icons.visibility_outlined),
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    onTap: () => setState(() => isHidden = !isHidden)
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: HexColor("#FF844B"),
+                  )
+                ),
+                labelStyle: TextStyle(color: HexColor("#4D262626"), fontSize: 17),
+                suffixIcon: IconButton(
+                  icon: SvgPicture.asset(
+                    'assets/icons/eye_close.svg', 
+                    height: 20,
+                    width: 20,
+                  ),
+                  highlightColor: Colors.transparent,
+                  splashColor: Colors.transparent,   
+                  onPressed: () => setState(() => isHidden = !isHidden)
                 )
               ),
             )
@@ -95,7 +123,7 @@ class SignInPageState extends State<SignInPage> {
                   ),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () => Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => SignUpPage()
+                      builder: (context) => PasswordRecoveryPage()
                     ) 
                   )
                 )   
@@ -109,15 +137,17 @@ class SignInPageState extends State<SignInPage> {
             height: 50,
             width: width - 32,
             child: MaterialButton(
+              elevation: 0,
               shape: RoundedRectangleBorder(
-                side: BorderSide(color: HexColor("#FF844B")),
-                borderRadius: BorderRadius.all(Radius.circular(40)),
+                borderRadius: BorderRadius.all(Radius.circular(50)),
               ),
-              color: HexColor("#FF844B"),
+              color: HexColor("#FF844B") ,
               highlightColor: Colors.transparent,
               splashColor: Colors.transparent,
-              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => RecordsPage())),
+              disabledColor: HexColor("#66FF844B"),
+              onPressed: this.eMail && this.password ? 
+                () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => RecordsPage())) : null,
               child: Text(
                 "Войти",
                 style: TextStyle(
@@ -152,14 +182,14 @@ class SignInPageState extends State<SignInPage> {
                     text: TextSpan(
                       text: 'условия ',
                       style: TextStyle(
-                        fontSize: 15,
+                        fontSize: 13,
                         color: HexColor("#7d7d7d")
                       ),
                       children: <TextSpan>[
                         TextSpan(
                           text: 'Политики конфиденциальности',
                           style: TextStyle(
-                            fontSize: 15,
+                            fontSize: 13,
                             color: HexColor("#FF844B"),
                             fontWeight: FontWeight.w600
                           ),
@@ -181,32 +211,30 @@ class SignInPageState extends State<SignInPage> {
           Positioned(
             top: height * 0.8,
             width: width,
-            child: Align(
-              alignment: Alignment.center,
-              child: RichText(
-                text: TextSpan(
-                  text: 'Нет аккаунта? ',
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: HexColor("#FF844B")),
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: 'Зарегистрироваться',
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: HexColor("#FF844B"),
-                      ),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () => Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => SignUpPage()
-                        )
+            child: RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                text: 'Нет аккаунта? ',
+                style: TextStyle(
+                  fontSize: 15,
+                  color: HexColor("#FF844B")),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: 'Зарегистрироваться',
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: HexColor("#FF844B"),
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () => Navigator.push(context, MaterialPageRoute(
+                        builder: (context) => SignUpPage()
                       )
                     )
-                  ]
-                )   
-              )
+                  )
+                ]
+              )   
             )
-          ),
+          )
         ],
       ) 
     );
@@ -216,4 +244,6 @@ class SignInPageState extends State<SignInPage> {
 class SignInPage extends StatefulWidget {
   @override
   SignInPageState createState() => SignInPageState();
+
+
 }

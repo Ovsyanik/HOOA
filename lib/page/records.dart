@@ -1,7 +1,11 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:hooa/page/listRecords.dart';
+import 'package:hooa/page/profile.dart';
 import 'package:hooa/page/signIn.dart';
+import 'package:hooa/page/statistics.dart';
+import 'package:hooa/page/users.dart';
 
 class RecordsPage extends StatefulWidget {
   @override
@@ -12,8 +16,8 @@ class RecordsPageState extends State<RecordsPage> {
 int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -24,8 +28,8 @@ int _selectedIndex = 0;
             icon: SvgPicture.asset(
               'assets/icons/filter_black.svg',
               color: HexColor("#262626"),
-              height: 20,
-              width: 20,
+              height: 40,
+              width: 40,
             ),
             highlightColor: Colors.transparent,
             splashColor: Colors.transparent,
@@ -54,46 +58,46 @@ int _selectedIndex = 0;
           ),
         ],
       ),
-      body: Stack(
-        children: <Widget>[
-          Positioned(
-              left: width / 20,
-              child: Text(
-                'Записи 7',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold, fontSize: height / 30),
-              ))
-        ],
-      ),
+      body: this.getBody(),
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: false,
         showUnselectedLabels: false,
-        items: const <BottomNavigationBarItem>[
+        type: BottomNavigationBarType.fixed,
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-              icon: Icon(
-                Icons.home_outlined,
-                color: Colors.grey,
-              ),
-              // ignore: deprecated_member_use
-              title: Text('Записи')),
+            icon: SvgPicture.asset(
+              'assets/icons/article.svg',
+              color: HexColor('#BDBDBD'),
+              height: 32,
+              width: 32,
+            ),
+            // ignore: deprecated_member_use
+            title: Text('Записи')
+          ),
           BottomNavigationBarItem(
-              icon: Icon(
-                Icons.home_outlined,
-                color: Colors.grey,
-              ),
-              // ignore: deprecated_member_use
-              title: Text('Записи')),
+            icon: SvgPicture.asset(
+              'assets/icons/users.svg',
+              height: 32,
+              width: 32,
+            ),
+            // ignore: deprecated_member_use
+            title: Text('Записи')),
           BottomNavigationBarItem(
-              icon: Icon(Icons.home, color: Colors.grey),
-              // ignore: deprecated_member_use
-              title: Text('Записи')),
+            icon: SvgPicture.asset(
+              'assets/icons/chart_pie.svg',
+              height: 32,
+              width: 32,
+            ),
+            // ignore: deprecated_member_use
+            title: Text('Записи')),
           BottomNavigationBarItem(
-              icon: Icon(
-                Icons.home_outlined,
-                color: Colors.grey,
-              ),
-              // ignore: deprecated_member_use
-              title: Text('Записи')),
+            icon: SvgPicture.asset(
+              'assets/icons/house.svg',
+              height: 32,
+              width: 32,
+            ),
+            // ignore: deprecated_member_use
+            title: Text('Записи')),
         ],
         selectedItemColor: Colors.black,
         currentIndex: _selectedIndex,
@@ -104,6 +108,16 @@ int _selectedIndex = 0;
 
   onItemTapBottomBar(int index) {
     setState(() => _selectedIndex = index);
+  }
+
+  Widget getBody() {
+    switch (_selectedIndex) {
+      case 1: return ListRecordsPage(); break;
+      case 2: return UsersPage(); break;
+      case 3: return StatisticsPage(); break;
+      case 4: return ProfilePage(); break;
+      default: return null;
+    }
   }
 
 }

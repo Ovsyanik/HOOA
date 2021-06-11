@@ -79,32 +79,30 @@ class SignUpPageState extends State<SignUpPage> {
           Positioned(
             top: height * 0.8,
             width: width,
-            child: Align(
-              alignment: Alignment.center,
-              child: RichText(
-                text: TextSpan(
-                  text: 'Зарегистрированы? ',
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400,
-                    color: HexColor("#FF844B")),
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: 'Войти',
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: HexColor("#FF844B"),
-                        fontWeight: FontWeight.w600
-                      ),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () => Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => SignInPage()
-                        )
+            child: RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                text: 'Зарегистрированы? ',
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400,
+                  color: HexColor("#FF844B")),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: 'Войти',
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: HexColor("#FF844B"),
+                      fontWeight: FontWeight.w600
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () => Navigator.push(context, MaterialPageRoute(
+                        builder: (context) => SignInPage()
                       )
                     )
-                  ]
-                )   
-              )
+                  )
+                ]
+              )   
             )
           )
 

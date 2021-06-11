@@ -17,6 +17,22 @@ class SignUpSecondPageState extends State<SignUpSecondPage> {
   TypeInstitution _typeInstitution = TypeInstitution.HairdressingSalon;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    institutionController.dispose();
+    addressController.dispose();
+    numberPhoneController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -174,11 +190,15 @@ class SignUpSecondPageState extends State<SignUpSecondPage> {
               decoration: InputDecoration(
                 hintText: "Пароль",
                 labelStyle: TextStyle(color: HexColor("#4D262626")),
-                suffixIcon: InkWell(
-                  child: Icon(Icons.visibility_outlined),
+                suffixIcon: IconButton(
+                  icon: SvgPicture.asset(
+                    'assets/icons/eye_close.svg',
+                    height: 20,
+                    width: 20,
+                  ),
                   highlightColor: Colors.transparent,
                   splashColor: Colors.transparent,
-                  onTap: () => setState(() => isHidden = !isHidden)
+                  onPressed: () => setState(() => isHidden = !isHidden)
                 )
               ),
             )
@@ -257,31 +277,29 @@ class SignUpSecondPageState extends State<SignUpSecondPage> {
           Positioned(
             top: height * 0.85,
             width: width,
-            child: Align(
-              alignment: Alignment.center,
-              child: RichText(
-                text: TextSpan(
-                  text: 'Зарегистрированы? ',
-                  style:  TextStyle(
-                    fontSize: 15,
-                    color: HexColor("#FF844B")
-                  ),
-                  children: <TextSpan> [
-                    TextSpan(
-                      text: 'Войти',
-                      style:  TextStyle(
-                        fontSize: 15,
-                        color: HexColor("#FF844B"),
-                        fontWeight: FontWeight.w600
-                      ),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () { Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => SignInPage())
-                        );
-                      }
-                    )
-                  ]
-                )
+            child: RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                text: 'Зарегистрированы? ',
+                style:  TextStyle(
+                  fontSize: 15,
+                  color: HexColor("#FF844B")
+                ),
+                children: <TextSpan> [
+                  TextSpan(
+                    text: 'Войти',
+                    style:  TextStyle(
+                      fontSize: 15,
+                      color: HexColor("#FF844B"),
+                      fontWeight: FontWeight.w600
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () { Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => SignInPage())
+                      );
+                    }
+                  )
+                ]
               )
             )
           )
