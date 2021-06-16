@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:hooa/page/signIn.dart';
 
 class PasswordRecoveryPageState extends State<PasswordRecoveryPage> {
   final eMailController = TextEditingController();
@@ -115,10 +114,7 @@ class PasswordRecoveryPageState extends State<PasswordRecoveryPage> {
                     fontSize: 15,
                     color: HexColor("#FF844B")),
                   recognizer: TapGestureRecognizer()
-                    ..onTap = () => Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => SignInPage()
-                    )
-                  ) 
+                    ..onTap = () => Navigator.pushNamed(context, '/signIn')
               )
             )
           )

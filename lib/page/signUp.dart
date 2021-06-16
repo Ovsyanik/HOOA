@@ -1,10 +1,10 @@
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:hooa/page/signIn.dart';
-import 'package:hooa/page/signUpSecondPage.dart';
+import 'package:hooa/bloc/signUpBloc.dart';
 import 'package:hooa/widget/customRadioSignUp.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -57,6 +57,7 @@ class SignUpPageState extends State<SignUpPage> {
             height: 50,
             width: width - 32,
             child: MaterialButton(
+              elevation: 0,
               shape: RoundedRectangleBorder(
                 side: BorderSide(color: HexColor("#FF844B")),
                 borderRadius: BorderRadius.all(Radius.circular(40)),
@@ -64,8 +65,11 @@ class SignUpPageState extends State<SignUpPage> {
               color: HexColor("#FF844B"),
               highlightColor: Colors.transparent,
               splashColor: Colors.transparent,
-              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => SignUpSecondPage())),
+              onPressed: () {
+                final bloc = BlocProvider.of<SignUpBloc>(context);
+                Navigator.pushNamed(context,
+                 bloc.selectedType == 0 ? '/signUpUser' : '/signUpInstitution');
+              },
               child: Text(
                 "Продолжить",
                 style: TextStyle(
@@ -96,10 +100,7 @@ class SignUpPageState extends State<SignUpPage> {
                       fontWeight: FontWeight.w600
                     ),
                     recognizer: TapGestureRecognizer()
-                      ..onTap = () => Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => SignInPage()
-                      )
-                    )
+                      ..onTap = () => Navigator.pushNamed(context, '/signIn')                    
                   )
                 ]
               )   

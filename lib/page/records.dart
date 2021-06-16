@@ -16,8 +16,8 @@ class RecordsPageState extends State<RecordsPage> {
 int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
+    // final width = MediaQuery.of(context).size.width;
+    // final height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -54,7 +54,7 @@ int _selectedIndex = 0;
             highlightColor: Colors.transparent,
             splashColor: Colors.transparent,
             onPressed: () => Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => SignInPage())),
+              .push(MaterialPageRoute(builder: (context) => SignInPage())),
           ),
         ],
       ),
@@ -112,10 +112,10 @@ int _selectedIndex = 0;
 
   Widget getBody() {
     switch (_selectedIndex) {
-      case 1: return ListRecordsPage(); break;
-      case 2: return UsersPage(); break;
-      case 3: return StatisticsPage(); break;
-      case 4: return ProfilePage(); break;
+      case 0: return ListRecordsPage(); break;
+      case 1: return UsersPage(); break;
+      case 2: return StatisticsPage(); break;
+      case 3: return ProfilePage(); break;
       default: return null;
     }
   }

@@ -3,9 +3,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:hooa/page/passwordRecovery.dart';
-import 'package:hooa/page/records.dart';
-import 'package:hooa/page/signUp.dart';
 
 class SignInPageState extends State<SignInPage> {
   final emailController = new TextEditingController();
@@ -19,8 +16,8 @@ class SignInPageState extends State<SignInPage> {
   void initState() {
     super.initState();
 
-    emailController.addListener(() { eMail = emailController.value.text.isNotEmpty ? true : false; });
-    passwordController.addListener(() { password = passwordController.value.text.isNotEmpty ? true : false; });
+    emailController.addListener(() { eMail = emailController.value.text.isNotEmpty;});
+    passwordController.addListener(() { password = passwordController.value.text.isNotEmpty; });
   }
 
   @override
@@ -122,10 +119,7 @@ class SignInPageState extends State<SignInPage> {
                     color: HexColor("#99262626"),
                   ),
                   recognizer: TapGestureRecognizer()
-                    ..onTap = () => Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => PasswordRecoveryPage()
-                    ) 
-                  )
+                    ..onTap = () => Navigator.pushNamed(context, '/recoveryPassword')
                 )   
               )
             )
@@ -146,8 +140,7 @@ class SignInPageState extends State<SignInPage> {
               splashColor: Colors.transparent,
               disabledColor: HexColor("#66FF844B"),
               onPressed: this.eMail && this.password ? 
-                () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => RecordsPage())) : null,
+                () => Navigator.of(context).pushNamed('/records') : null,
               child: Text(
                 "Войти",
                 style: TextStyle(
@@ -217,7 +210,8 @@ class SignInPageState extends State<SignInPage> {
                 text: 'Нет аккаунта? ',
                 style: TextStyle(
                   fontSize: 15,
-                  color: HexColor("#FF844B")),
+                  color: HexColor("#FF844B")
+                ),
                 children: <TextSpan>[
                   TextSpan(
                     text: 'Зарегистрироваться',
@@ -226,10 +220,7 @@ class SignInPageState extends State<SignInPage> {
                       color: HexColor("#FF844B"),
                     ),
                     recognizer: TapGestureRecognizer()
-                      ..onTap = () => Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => SignUpPage()
-                      )
-                    )
+                      ..onTap = () => Navigator.pushNamed(context, '/signUp')
                   )
                 ]
               )   

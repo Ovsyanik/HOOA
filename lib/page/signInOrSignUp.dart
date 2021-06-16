@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:hooa/page/SignIn.dart';
-import 'package:hooa/page/signUp.dart';
 
 class SignInOrSignUpPage extends StatelessWidget {
   @override
@@ -28,6 +26,7 @@ class SignInOrSignUpPage extends StatelessWidget {
                     height: 50 
                   ), 
                   child: MaterialButton(
+                    elevation: 0,
                     shape: RoundedRectangleBorder(
                       side: BorderSide(color: HexColor("#FF844B")),
                       borderRadius: BorderRadius.only(
@@ -38,16 +37,14 @@ class SignInOrSignUpPage extends StatelessWidget {
                     color: HexColor("#FF844B"),
                     highlightColor: Colors.transparent,
                     splashColor: Colors.transparent, 
-                    onPressed: () => Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SignInPage())
-                    ),
-                  child: Text(
-                    "Вход", 
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.white
-                    ),
-                  )
+                    onPressed: () => Navigator.pushNamed(context, '/signIn'),
+                    child: Text(
+                      "Вход", 
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white
+                      ),
+                    )
                   ), 
                 ),
                 ConstrainedBox(
@@ -55,7 +52,8 @@ class SignInOrSignUpPage extends StatelessWidget {
                     width: MediaQuery.of(context).size.width / 2 - 17, 
                     height: 50
                   ), 
-                  child: MaterialButton(     
+                  child: MaterialButton(   
+                    elevation: 0,  
                     shape: RoundedRectangleBorder(
                       side: BorderSide(color: HexColor("#FF844B")),
                       borderRadius: BorderRadius.only(
@@ -66,9 +64,7 @@ class SignInOrSignUpPage extends StatelessWidget {
                     highlightColor: Colors.transparent,
                     splashColor: Colors.transparent,  
                     color: Colors.white,                
-                    onPressed: () => Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SignUpPage())
-                    ),
+                    onPressed: () => Navigator.pushNamed(context, '/signUp'),
                     child: Text(
                       "Регистрация",
                       style: TextStyle(

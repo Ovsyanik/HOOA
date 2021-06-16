@@ -1,48 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:hooa/bloc/signUpBloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CustomRadio extends StatefulWidget {
+class CustomRadio extends StatelessWidget {
   final double width, height;
-
   CustomRadio(this.width, this.height);
 
   @override
-  createState() => CustomRadioState();
-}
-
-class CustomRadioState extends State<CustomRadio> {
-  List<RadioModel> sampleData = new List<RadioModel>();
-
-  @override
-  void initState() {
-    super.initState();
-    sampleData.add(new RadioModel(false, 'Клиент/Мастер'));
-    sampleData.add(new RadioModel(false, 'Заведение'));
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<SignUpBloc>(context);
     return Positioned(
-      top: widget.height * 0.22,
+      top: height * 0.22,
       left: 16,
-      width: widget.width - 32,
-      height: widget.height / 5,
-      child: ListView.builder(
-        primary: false,
-        itemCount: sampleData.length,
-        itemBuilder: (BuildContext context, int index) {
-          return new InkWell(
-            highlightColor: Colors.transparent,
-            splashColor: Colors.transparent,
-            onTap: () {
-              setState(() {
-                sampleData.forEach((element) => element.isSelected = false);
-                sampleData[index].isSelected = true;
-              });
+      width: width - 32,
+      height: height / 5,
+      child: StreamBuilder(
+        stream: bloc.stream,
+        builder: (context, snapshot) {
+          final sampleData = snapshot.data;
+          return ListView.builder(
+            primary: false,
+            itemCount: sampleData.length,
+            itemBuilder: (BuildContext context, int index) {
+              return InkWell(
+                highlightColor: Colors.transparent,
+                splashColor: Colors.transparent,
+                onTap: () {
+                  bloc.selectType(index);
+                },
+                child: RadioItem(sampleData[index]),
+              );
             },
-            child: new RadioItem(sampleData[index]),
           );
-        },
+        }
       ),
     );
   }
