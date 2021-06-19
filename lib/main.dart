@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         Provider<SignUpBloc>(
           create: (BuildContext context) => SignUpBloc(),
           dispose: (_, SignUpBloc signUpBloc) => signUpBloc.dispose(),
-          ),
+        ),
       ],
       child: MaterialApp(
         title: 'HOOA',

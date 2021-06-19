@@ -18,10 +18,10 @@ class CustomRadio extends StatelessWidget {
       child: StreamBuilder(
         stream: bloc.stream,
         builder: (context, snapshot) {
-          final sampleData = snapshot.data;
+          final sampleData = snapshot.data ?? bloc.types;
           return ListView.builder(
             primary: false,
-            itemCount: sampleData.length,
+            itemCount: bloc.types.length,
             itemBuilder: (BuildContext context, int index) {
               return InkWell(
                 highlightColor: Colors.transparent,

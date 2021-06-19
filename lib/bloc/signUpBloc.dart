@@ -9,6 +9,8 @@ class SignUpBloc extends BlocBase {
     new RadioModel(false, 'Заведение')
   ];
 
+  List<RadioModel> get types => _types;
+
   int get selectedType => _types.indexWhere((element) => element.isSelected == true);
 
   StreamController<List<RadioModel>> typeController = BehaviorSubject();
@@ -16,9 +18,7 @@ class SignUpBloc extends BlocBase {
   Sink<List<RadioModel>> get sink => typeController.sink;
   Stream<List<RadioModel>> get stream => typeController.stream;
 
-  SignUpBloc() : super(null) {
-    sink.add(_types);
-  }
+  SignUpBloc() : super(null);
 
   void selectType(int index) async {
     _types.forEach((element) => element.isSelected = false);

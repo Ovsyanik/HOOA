@@ -65,10 +65,13 @@ class SignUpPageState extends State<SignUpPage> {
               color: HexColor("#FF844B"),
               highlightColor: Colors.transparent,
               splashColor: Colors.transparent,
-              onPressed: () {
+              onPressed:  () {
                 final bloc = BlocProvider.of<SignUpBloc>(context);
-                Navigator.pushNamed(context,
-                 bloc.selectedType == 0 ? '/signUpUser' : '/signUpInstitution');
+                if(bloc.selectedType == 0){
+                  Navigator.pushNamed(context, '/signUpUser');
+                } else if(bloc.selectedType == 1) {
+                  Navigator.pushNamed(context, '/signUpInstitution');
+                } else return null;
               },
               child: Text(
                 "Продолжить",
