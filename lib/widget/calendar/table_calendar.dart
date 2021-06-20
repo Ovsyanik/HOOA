@@ -1,5 +1,6 @@
 
 import 'package:flutter/widgets.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:simple_gesture_detector/simple_gesture_detector.dart';
 
@@ -22,94 +23,60 @@ enum RangeSelectionMode { disabled, toggledOff, toggledOn, enforced }
 
 /// Highly customizable, feature-packed Flutter calendar with gestures, animations and multiple formats.
 class TableCalendar<T> extends StatefulWidget {
-  /// DateTime that determines which days are currently visible and focused.
+  final DateTime selectedDay;
+
   final DateTime focusedDay;
 
-  /// The first active day of `TableCalendar`.
-  /// Blocks swiping to days before it.
-  ///
-  /// Days before it will use `disabledStyle` and trigger `onDisabledDayTapped` callback.
   final DateTime firstDay;
 
-  /// The last active day of `TableCalendar`.
-  /// Blocks swiping to days after it.
-  ///
-  /// Days after it will use `disabledStyle` and trigger `onDisabledDayTapped` callback.
   final DateTime lastDay;
 
-  /// List of days treated as weekend days.
-  /// Use built-in `DateTime` weekday constants (e.g. `DateTime.monday`) instead of `int` literals (e.g. `1`).
   final List<int> weekendDays;
 
-  /// When set to true, tapping on an outside day in `CalendarFormat.month` format
-  /// will jump to the calendar page of the tapped month.
   final bool pageJumpingEnabled;
 
-  /// When set to true, updating the `focusedDay` will display a scrolling animation
-  /// if the currently visible calendar page is changed.
   final bool pageAnimationEnabled;
 
-  /// When set to true, `TableCalendar` will fill available height.
   final bool shouldFillViewport;
 
-  /// Used for setting the height of `TableCalendar`'s days of week row.
   final double daysOfWeekHeight;
 
-  /// Specifies the duration of size animation that takes place whenever `calendarFormat` is changed.
   final Duration formatAnimationDuration;
 
-  /// Specifies the curve of size animation that takes place whenever `calendarFormat` is changed.
   final Curve formatAnimationCurve;
 
-  /// Specifies the duration of scrolling animation that takes place whenever the visible calendar page is changed.
   final Duration pageAnimationDuration;
 
-  /// Specifies the curve of scrolling animation that takes place whenever the visible calendar page is changed.
   final Curve pageAnimationCurve;
 
-  /// `HitTestBehavior` for every day cell inside `TableCalendar`.
   final HitTestBehavior dayHitTestBehavior;
 
-  /// Specifies swipe gestures available to `TableCalendar`.
-  /// If `AvailableGestures.none` is used, the calendar will only be interactive via buttons.
   final AvailableGestures availableGestures;
 
-  /// Configuration for vertical swipe detector.
   final SimpleSwipeConfig simpleSwipeConfig;
 
-  // final List<Decoration> decorations;
-
-  /// Function deciding whether given day should be enabled or not.
-  /// If `false` is returned, this day will be disabled.
   final bool Function(DateTime day) enabledDayPredicate;
 
-  /// Function deciding whether given day should be marked as selected.
   final bool Function(DateTime day) selectedDayPredicate;
 
-  /// Function deciding whether given day is treated as a holiday.
   final bool Function(DateTime day) holidayPredicate;
 
-  /// Called whenever any day gets tapped.
   final OnDaySelected onDaySelected;
 
-  /// Called whenever any disabled day gets tapped.
   final void Function(DateTime day) onDisabledDayTapped;
 
-  /// Called whenever any disabled day gets long pressed.
   final void Function(DateTime day) onDisabledDayLongPressed;
 
-  /// Called whenever currently visible calendar page is changed.
   final void Function(DateTime focusedDay) onPageChanged;
 
-  /// Called when the calendar is created. Exposes its PageController.
   final void Function(PageController pageController) onCalendarCreated;
 
-  /// Creates a `TableCalendar` widget.
   TableCalendar({
     Key key,
     @required DateTime focusedDay,
     @required DateTime firstDay,
     @required DateTime lastDay,
+    this.selectedDay,
     this.weekendDays = const [DateTime.saturday, DateTime.sunday],
     this.pageJumpingEnabled = false,
     this.pageAnimationEnabled = true,
@@ -150,6 +117,7 @@ class TableCalendar<T> extends StatefulWidget {
 class _TableCalendarState<T> extends State<TableCalendar<T>> {
   PageController _pageController;
   ValueNotifier<DateTime> _focusedDay;
+  List<BoxDecoration> decorations;
 
   @override
   void initState() {
@@ -206,18 +174,58 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
   }
 
   void _onFirstButtonTap() {
+    decorations = [
+      BoxDecoration(
+        color: HexColor('#4E7D96'),
+        border: Border.all(color: HexColor('#4E7D96'), width: 1.0),
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+      ),
+      null,
+      null,
+      null
+    ];
     _pageController.jumpToPage(DateTime.now().month + 2);
   }
 
   void _onSecondButtonTap() {
+    decorations = [
+      null,
+      BoxDecoration(
+        color: HexColor('#4E7D96'),
+        border: Border.all(color: HexColor('#4E7D96'), width: 1.0),
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+      ),
+      null,
+      null
+    ];
     _pageController.jumpToPage(DateTime.now().month + 3);
   }
 
   void _onThirdButtonTap() {
+    decorations = [
+      null,
+      null,
+      BoxDecoration(
+        color: HexColor('#4E7D96'),
+        border: Border.all(color: HexColor('#4E7D96'), width: 1.0),
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+      ), 
+      null
+    ];
     _pageController.jumpToPage(DateTime.now().month + 4);
   }
 
   void _onFourthButtonTap() {
+    decorations = [
+      null,
+      null,
+      null,
+      BoxDecoration(
+        color: HexColor('#4E7D96'),
+        border: Border.all(color: HexColor('#4E7D96'), width: 1.0),
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+      )
+    ];
     _pageController.jumpToPage(DateTime.now().month + 5);
   }
 
@@ -229,7 +237,8 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
           valueListenable: _focusedDay,
           builder: (context, value, _) {
             return CalendarHeader(
-              // decorations: widget.decorations,
+              decorations: this.decorations,
+              selectedDate: widget.selectedDay,
               onFirstButtonTap: _onFirstButtonTap, 
               onFourthButtonTap: _onFourthButtonTap, 
               onSecondButtonTap: _onSecondButtonTap, 

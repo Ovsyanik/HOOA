@@ -109,6 +109,7 @@ class TabBarRecordsState extends State<TabBarRecords> {
                     margin: EdgeInsets.only(top: 30, bottom: 25),
                     width: width - 100,
                     child: TableCalendar(
+                      selectedDay: selectedDate,
                       firstDay: DateTime.utc(2020, 10, 16),
                       lastDay: DateTime.utc(
                         DateTime.now().year + 2,
