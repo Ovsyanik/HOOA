@@ -1,8 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:hooa/bloc/signUpBloc.dart';
 import 'package:hooa/model/Sex.dart';
+import 'package:hooa/model/user.dart';
 
 class SignUpSecondUserPage extends StatefulWidget {
   @override
@@ -10,11 +13,10 @@ class SignUpSecondUserPage extends StatefulWidget {
 }
 
 class SignUpSecondUserState extends State<SignUpSecondUserPage> {
-  TextEditingController fullNameController = new TextEditingController();
-  TextEditingController addressController = new TextEditingController();
-  TextEditingController numberPhoneController = new TextEditingController();
-  TextEditingController emailController = new TextEditingController();
-  TextEditingController passwordController = new TextEditingController();
+  final fullNameController = TextEditingController();
+  final numberPhoneController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   bool isHidden = true;
   Sex _sex = Sex.Female;
@@ -195,7 +197,18 @@ class SignUpSecondUserState extends State<SignUpSecondUserPage> {
                   fontSize: 16
                 )
               ),
-              onPressed: () => Navigator.of(context).pushNamed('/records')
+              onPressed: () {
+                var bloc = BlocProvider.of<SignUpBloc>(context);
+                User newUser = User(
+                  fullName: fullNameController.text,
+                  sex: _sex.value,
+                  numberPhone: numberPhoneController.text,
+                  email: emailController.text,
+                  password: passwordController.text
+                );
+                bloc.register(user: newUser);
+                Navigator.of(context).pushNamed('/mainContainer');
+              }
             )
           ),
   
@@ -272,7 +285,6 @@ class SignUpSecondUserState extends State<SignUpSecondUserPage> {
   @override
   void dispose() {
     fullNameController.dispose();
-    addressController.dispose();
     numberPhoneController.dispose();
     emailController.dispose();
     passwordController.dispose();

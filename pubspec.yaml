@@ -20,6 +20,9 @@ dependencies:
   flutter_bloc: ^7.0.1
   rxdart: ^0.27.1
   simple_gesture_detector: ^0.2.0
+  sqflite: ^2.0.0+3
+  path_provider: ^2.0.2
+  equatable: ^2.0.3
 
 dev_dependencies:
   flutter_test:

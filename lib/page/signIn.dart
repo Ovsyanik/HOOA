@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:hooa/bloc/signUpBloc.dart';
+import 'package:hooa/repository/sqfliteRepository.dart';
 
 class SignInPageState extends State<SignInPage> {
   final emailController = new TextEditingController();
@@ -140,7 +143,17 @@ class SignInPageState extends State<SignInPage> {
               splashColor: Colors.transparent,
               disabledColor: HexColor("#66FF844B"),
               onPressed: this.eMail && this.password ? 
-                () => Navigator.of(context).pushNamed('/records') : null,
+                (){
+                var bloc = BlocProvider.of<SignUpBloc>(context);
+                // var sql = SqfliteRepository();
+                // var result = sql.signIn(
+                  // email: emailController.text,
+                  // password: passwordController.text
+                // );
+                // result.then((value) => null)
+                  Navigator.of(context).pushNamed('/mainContainer');
+                // } else print('Error');
+              } : null,
               child: Text(
                 "Войти",
                 style: TextStyle(
