@@ -26,7 +26,7 @@ class MainContainerPageState extends State<MainContainerPage> {
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               'assets/icons/article.svg',
-              color: HexColor('#BDBDBD'),
+              color: _selectedIndex == 0 ? HexColor('#262626') : HexColor('#BDBDBD'),
               height: 32,
               width: 32,
             ),
@@ -35,6 +35,7 @@ class MainContainerPageState extends State<MainContainerPage> {
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               'assets/icons/users.svg',
+              color: _selectedIndex == 1 ? HexColor('#262626') : HexColor('#BDBDBD'),
               height: 32,
               width: 32,
             ),
@@ -43,6 +44,7 @@ class MainContainerPageState extends State<MainContainerPage> {
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               'assets/icons/chart_pie.svg',
+              color: _selectedIndex == 2 ? HexColor('#262626') : HexColor('#BDBDBD'),
               height: 32,
               width: 32,
             ),
@@ -51,6 +53,7 @@ class MainContainerPageState extends State<MainContainerPage> {
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               'assets/icons/house.svg',
+              color: _selectedIndex == 3 ? HexColor('#262626') : HexColor('#BDBDBD'),
               height: 32,
               width: 32,
             ),
@@ -58,7 +61,6 @@ class MainContainerPageState extends State<MainContainerPage> {
             title: Text('Записи')
           ),
         ],
-        selectedItemColor: Colors.black,
         currentIndex: _selectedIndex,
         onTap: onItemTapBottomBar,
       ),

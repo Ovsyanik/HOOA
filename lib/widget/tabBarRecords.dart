@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:hooa/widget/timeLine.dart';
 import 'package:hooa/widget/calendar/shared/utils.dart';
 import 'package:hooa/widget/calendar/table_calendar.dart';
 
@@ -22,9 +23,9 @@ class TabBarRecordsState extends State<TabBarRecords> {
     selectedDate = _selectedDate;
   }
 
-
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return DefaultTabController(
         length: tabs.length,
         child: Builder(
@@ -38,29 +39,68 @@ class TabBarRecordsState extends State<TabBarRecords> {
                 labelStyle: TextStyle(fontSize: 17),
               ),
               body: TabBarView(
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(left: 16),
-                    width: 32,
-                    height: 32,
-                    child: Stack(
+                  physics: NeverScrollableScrollPhysics(),
+                  children: <Widget>[
+                    Column(
                       children: <Widget>[
                         Container(
+                          width: size.width,
+                          alignment: Alignment.centerLeft,
                           child: IconButton(
                             icon: SvgPicture.asset(
                               'assets/icons/calendar.svg',
                               height: 32,
-                              width: 32,
+                              width: 20,
                             ),
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
                             onPressed: () => _showModalCalendar(context)
                           ),
                         ),
-                        Container(
-                          child: Text(selectedDate.toString())
+                        Expanded(
+                            child: Timeline(
+                              children: <Widget>[
+                                Container(height: 100, color: Colors.amber),
+                                Container(height: 50, color: Colors.amber),
+                                Container(height: 200, color: Colors.amber),
+                                Container(height: 100, color: Colors.amber),
+                                Container(height: 100, color: Colors.amber),
+                                Container(height: 200, color: Colors.amber),
+                              ],
+                              indicators: <Widget>[
+                                Text(
+                                    '12:00',
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                    ),
+                                ),
+                                Text(
+                                  '12:00',
+                                  style: TextStyle(
+                                      fontSize: 13,
+                                      backgroundColor: Colors.white,
+                                  ),
+                                ),
+                                Text(
+                                  '12:00',
+                                  style: TextStyle(
+                                      fontSize: 13
+                                  ),
+                                ),
+                                Text(
+                                  '12:00',
+                                  style: TextStyle(
+                                      fontSize: 13,
+                                    backgroundColor: Colors.white,
+                                  ),
+                                ),
+                                Text('12:00'),
+                                Text('12:00'),
+                              ],
+                            ),
                         )
                       ],
-                    )
-                  ),
+                    ),
                   Container(
                   child: Stack(
                     children: <Widget>[

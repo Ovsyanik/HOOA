@@ -6,6 +6,9 @@ import 'package:sqflite/sqflite.dart';
 final staffTable = 'Staff';
 final userTable = 'User';
 final institutionTable = 'Institution';
+final recordsTable = 'Records';
+final categoryServiceTable = 'CategoryService';
+final serviceTable = 'Service';
 
 class DatabaseProvider {
   static final DatabaseProvider dbProvider = DatabaseProvider();
@@ -58,6 +61,28 @@ class DatabaseProvider {
         "numberPhone TEXT, "
         "email TEXT, "
         "password TEXT "
+        ");");
+
+    await database.execute("CREATE TABLE $categoryServiceTable ("
+        "id INTEGER PRIMARY KEY, "
+        "name TEXT"
+        ");");
+
+    await database.execute("CREATE TABLE $serviceTable ("
+        "id INTEGER PRIMARY KEY, "
+        "categoryService INTEGER, "
+        "name TEXT, "
+        "price TEXT, "
+        "FOREIGN KEY (categoryService) REFERENCES $categoryServiceTable(id)"
+        ");");
+
+    await database.execute("CREATE TABLE $recordsTable ("
+        "id INTEGER PRIMARY KEY, "
+        "service INTEGER, "
+        "client TEXT, "
+        "master TEXT, "
+        "price TEXT, "
+        "dateTime TEXT "
         ");");
   }
 }
