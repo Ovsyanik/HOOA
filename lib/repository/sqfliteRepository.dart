@@ -1,9 +1,11 @@
+import 'dart:developer';
 import 'dart:ffi';
 
 import 'package:hooa/model/institution.dart';
 import 'package:hooa/model/record.dart';
 import 'package:hooa/model/staff.dart';
 import 'package:hooa/model/user.dart';
+import 'package:hooa/model/service.dart';
 import 'package:hooa/provider/databaseProvider.dart';
 
 class SqfliteRepository {
@@ -47,5 +49,14 @@ class SqfliteRepository {
       result.map((item) => Record.fromDatabaseJson(item)).toList()
       : [];
     return records;
+  }
+
+  Future<List<Service>> getServices() async {
+    final db = await dbProvider.database;
+    var result = await db.query (serviceTable);
+    List<Service> sevices = result.isNotEmpty ?
+        result.map((item) => Service.fromDatabaseJson(item)).toList()
+        : [];
+    return sevices;
   }
 }

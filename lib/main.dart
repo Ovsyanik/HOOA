@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooa/bloc/signUpBloc.dart';
 import 'package:hooa/bloc/staffBloc.dart';
+import 'package:hooa/bloc/statisticBloc.dart';
+import 'package:hooa/page/callback.dart';
 import 'package:hooa/page/passwordRecovery.dart';
 import 'package:hooa/page/mainContainer.dart';
 import 'package:hooa/page/service/addService.dart';
@@ -31,6 +33,10 @@ class MyApp extends StatelessWidget {
             create: (BuildContext context) => StaffBloc(),
             // dispose: (_, StaffBloc staffBloc) => staffBloc.(),
           ),
+          Provider<StatisticBloc>(
+            create: (BuildContext context) => StatisticBloc(),
+            dispose: (_, StatisticBloc statisticBloc) => statisticBloc.dispose(),
+          ),
         ],
         child: MaterialApp(
           title: 'HOOA',
@@ -38,7 +44,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             fontFamily: 'Proxima Nova',
           ),
-          initialRoute: '/',
+          initialRoute: '/callback',
           routes: {
             '/': (context) => SignInOrSignUpPage(),
             '/signIn': (context) => SignInPage(),
@@ -50,6 +56,7 @@ class MyApp extends StatelessWidget {
             '/addStaff': (context) => AddStaffPage(),
             '/services': (context) => ServicesPage(),
             '/addService': (context) => AddServicePage(),
+            '/callback': (context) => CallbackPage(),
           },
         )
     );
