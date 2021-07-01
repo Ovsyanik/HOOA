@@ -3,6 +3,8 @@ import 'package:hooa/bloc/signUpBloc.dart';
 import 'package:hooa/bloc/staffBloc.dart';
 import 'package:hooa/page/passwordRecovery.dart';
 import 'package:hooa/page/mainContainer.dart';
+import 'package:hooa/page/service/addService.dart';
+import 'package:hooa/page/service/service.dart';
 import 'package:hooa/page/signIn.dart';
 import 'package:hooa/page/signInOrSignUp.dart';
 import 'package:hooa/page/signUp.dart';
@@ -46,6 +48,8 @@ class MyApp extends StatelessWidget {
             '/recoveryPassword': (context) => PasswordRecoveryPage(),
             '/mainContainer': (context) => MainContainerPage(),
             '/addStaff': (context) => AddStaffPage(),
+            '/services': (context) => ServicesPage(),
+            '/addService': (context) => AddServicePage(),
           },
         )
     );

@@ -4,7 +4,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:hooa/page/listRecords.dart';
 import 'package:hooa/page/profile.dart';
 import 'package:hooa/page/staff/staff.dart';
-import 'package:hooa/page/statistics.dart';
+import 'package:hooa/page/statistic/statistic.dart';
 
 class MainContainerPage extends StatefulWidget {
   @override
@@ -80,7 +80,7 @@ class MainContainerPageState extends State<MainContainerPage> {
         return StaffPage();
         break;
       case 2:
-        return StatisticsPage();
+        return StatisticPage();
         break;
       case 3:
         return ProfilePage();

@@ -22,7 +22,8 @@ dependencies:
   simple_gesture_detector: ^0.2.0
   sqflite: ^2.0.0+3
   path_provider: ^2.0.2
-  sizer: ^2.0.13
+  carousel_slider: ^4.0.0
+  syncfusion_flutter_charts: ^19.2.44+1
 
 dev_dependencies:
   flutter_test:

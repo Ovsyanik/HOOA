@@ -196,69 +196,71 @@ class AddStaffPageState extends State<AddStaffPage> {
                 )
             ),
 
-            Container(
-                alignment: Alignment.bottomCenter,
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Container(
-                        height: 50,
-                        width: size.width / 2 - 32,
-                        margin: EdgeInsets.only(bottom: 16, top: 16),
-                        child: MaterialButton(
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(50)),
-                              side: BorderSide(color: HexColor("#FF844B")),
-                            ),
-                            color: HexColor("#F8F7F4"),
-                            highlightColor: Colors.transparent,
-                            splashColor: Colors.transparent,
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: Text(
-                              "Сбросить",
-                              style: TextStyle(
-                                  color: HexColor("#FF844B"),
-                                  fontSize: 15
+            Expanded(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                          height: 50,
+                          width: size.width / 2 - 24,
+                          margin: EdgeInsets.only(bottom: 16, top: 16),
+                          child: MaterialButton(
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(50)),
+                                side: BorderSide(color: HexColor("#FF844B")),
                               ),
-                            )
+                              color: HexColor("#F8F7F4"),
+                              highlightColor: Colors.transparent,
+                              splashColor: Colors.transparent,
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text(
+                                "Сбросить",
+                                style: TextStyle(
+                                    color: HexColor("#FF844B"),
+                                    fontSize: 15
+                                ),
+                              )
+                          ),
                         ),
-                      ),
-                      Container(
-                        height: 50,
-                        width: size.width / 2 - 32,
-                        margin: EdgeInsets.only(bottom: 16, top: 16),
-                        child: MaterialButton(
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(40)),
-                            ),
-                            color: HexColor("#FF844B"),
-                            highlightColor: Colors.transparent,
-                            splashColor: Colors.transparent,
-                            onPressed: () {
-                              final bloc = BlocProvider.of<StaffBloc>(context);
-                              bloc.add(AddStaff(Staff(
-                                  fullName: fullNameController.text,
-                                  position: positionController.text,
-                                  sex: _sex.value,
-                                  numberPhone: numberPhoneController.text,
-                                  image: null
-                              )));
-                              Navigator.pop(context);
-                            },
-                            child: Text(
-                              "Применить",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15
+                        Container(
+                          height: 50,
+                          width: size.width / 2 - 24,
+                          margin: EdgeInsets.only(bottom: 16, top: 16),
+                          child: MaterialButton(
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(40)),
                               ),
-                            )
+                              color: HexColor("#FF844B"),
+                              highlightColor: Colors.transparent,
+                              splashColor: Colors.transparent,
+                              onPressed: () {
+                                final bloc = BlocProvider.of<StaffBloc>(context);
+                                bloc.add(AddStaff(Staff(
+                                    fullName: fullNameController.text,
+                                    position: positionController.text,
+                                    sex: _sex.value,
+                                    numberPhone: numberPhoneController.text,
+                                    image: null
+                                )));
+                                Navigator.pop(context);
+                              },
+                              child: Text(
+                                "Применить",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15
+                                ),
+                              )
+                          ),
                         ),
-                      ),
-                    ]
+                      ]
+                  ),
                 )
             )
           ],
