@@ -31,11 +31,13 @@ class _AddServicePageState extends State<AddServicePage> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
+    final unitHeight = size.height * 0.00125;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        toolbarHeight: unitHeight * 60,
         centerTitle: true,
         title: Text(
           'Добавление услуги',

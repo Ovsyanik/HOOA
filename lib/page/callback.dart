@@ -25,16 +25,18 @@ class _CallbackPageState extends State<CallbackPage> {
 
   @override
   Widget build(BuildContext context) {
-    Size sizeScreen = MediaQuery.of(context).size;
+    final sizeScreen = MediaQuery.of(context).size;
+    final unitHeight = sizeScreen.height * 0.00125;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        toolbarHeight: unitHeight * 60,
         elevation: 0,
         centerTitle: true,
         title: Text(
           'Обратная связь',
           style: TextStyle(
-              fontSize: 17,
+              fontSize: unitHeight * 17,
               fontWeight: FontWeight.w700,
               color: HexColor('#262626')
           ),
@@ -43,8 +45,8 @@ class _CallbackPageState extends State<CallbackPage> {
           icon: SvgPicture.asset(
             'assets/icons/return.svg',
             color: HexColor("#262626"),
-            height: 20,
-            width: 20,
+            height: unitHeight * 20,
+            width: unitHeight * 20,
           ),
           highlightColor: Colors.transparent,
           splashColor: Colors.transparent,
@@ -55,8 +57,8 @@ class _CallbackPageState extends State<CallbackPage> {
             icon: SvgPicture.asset(
               'assets/icons/add.svg',
               color: HexColor("#262626"),
-              height: 20,
-              width: 20,
+              height: unitHeight * 20,
+              width: unitHeight * 20,
             ),
             highlightColor: Colors.transparent,
             splashColor: Colors.transparent,
@@ -73,7 +75,7 @@ class _CallbackPageState extends State<CallbackPage> {
                 'Напиши нам',
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
-                  fontSize: 22,
+                  fontSize: unitHeight * 22,
                 ),
               ),
             ),
@@ -84,7 +86,7 @@ class _CallbackPageState extends State<CallbackPage> {
                 decoration: InputDecoration(
                   hintText: "Имя Фамилия",
                   labelStyle: TextStyle(
-                    fontSize: 17,
+                    fontSize: unitHeight * 17,
                     color: HexColor("#262626").withOpacity(0.3),
                   ),
                 ),
@@ -98,7 +100,7 @@ class _CallbackPageState extends State<CallbackPage> {
                 decoration: InputDecoration(
                   hintText: "Номер телефона",
                   labelStyle: TextStyle(
-                    fontSize: 17,
+                    fontSize: unitHeight * 17,
                     color: HexColor("#262626").withOpacity(0.3),
                   ),
                 ),
@@ -111,7 +113,7 @@ class _CallbackPageState extends State<CallbackPage> {
                 decoration: InputDecoration(
                   hintText: "Email",
                   labelStyle: TextStyle(
-                    fontSize: 17,
+                    fontSize: unitHeight * 17,
                     color: HexColor("#262626").withOpacity(0.3),
                   ),
                 ),
@@ -125,7 +127,7 @@ class _CallbackPageState extends State<CallbackPage> {
                 decoration: InputDecoration(
                   hintText: "Сообщение",
                   labelStyle: TextStyle(
-                    fontSize: 17,
+                    fontSize: unitHeight * 17,
                     color: HexColor("#262626").withOpacity(0.3),
                   ),
                 ),
@@ -136,7 +138,7 @@ class _CallbackPageState extends State<CallbackPage> {
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
-                  height: 50,
+                  height: unitHeight * 50,
                   width: sizeScreen.width / 2 - 24,
                   margin: EdgeInsets.only(bottom: 16, top: 16),
                   child: MaterialButton(
@@ -154,7 +156,7 @@ class _CallbackPageState extends State<CallbackPage> {
                       "Отправить",
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 15,
+                        fontSize: unitHeight * 15,
                       ),
                     ),
                   ),
@@ -166,5 +168,4 @@ class _CallbackPageState extends State<CallbackPage> {
       ),
     );
   }
-
 }

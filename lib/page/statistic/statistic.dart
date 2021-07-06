@@ -17,6 +17,7 @@ class StatisticPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final unitHeight = size.height * 0.00125;
     bloc = BlocProvider.of<StatisticBloc>(context);
     return Padding(
       padding: EdgeInsets.all(16.0),
@@ -29,7 +30,7 @@ class StatisticPage extends StatelessWidget {
               'Статистика',
               style: TextStyle(
                 fontWeight: FontWeight.w600,
-                fontSize: 34,
+                fontSize: size.height * 0.0013 * 34,
               ),
             ),
           ),
@@ -41,7 +42,7 @@ class StatisticPage extends StatelessWidget {
               children: <Widget>[
 
                 Container(
-                  height: 38,
+                  height: size.height * 0.0015 * 38,
                   width: size.width / 3 - 24,
                   child: StreamBuilder<Object>(
                     stream: bloc.stream,
@@ -59,7 +60,7 @@ class StatisticPage extends StatelessWidget {
                           "1 неделя",
                           style: TextStyle(
                             color: snapshot.data == 0 ? Colors.white : HexColor("#262626"),
-                            fontSize: 15,
+                            fontSize: size.height * 0.0013 * 15,
                           ),
                         ),
                       );
@@ -67,7 +68,7 @@ class StatisticPage extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  height: 38,
+                  height: size.height * 0.0015 * 38,
                   width: size.width / 3 - 24,
                   child: StreamBuilder<Object>(
                     stream: bloc.stream,
@@ -85,7 +86,7 @@ class StatisticPage extends StatelessWidget {
                           "2 недели",
                           style: TextStyle(
                             color: snapshot.data == 1 ? Colors.white : HexColor("#262626"),
-                            fontSize: 15,
+                            fontSize: size.height * 0.0013 * 15,
                           ),
                         ),
                       );
@@ -94,7 +95,7 @@ class StatisticPage extends StatelessWidget {
                 ),
 
                 Container(
-                  height: 38,
+                  height: size.height * 0.0015 * 38,
                   width: size.width / 3 - 24,
                   child: StreamBuilder<Object>(
                     stream: bloc.stream,
@@ -112,7 +113,7 @@ class StatisticPage extends StatelessWidget {
                           "1 месяц",
                           style: TextStyle(
                             color: snapshot.data == 2 ? Colors.white : HexColor("#262626"),
-                            fontSize: 15,
+                            fontSize: size.height * 0.0013 * 15,
                           ),
                         ),
                       );
@@ -125,7 +126,7 @@ class StatisticPage extends StatelessWidget {
 
           Container(
             margin: EdgeInsets.only(top: size.height * 0.14),
-            height: 100,
+            height: size.height * 0.1,
             child: SfCircularChart(
               series: <CircularSeries>[
                 PieSeries<ChartData, String>(
@@ -133,7 +134,7 @@ class StatisticPage extends StatelessWidget {
                   xValueMapper: (ChartData data, _) => data.x,
                   yValueMapper: (ChartData data, _) => data.y,
                   pointColorMapper: (ChartData data, _) => data.color,
-                  radius: '100',
+                  radius: '${size.height * 0.11}',
                 ),
               ],
             ),
@@ -156,7 +157,7 @@ class StatisticPage extends StatelessWidget {
                   child: Text(
                     '43 - количество отмененных заказов',
                     style: TextStyle(
-                      fontSize: 17,
+                      fontSize: size.height * 0.0013 * 17,
                     ),
                   ),
                 ),
@@ -181,7 +182,7 @@ class StatisticPage extends StatelessWidget {
                   child: Text(
                     '151 - количество заказов',
                     style: TextStyle(
-                      fontSize: 17,
+                      fontSize: size.height * 0.0013 * 17,
                     ),
                   ),
                 ),
@@ -206,7 +207,7 @@ class StatisticPage extends StatelessWidget {
                   child: Text(
                     '61 - количество просмотров',
                     style: TextStyle(
-                      fontSize: 17,
+                      fontSize: size.height * 0.0013 * 17,
                     ),
                   ),
                 ),

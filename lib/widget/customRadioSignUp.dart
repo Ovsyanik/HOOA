@@ -4,17 +4,18 @@ import 'package:hooa/bloc/signUpBloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CustomRadio extends StatelessWidget {
-  final double width, height;
-  CustomRadio(this.width, this.height);
+  final Size size;
+
+  CustomRadio(this.size);
 
   @override
   Widget build(BuildContext context) {
+    final unitHeight = size.height * 0.0013;
     final bloc = BlocProvider.of<SignUpBloc>(context);
-    return Positioned(
-      top: height * 0.22,
-      left: 16,
-      width: width - 32,
-      height: height / 5,
+    return Container(
+      margin: EdgeInsets.only(top: size.height * 0.04),
+      width: size.width,
+      height: unitHeight * 150,
       child: StreamBuilder(
         stream: bloc.stream,
         builder: (context, snapshot) {
@@ -26,9 +27,7 @@ class CustomRadio extends StatelessWidget {
               return InkWell(
                 highlightColor: Colors.transparent,
                 splashColor: Colors.transparent,
-                onTap: () {
-                  bloc.selectType(index);
-                },
+                onTap: () => bloc.selectType(index),
                 child: RadioItem(sampleData[index]),
               );
             },
@@ -44,27 +43,28 @@ class RadioItem extends StatelessWidget {
   RadioItem(this._item);
   @override
   Widget build(BuildContext context) {
+    final unitHeight = MediaQuery.of(context).size.height * 0.0013;
     return Container(
-      margin: EdgeInsets.only(top: 30.0),
+      margin: EdgeInsets.only(top: unitHeight * 25),
       child: Container(
-        height: 50.0,
-        width: 50.0,
+        height: unitHeight * 50.0,
+        width: unitHeight * 50.0,
         child: Align(
           alignment: Alignment(-0.82, 0),
           child: Text(
             _item.buttonText,
             style: TextStyle(
               color: _item.isSelected ? HexColor("#FF844B") : HexColor('#99262626'),
-              fontSize: 17.0
+              fontSize: unitHeight * 17.0
             )
           ),
         ),
         decoration: BoxDecoration(
           border: Border.all(
             width: 1.0,
-            color: _item.isSelected ? HexColor("#FF844B") : HexColor('#99262626')),
-            borderRadius: const BorderRadius.all(const Radius.circular(15.0),
+            color: _item.isSelected ? HexColor("#FF844B") : HexColor('#99262626'),
           ),
+          borderRadius: BorderRadius.circular(15.0),
         ),
       ),
     );

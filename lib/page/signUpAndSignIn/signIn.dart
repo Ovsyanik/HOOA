@@ -34,16 +34,17 @@ class SignInPageState extends State<SignInPage> {
   @override 
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    double unitHeightValue = size.height * 0.0017;
+    double unitHeight = size.height * 0.00125;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        toolbarHeight: unitHeight * 60,
         leading: IconButton(
           icon: SvgPicture.asset(
             'assets/icons/return.svg',
-            height: size.height * 0.025,
-            width: size.height * 0.025,
+            height: unitHeight * 20,
+            width: unitHeight * 20,
           ),
           highlightColor: Colors.transparent,
           splashColor: Colors.transparent,
@@ -64,7 +65,7 @@ class SignInPageState extends State<SignInPage> {
               child: Text(
                 "Вход",
                 style: TextStyle(
-                  fontSize: unitHeightValue * 40,
+                  fontSize: unitHeight * 40,
                   fontWeight: FontWeight.w600,
                   color: HexColor('#262626')
                 ),
@@ -72,28 +73,28 @@ class SignInPageState extends State<SignInPage> {
             ),
 
             Container(
-                margin: EdgeInsets.only(
-                    top: size.height * 0.05
-                ),
-                height: size.height * 0.05,
-                width: size.width,
-                child: TextField(
-                  controller: this.emailController,
-                  decoration: InputDecoration(
-                    hintText: "E-mail",
-                    labelStyle: TextStyle(
-                        color: HexColor("#4D262626"),
-                        fontSize: unitHeightValue * 0.15
-                    )
+              margin: EdgeInsets.only(
+                top: size.height * 0.05,
+              ),
+              height: unitHeight * 50,
+              width: size.width,
+              child: TextField(
+                controller: this.emailController,
+                decoration: InputDecoration(
+                  hintText: "E-mail",
+                  labelStyle: TextStyle(
+                    color: HexColor("#4D262626"),
+                    fontSize: unitHeight * 0.15,
                   ),
-                )
+                ),
+              ),
             ),
 
             Container(
               margin: EdgeInsets.only(
                   top: size.height * 0.035
-              ) ,
-              height: size.height * 0.05,
+              ),
+              height: unitHeight * 50,
               width: size.width,
               child: TextField(
                 obscureText: isHidden,
@@ -108,13 +109,13 @@ class SignInPageState extends State<SignInPage> {
                   ),
                   labelStyle: TextStyle(
                       color: HexColor("#4D262626"),
-                      fontSize: unitHeightValue * 0.15
+                      fontSize: unitHeight * 0.15
                   ),
                   suffixIcon: IconButton(
                     icon: SvgPicture.asset(
                       'assets/icons/eye_close.svg',
-                      height: size.height * 0.025,
-                      width: size.height * 0.025,
+                      height: unitHeight * 20,
+                      width: unitHeight * 20,
                     ),
                     highlightColor: Colors.transparent,
                     splashColor: Colors.transparent,
@@ -135,7 +136,7 @@ class SignInPageState extends State<SignInPage> {
                   text: TextSpan(
                     text: 'Забыли пароль?',
                     style: TextStyle(
-                      fontSize: 15,
+                      fontSize: unitHeight * 15,
                       color: HexColor("#99262626"),
                     ),
                     recognizer: TapGestureRecognizer()
@@ -146,9 +147,7 @@ class SignInPageState extends State<SignInPage> {
             ),
 
             Container(
-              margin: EdgeInsets.only(
-                  top: size.height * 0.05
-              ),
+              margin: EdgeInsets.only(top: size.height * 0.05),
               height: size.height * 0.067,
               width: size.width,
               child: MaterialButton(
@@ -162,21 +161,14 @@ class SignInPageState extends State<SignInPage> {
                 disabledColor: HexColor("#66FF844B"),
                 onPressed: this.eMail && this.password ?
                   (){
-                  var bloc = BlocProvider.of<SignUpBloc>(context);
-                  // var sql = SqfliteRepository();
-                  // var result = sql.signIn(
-                    // email: emailController.text,
-                    // password: passwordController.text
-                  // );
-                  // result.then((value) => null)
+                    var bloc = BlocProvider.of<SignUpBloc>(context);
                     Navigator.of(context).pushNamed('/mainContainer');
-                  // } else print('Error');
                 } : null,
                 child: Text(
                   "Войти",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 16
+                    fontSize: unitHeight * 16
                     ),
                 )
               ),
@@ -195,7 +187,7 @@ class SignInPageState extends State<SignInPage> {
                       text: TextSpan(
                         text: 'Нажимая кнопку "Войти" вы принимаете',
                         style: TextStyle(
-                          fontSize: 13,
+                          fontSize: unitHeight * 13,
                           color: HexColor("#7d7d7d")
                         ),
                       ),
@@ -208,14 +200,14 @@ class SignInPageState extends State<SignInPage> {
                       text: TextSpan(
                         text: 'условия ',
                         style: TextStyle(
-                          fontSize: 13,
+                          fontSize: unitHeight * 13,
                           color: HexColor("#7d7d7d")
                         ),
                         children: <TextSpan>[
                           TextSpan(
                             text: 'Политики конфиденциальности',
                             style: TextStyle(
-                              fontSize: 13,
+                              fontSize: unitHeight * 13,
                               color: HexColor("#FF844B"),
                               fontWeight: FontWeight.w600
                             ),
@@ -244,14 +236,14 @@ class SignInPageState extends State<SignInPage> {
                 text: TextSpan(
                   text: 'Нет аккаунта? ',
                   style: TextStyle(
-                    fontSize: 15,
+                    fontSize: unitHeight * 15,
                     color: HexColor("#FF844B")
                   ),
                   children: <TextSpan>[
                     TextSpan(
                       text: 'Зарегистрироваться',
                       style: TextStyle(
-                        fontSize: 15,
+                        fontSize: unitHeight * 15,
                         color: HexColor("#FF844B"),
                       ),
                       recognizer: TapGestureRecognizer()

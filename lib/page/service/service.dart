@@ -6,11 +6,14 @@ import 'package:hexcolor/hexcolor.dart';
 class ServicesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final unitHeight = size.height * 0.00125;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
+        toolbarHeight: unitHeight * 60,
         title: Text(
           'Услуги',
           style: TextStyle(
@@ -32,16 +35,15 @@ class ServicesPage extends StatelessWidget {
         ),
         actions: [
           IconButton(
-              icon: SvgPicture.asset(
-                'assets/icons/add.svg',
-                color: HexColor("#262626"),
-                height: 20,
-                width: 20,
-              ),
-              highlightColor: Colors.transparent,
-              splashColor: Colors.transparent,
-              onPressed: () => Navigator.of(context).pushNamed('/addService')
-            // .push(MaterialPageRoute(builder: (context) => SignInPage())),
+            icon: SvgPicture.asset(
+              'assets/icons/add.svg',
+              color: HexColor("#262626"),
+              height: 20,
+              width: 20,
+            ),
+            highlightColor: Colors.transparent,
+            splashColor: Colors.transparent,
+            onPressed: () => Navigator.of(context).pushNamed('/addService'),
           ),
         ],
       ),

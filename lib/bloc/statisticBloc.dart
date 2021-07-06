@@ -12,7 +12,9 @@ class StatisticBloc extends BlocBase {
   Sink<int> get _sink => _buttonController.sink;
   Stream<int> get stream => _buttonController.stream;
 
-  StatisticBloc() : super(null);
+  StatisticBloc() : super(null) {
+    _sink.add(0);
+  }
 
   void selectButton(int index) async {
     _selectedIndexButton = index;

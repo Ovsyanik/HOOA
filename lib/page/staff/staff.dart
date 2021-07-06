@@ -19,17 +19,19 @@ class StaffPageState extends State<StaffPage> {
     super.initState();
 
     _staffBloc = BlocProvider.of<StaffBloc>(context);
-    // Events can be passed into the bloc by calling dispatch.
-    // We want to start loading fruits right from the start.
+
     _staffBloc.add(GetStaff());
   }
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final unitHeight = size.height * 0.00125;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
+        toolbarHeight: unitHeight * 60,
         elevation: 0,
         leading: null,
         actions: [

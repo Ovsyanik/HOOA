@@ -4,6 +4,8 @@ import 'package:hexcolor/hexcolor.dart';
 class SignInOrSignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    double unitHeight = size.height * 0.00125;
     return Scaffold(
       body: Stack(
         alignment: Alignment(0, 0),
@@ -11,9 +13,9 @@ class SignInOrSignUpPage extends StatelessWidget {
           Text(
             "HOOA", 
             style: TextStyle(
-              fontSize: 124,
+              fontSize: unitHeight * 124,
               fontFamily: 'Bebas Neue'
-            )
+            ),
           ),
           Align(
             alignment: Alignment(0.5, 0.7),
@@ -22,8 +24,8 @@ class SignInOrSignUpPage extends StatelessWidget {
               children: <Widget>[
                 ConstrainedBox(
                   constraints: BoxConstraints.tightFor(
-                    width: MediaQuery.of(context).size.width / 2 - 17,
-                    height: 50 
+                    width: size.width / 2 - 17,
+                    height: unitHeight * 50,
                   ), 
                   child: MaterialButton(
                     elevation: 0,
@@ -32,7 +34,7 @@ class SignInOrSignUpPage extends StatelessWidget {
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(25),
                         bottomLeft: Radius.circular(25) 
-                      )
+                      ),
                     ),
                     color: HexColor("#FF844B"),
                     highlightColor: Colors.transparent,
@@ -41,7 +43,7 @@ class SignInOrSignUpPage extends StatelessWidget {
                     child: Text(
                       "Вход", 
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: unitHeight * 16,
                         color: Colors.white
                       ),
                     )
@@ -50,7 +52,7 @@ class SignInOrSignUpPage extends StatelessWidget {
                 ConstrainedBox(
                   constraints: BoxConstraints.tightFor(
                     width: MediaQuery.of(context).size.width / 2 - 17, 
-                    height: 50
+                    height: unitHeight * 50,
                   ), 
                   child: MaterialButton(   
                     elevation: 0,  
@@ -68,10 +70,10 @@ class SignInOrSignUpPage extends StatelessWidget {
                     child: Text(
                       "Регистрация",
                       style: TextStyle(
-                        fontSize: 16,
-                        color: HexColor("#FF844B")
+                        fontSize: unitHeight * 16,
+                        color: HexColor("#FF844B"),
                       ),
-                    )
+                    ),
                   ), 
                 )
               ],
