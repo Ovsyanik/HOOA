@@ -29,6 +29,7 @@ class SignInOrSignUpPage extends StatelessWidget {
                   ), 
                   child: MaterialButton(
                     elevation: 0,
+                    highlightElevation: 0,
                     shape: RoundedRectangleBorder(
                       side: BorderSide(color: HexColor("#FF844B")),
                       borderRadius: BorderRadius.only(
@@ -46,7 +47,7 @@ class SignInOrSignUpPage extends StatelessWidget {
                         fontSize: unitHeight * 16,
                         color: Colors.white
                       ),
-                    )
+                    ),
                   ), 
                 ),
                 ConstrainedBox(
@@ -55,7 +56,8 @@ class SignInOrSignUpPage extends StatelessWidget {
                     height: unitHeight * 50,
                   ), 
                   child: MaterialButton(   
-                    elevation: 0,  
+                    elevation: 0,
+                    highlightElevation: 0,
                     shape: RoundedRectangleBorder(
                       side: BorderSide(color: HexColor("#FF844B")),
                       borderRadius: BorderRadius.only(

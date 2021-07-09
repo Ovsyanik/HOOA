@@ -20,7 +20,7 @@ class StatisticPage extends StatelessWidget {
     final unitHeight = size.height * 0.00125;
     bloc = BlocProvider.of<StatisticBloc>(context);
     return Padding(
-      padding: EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16.0),
       child: Column(
         children: <Widget>[
           Container(
@@ -30,7 +30,7 @@ class StatisticPage extends StatelessWidget {
               'Статистика',
               style: TextStyle(
                 fontWeight: FontWeight.w600,
-                fontSize: size.height * 0.0013 * 34,
+                fontSize: unitHeight * 34,
               ),
             ),
           ),
@@ -49,6 +49,7 @@ class StatisticPage extends StatelessWidget {
                     builder: (context, snapshot) {
                       return MaterialButton(
                         elevation: 0,
+                        highlightElevation: 0,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50),
                         ),
@@ -60,7 +61,7 @@ class StatisticPage extends StatelessWidget {
                           "1 неделя",
                           style: TextStyle(
                             color: snapshot.data == 0 ? Colors.white : HexColor("#262626"),
-                            fontSize: size.height * 0.0013 * 15,
+                            fontSize: unitHeight * 15,
                           ),
                         ),
                       );
@@ -75,6 +76,7 @@ class StatisticPage extends StatelessWidget {
                     builder: (context, snapshot) {
                       return MaterialButton(
                         elevation: 0,
+                        highlightElevation: 0,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(40),
                         ),
@@ -86,7 +88,7 @@ class StatisticPage extends StatelessWidget {
                           "2 недели",
                           style: TextStyle(
                             color: snapshot.data == 1 ? Colors.white : HexColor("#262626"),
-                            fontSize: size.height * 0.0013 * 15,
+                            fontSize: unitHeight * 15,
                           ),
                         ),
                       );
@@ -102,6 +104,7 @@ class StatisticPage extends StatelessWidget {
                     builder: (context, snapshot) {
                       return MaterialButton(
                         elevation: 0,
+                        highlightElevation: 0,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50),
                         ),
@@ -113,7 +116,7 @@ class StatisticPage extends StatelessWidget {
                           "1 месяц",
                           style: TextStyle(
                             color: snapshot.data == 2 ? Colors.white : HexColor("#262626"),
-                            fontSize: size.height * 0.0013 * 15,
+                            fontSize: unitHeight * 15,
                           ),
                         ),
                       );
@@ -157,7 +160,7 @@ class StatisticPage extends StatelessWidget {
                   child: Text(
                     '43 - количество отмененных заказов',
                     style: TextStyle(
-                      fontSize: size.height * 0.0013 * 17,
+                      fontSize: unitHeight * 17,
                     ),
                   ),
                 ),
@@ -167,27 +170,25 @@ class StatisticPage extends StatelessWidget {
 
           Container(
             margin: EdgeInsets.only(top: size.height * 0.03, left: 13),
-            child: Row(
-              children: [
-                Container(
-                  width: 12,
-                  height: 12,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: HexColor('#BDBDBD'),
+            child: Row(children: [
+              Container(
+                width: 12,
+                height: 12,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: HexColor('#BDBDBD'),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 14),
+                child: Text(
+                  '151 - количество заказов',
+                  style: TextStyle(
+                    fontSize: unitHeight * 17,
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.only(left: 14),
-                  child: Text(
-                    '151 - количество заказов',
-                    style: TextStyle(
-                      fontSize: size.height * 0.0013 * 17,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ]),
           ),
 
           Container(
@@ -207,7 +208,7 @@ class StatisticPage extends StatelessWidget {
                   child: Text(
                     '61 - количество просмотров',
                     style: TextStyle(
-                      fontSize: size.height * 0.0013 * 17,
+                      fontSize: unitHeight * 17,
                     ),
                   ),
                 ),

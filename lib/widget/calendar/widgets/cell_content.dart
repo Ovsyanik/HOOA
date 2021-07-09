@@ -31,6 +31,8 @@ class CellContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    double unitHeight = size.height * 0.00125;
     Widget cell;
 
     if (cell != null) {
@@ -51,7 +53,7 @@ class CellContent extends StatelessWidget {
           text,
           style: TextStyle(
             color: HexColor('#262626'),
-            fontSize: 16
+            fontSize: unitHeight * 16,
           )
         ),
       );
@@ -66,9 +68,9 @@ class CellContent extends StatelessWidget {
         alignment: Alignment.center,
         child: Text(
           text,
-          style: const TextStyle(
+          style: TextStyle(
             color: const Color(0xFFFAFAFA),
-            fontSize: 16.0,
+            fontSize: unitHeight * 16.0,
           )
         ),
       );
@@ -81,7 +83,7 @@ class CellContent extends StatelessWidget {
           text,
           style: TextStyle(
             color: HexColor('#262626'),
-            fontSize: 16.0,
+            fontSize: unitHeight * 16.0,
           )
         ),
       );
@@ -114,9 +116,9 @@ class CellContent extends StatelessWidget {
         alignment: Alignment.center,
         child: Text(
           text,
-          style: const TextStyle(
+          style: TextStyle(
             color: const Color(0xFFAEAEAE), 
-            fontSize: 16
+            fontSize: unitHeight * 16
           )
         ),
       );
@@ -128,10 +130,10 @@ class CellContent extends StatelessWidget {
         alignment: Alignment.center,
         child: Text(
           text,
-          style: isWeekend ? const TextStyle(
+          style: isWeekend ? TextStyle(
             color: const Color(0xFF5A5A5A),
-            fontSize: 16
-          ) : const TextStyle(fontSize: 16),
+            fontSize: unitHeight * 16
+          ) : TextStyle(fontSize: unitHeight * 16),
         ),
       );
     }

@@ -26,6 +26,7 @@ class TabBarRecordsState extends State<TabBarRecords> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final unitHeight = size.height * 0.00125;
     return DefaultTabController(
         length: tabs.length,
         child: Builder(
@@ -36,95 +37,90 @@ class TabBarRecordsState extends State<TabBarRecords> {
                 labelColor: HexColor('#262626'),
                 indicatorColor: HexColor('#262626'),
                 unselectedLabelColor: HexColor('#262626').withOpacity(0.6),
-                labelStyle: TextStyle(fontSize: 17),
+                labelStyle: TextStyle(fontSize: unitHeight * 17),
               ),
-              body: TabBarView(
-                  physics: NeverScrollableScrollPhysics(),
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Container(
-                          width: size.width,
-                          alignment: Alignment.centerLeft,
-                          child: IconButton(
-                            icon: SvgPicture.asset(
-                              'assets/icons/calendar.svg',
-                              height: 32,
-                              width: 20,
-                            ),
-                            splashColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onPressed: () => _showModalCalendar(context)
+              body: TabBarView(children: <Widget>[
+                Column(children: <Widget>[
+                  Container(
+                    width: size.width,
+                    alignment: Alignment.centerLeft,
+                    child: IconButton(
+                      icon: SvgPicture.asset(
+                        'assets/icons/calendar.svg',
+                        height: unitHeight * 32,
+                        width: unitHeight * 20,
+                      ),
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onPressed: () => _showModalCalendar(context),
+                    ),
+                  ),
+                  Expanded(
+                    child: Timeline(children: <Widget>[
+                      Container(height: unitHeight * 100, color: Colors.amber),
+                      Container(height: unitHeight * 50, color: Colors.amber),
+                      Container(height: unitHeight * 200, color: Colors.amber),
+                      Container(height: unitHeight * 100, color: Colors.amber),
+                      Container(height: unitHeight * 100, color: Colors.amber),
+                      Container(height: unitHeight * 200, color: Colors.amber),
+                    ],
+                      indicators: <Widget>[
+                        Text(
+                          '12:00',
+                          style: TextStyle(
+                            fontSize: unitHeight * 13,
                           ),
                         ),
-                        Expanded(
-                            child: Timeline(
-                              children: <Widget>[
-                                Container(height: 100, color: Colors.amber),
-                                Container(height: 50, color: Colors.amber),
-                                Container(height: 200, color: Colors.amber),
-                                Container(height: 100, color: Colors.amber),
-                                Container(height: 100, color: Colors.amber),
-                                Container(height: 200, color: Colors.amber),
-                              ],
-                              indicators: <Widget>[
-                                Text(
-                                    '12:00',
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                    ),
-                                ),
-                                Text(
-                                  '12:00',
-                                  style: TextStyle(
-                                      fontSize: 13,
-                                      backgroundColor: Colors.white,
-                                  ),
-                                ),
-                                Text(
-                                  '12:00',
-                                  style: TextStyle(
-                                      fontSize: 13
-                                  ),
-                                ),
-                                Text(
-                                  '12:00',
-                                  style: TextStyle(
-                                      fontSize: 13,
-                                    backgroundColor: Colors.white,
-                                  ),
-                                ),
-                                Text('12:00'),
-                                Text('12:00'),
-                              ],
-                            ),
-                        )
+                        Text(
+                          '12:00',
+                          style: TextStyle(
+                            fontSize: unitHeight * 13,
+                            backgroundColor: Colors.white,
+                          ),
+                        ),
+                        Text(
+                          '12:00',
+                          style: TextStyle(
+                              fontSize: unitHeight * 13
+                          ),
+                        ),
+                        Text(
+                          '12:00',
+                          style: TextStyle(
+                            fontSize: unitHeight * 13,
+                            backgroundColor: Colors.white,
+                          ),
+                        ),
+                        Text('12:00'),
+                        Text('12:00'),
                       ],
                     ),
-                  Container(
+                  ),
+                ],
+                ),
+                Container(
                   child: Stack(
                     children: <Widget>[
                       Text('123'),
                       Text('123'),
-                    ]
-                  )
-                )
-              ]
-            ),
-          );
-        }
+                    ],
+                  ),
+                ),
+              ]),
+            );
+        },
       )
     );
   }
 
   void _showModalCalendar(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
-
+    Size size = MediaQuery.of(context).size;
+    final unitHeight = size.height * 0.00125;
     showModalBottomSheet(
       context: context,
       elevation: 10,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
+      shape: const RoundedRectangleBorder(
+        borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20)
         )
@@ -146,8 +142,8 @@ class TabBarRecordsState extends State<TabBarRecords> {
               children: [ 
                 Center(
                   child: Container(
-                    margin: EdgeInsets.only(top: 30, bottom: 25),
-                    width: width - 100,
+                    margin: const EdgeInsets.only(top: 30, bottom: 25),
+                    width: size.width - 100,
                     child: TableCalendar(
                       selectedDay: selectedDate,
                       firstDay: DateTime.utc(2020, 10, 16),
@@ -171,20 +167,21 @@ class TabBarRecordsState extends State<TabBarRecords> {
                       top: BorderSide(
                         color: HexColor('#262626').withOpacity(0.3),
                         width: 1
-                      ) 
-                    )
+                      ) ,
+                    ),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Container(
-                        height: 50,
-                        width: width / 2 - 32,
-                        margin: EdgeInsets.only(bottom: 16, top: 16),
+                        height: unitHeight * 50,
+                        width: size.width / 2 - 32,
+                        margin: const EdgeInsets.symmetric(vertical: 16.0),
                         child: MaterialButton(
                           elevation: 0,
+                          highlightElevation: 0,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(50)),
+                            borderRadius: BorderRadius.circular(50),
                             side: BorderSide(color: HexColor("#FF844B")),
                           ),
                           color: HexColor("#F8F7F4"),
@@ -197,19 +194,20 @@ class TabBarRecordsState extends State<TabBarRecords> {
                             "Сбросить",
                             style: TextStyle(
                               color: HexColor("#FF844B"),
-                              fontSize: 15
+                              fontSize: unitHeight * 15,
                             ),
-                          )
+                          ),
                         ),
                       ),
                       Container(
-                        height: 50,
-                        width: width / 2 - 32,
+                        height: unitHeight * 50,
+                        width: size.width / 2 - 32,
                         margin: EdgeInsets.only(bottom: 16, top: 16),
                         child: MaterialButton(
                           elevation: 0,
+                          highlightElevation: 0,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(40)),
+                            borderRadius: BorderRadius.circular(40),
                           ),
                           color: HexColor("#FF844B"),
                           highlightColor: Colors.transparent,
@@ -223,17 +221,17 @@ class TabBarRecordsState extends State<TabBarRecords> {
                             "Применить",
                             style: TextStyle(
                               color: Colors.white, 
-                              fontSize: 15
+                              fontSize: unitHeight * 15,
                             ),
-                          )
+                          ),
                         ),
                       ),
-                    ] 
-                  )
-                )
-              ]
+                    ] ,
+                  ),
+                ),
+              ],
             );   
-          }   
+          },
         );
       }
     );

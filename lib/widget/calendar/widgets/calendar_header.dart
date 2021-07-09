@@ -23,16 +23,19 @@ class CalendarHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    double unitHeight = size.height * 0.00125;
     List<BoxDecoration> decorations1;
     if(decorations == null){
-    if(selectedDate.month == DateTime.now().month) {
-      decorations1 = [
-        BoxDecoration(
-          color: HexColor('#4E7D96'),
-          border: Border.all(
-            color: HexColor('#4E7D96'), 
-            width: 1.0),
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+      if(selectedDate.month == DateTime.now().month) {
+        decorations1 = [
+          BoxDecoration(
+            color: HexColor('#4E7D96'),
+            border: Border.all(
+              color: HexColor('#4E7D96'),
+              width: 1.0
+            ),
+            borderRadius: BorderRadius.circular(10.0),
         ),
         null,
         null,
@@ -46,7 +49,7 @@ class CalendarHeader extends StatelessWidget {
           border: Border.all(
             color: HexColor('#4E7D96'), 
             width: 1.0),
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          borderRadius: BorderRadius.circular(10.0),
         ),
         null, 
         null
@@ -60,7 +63,7 @@ class CalendarHeader extends StatelessWidget {
           border: Border.all(
             color: HexColor('#4E7D96'), 
             width: 1.0),
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          borderRadius: BorderRadius.circular(10.0),
         ),
         null
         ];
@@ -72,21 +75,21 @@ class CalendarHeader extends StatelessWidget {
         BoxDecoration(
           color: HexColor('#4E7D96'),
           border: Border.all(color: HexColor('#4E7D96'), width: 1.0),
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          borderRadius: BorderRadius.circular(10.0),
         )
       ];
     }
     }
 
     return Container(
-      width: MediaQuery.of(context).size.width,
-      margin: EdgeInsets.only(top: 10, bottom: 10),
+      width: size.width,
+      margin: EdgeInsets.symmetric(vertical: 10),
       alignment: Alignment.center,
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [
           Container(
-            height: 27,
+            height: unitHeight * 27,
             width: 65,
             decoration: decorations != null ? decorations[0]: decorations1[0],
             child: GestureDetector(
@@ -94,11 +97,16 @@ class CalendarHeader extends StatelessWidget {
               child: Text(
                 getMonthName(0),
                 textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: decorations != null ?
+                  (decorations[0] != null ? Colors.white : HexColor('#262626'))
+                      : (decorations1[0] != null ? Colors.white : HexColor('#262626')),
+                ),
               ),
             ),
           ), 
           Container(
-            height: 27,
+            height: unitHeight * 27,
             width: 65,
             decoration: decorations != null ? decorations[1] : decorations1[1],
             child: GestureDetector(
@@ -106,11 +114,16 @@ class CalendarHeader extends StatelessWidget {
               child: Text(
                 getMonthName(1),
                 textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: decorations != null ?
+                      (decorations[1] != null ? Colors.white : HexColor('#262626'))
+                      : (decorations1[1] != null ? Colors.white : HexColor('#262626')),
+                ),
               ),
             ),
           ),
           Container(
-            height: 27,
+            height: unitHeight * 27,
             width: 65,
             decoration: decorations != null ? decorations[2] : decorations1[2],
             child: GestureDetector(
@@ -118,11 +131,16 @@ class CalendarHeader extends StatelessWidget {
               child: Text(
                 getMonthName(2),
                 textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: decorations != null ?
+                  (decorations[2] != null ? Colors.white : HexColor('#262626'))
+                      : (decorations1[2] != null ? Colors.white : HexColor('#262626')),
+                ),
               ),
             ),
           ),
           Container(
-            height: 27,
+            height: unitHeight * 27,
             width: 65,
             decoration: decorations != null ? decorations[3] : decorations1[3],
             child: GestureDetector(
@@ -130,6 +148,11 @@ class CalendarHeader extends StatelessWidget {
               child: Text(
                 getMonthName(3),
                 textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: decorations != null ?
+                  (decorations[3] != null ? Colors.white : HexColor('#262626'))
+                      : (decorations1[3] != null ? Colors.white : HexColor('#262626')),
+                ),
               ),
             ),
           ),

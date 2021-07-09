@@ -211,6 +211,7 @@ class AddStaffPageState extends State<AddStaffPage> {
                     margin: EdgeInsets.only(bottom: 16, top: 16),
                     child: MaterialButton(
                       elevation: 0,
+                      highlightElevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50),
                         side: BorderSide(color: HexColor("#FF844B")),
@@ -236,6 +237,7 @@ class AddStaffPageState extends State<AddStaffPage> {
                     margin: EdgeInsets.only(bottom: 16, top: 16),
                     child: MaterialButton(
                       elevation: 0,
+                      highlightElevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(40),
                       ),

@@ -14,6 +14,7 @@ import 'package:hooa/page/signUpAndSignIn/signUp.dart';
 import 'package:hooa/page/signUpAndSignIn/signUpSecondInstitution.dart';
 import 'package:hooa/page/signUpAndSignIn/signUpSecondUser.dart';
 import 'package:hooa/page/staff/addStaff.dart';
+import 'package:hooa/page/staff/changeStaff.dart';
 import 'package:hooa/page/staff/selectedStaff.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget {
             '/mainContainer': (context) => MainContainerPage(),
             '/addStaff': (context) => AddStaffPage(),
             '/selectedStaff': (context) => SelectedStaffPage(),
+            '/changeStaff': (context) => ChangeStaff(),
             '/services': (context) => ServicesPage(),
             '/addService': (context) => AddServicePage(),
             '/callback': (context) => CallbackPage(),

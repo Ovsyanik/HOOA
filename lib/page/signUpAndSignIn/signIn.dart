@@ -152,6 +152,7 @@ class SignInPageState extends State<SignInPage> {
               width: size.width,
               child: MaterialButton(
                 elevation: 0,
+                highlightElevation: 0,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(50)),
                 ),
@@ -170,7 +171,7 @@ class SignInPageState extends State<SignInPage> {
                     color: Colors.white,
                     fontSize: unitHeight * 16
                     ),
-                )
+                ),
               ),
             ),
 

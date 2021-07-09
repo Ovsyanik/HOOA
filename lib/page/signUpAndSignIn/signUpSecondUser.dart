@@ -184,6 +184,7 @@ class SignUpSecondUserState extends State<SignUpSecondUserPage> {
               height: unitHeight * 50,
               child: MaterialButton(
                 elevation: 0,
+                highlightElevation: 0,
                 shape: RoundedRectangleBorder(
                   side: BorderSide(color: HexColor("#FF844B")),
                   borderRadius: BorderRadius.circular(40),

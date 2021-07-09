@@ -84,6 +84,7 @@ class PasswordRecoveryPageState extends State<PasswordRecoveryPage> {
               width: size.width,
               child: MaterialButton(
                 elevation: 0,
+                highlightElevation: 0,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50),
                 ),

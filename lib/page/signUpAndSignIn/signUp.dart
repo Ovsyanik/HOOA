@@ -60,6 +60,7 @@ class SignUpPageState extends State<SignUpPage> {
               width: size.width - 32,
               child: MaterialButton(
                 elevation: 0,
+                highlightElevation: 0,
                 shape: RoundedRectangleBorder(
                   side: BorderSide(color: HexColor("#FF844B")),
                   borderRadius: BorderRadius.all(Radius.circular(40)),
@@ -79,9 +80,9 @@ class SignUpPageState extends State<SignUpPage> {
                   "Продолжить",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: unitHeight * 16
+                    fontSize: unitHeight * 16,
                     ),
-                )
+                ),
               ),
             ),
 

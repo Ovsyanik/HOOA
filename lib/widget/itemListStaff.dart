@@ -10,6 +10,8 @@ class ItemListStaff extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    double unitHeight = size.height * 0.00125;
     return GestureDetector(
       onTap: () => Navigator.of(context).pushNamed('/selectedStaff'),
       child: Container(
@@ -40,12 +42,12 @@ class ItemListStaff extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(left: 10, right: 10),
+                      padding: EdgeInsets.symmetric(horizontal: 10),
                       child: Text(
                         staff.fullName,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
-                          fontSize: 15,
+                          fontSize: unitHeight * 15,
                           color: HexColor('#262626')
                         ),
                       ),
@@ -55,7 +57,7 @@ class ItemListStaff extends StatelessWidget {
                       child: Text(
                         staff.position,
                         style: TextStyle(
-                          fontSize: 13,
+                          fontSize: unitHeight * 13,
                           color: HexColor('#262626').withOpacity(0.6)
                         ),
                       )
