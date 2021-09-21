@@ -40,7 +40,6 @@ class StatisticPage extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-
                 Container(
                   height: size.height * 0.0015 * 38,
                   width: size.width / 3 - 24,

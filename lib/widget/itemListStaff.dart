@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:hooa/model/staff.dart';
+import 'package:hooa/page/staff/selectedStaff.dart';
 import 'package:hooa/widget/starRating.dart';
 
 class ItemListStaff extends StatelessWidget {
@@ -13,8 +16,10 @@ class ItemListStaff extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     double unitHeight = size.height * 0.00125;
     return GestureDetector(
-      onTap: () => Navigator.of(context).pushNamed('/selectedStaff'),
+      onTap: () => Navigator.push(context,
+          MaterialPageRoute(builder: (context) => SelectedStaffPage(staff: staff))),
       child: Container(
+        height: unitHeight * 110,
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(
@@ -27,12 +32,24 @@ class ItemListStaff extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Expanded(
-              child: ClipRRect(
-                child: staff.image,
-                borderRadius: BorderRadius.all(Radius.circular(5)),
+            staff.image != null ? ClipRRect(
+              borderRadius: BorderRadius.circular(50),
+              child: Image.file(
+                File(staff.image),
+                width: unitHeight * 100,
+                height: unitHeight * 100,
+                fit: BoxFit.fill,
+              ),
+            ) : ClipRRect(
+              borderRadius: BorderRadius.circular(50),
+              child: Image.asset(
+                "assets/images/photo_user.jpg",
+                width: unitHeight * 100,
+                height: unitHeight * 100,
+                fit: BoxFit.fill,
               ),
             ),
+
             Expanded(
               flex: 5,
               child: Container(

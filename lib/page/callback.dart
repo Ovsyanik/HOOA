@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:hooa/widget/MyAppBar.dart';
 
 class CallbackPage extends StatefulWidget {
   @override
@@ -28,42 +29,11 @@ class _CallbackPageState extends State<CallbackPage> {
     final sizeScreen = MediaQuery.of(context).size;
     final unitHeight = sizeScreen.height * 0.00125;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        toolbarHeight: unitHeight * 60,
-        elevation: 0,
-        centerTitle: true,
-        title: Text(
-          'Обратная связь',
-          style: TextStyle(
-              fontSize: unitHeight * 17,
-              fontWeight: FontWeight.w700,
-              color: HexColor('#262626')
-          ),
-        ),
-        leading: IconButton(
-          icon: SvgPicture.asset(
-            'assets/icons/return.svg',
-            color: HexColor("#262626"),
-            height: unitHeight * 20,
-            width: unitHeight * 20,
-          ),
-          highlightColor: Colors.transparent,
-          splashColor: Colors.transparent,
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+      resizeToAvoidBottomInset: false,
+      appBar: MyAppBar(
+        title: 'Обратная связь',
         actions: [
-          IconButton(
-            icon: SvgPicture.asset(
-              'assets/icons/add.svg',
-              color: HexColor("#262626"),
-              height: unitHeight * 20,
-              width: unitHeight * 20,
-            ),
-            highlightColor: Colors.transparent,
-            splashColor: Colors.transparent,
-            onPressed: () => null,
-          ),
+          MyAction('assets/icons/add.svg', () => null,)
         ],
       ),
       body: Padding(
@@ -81,11 +51,12 @@ class _CallbackPageState extends State<CallbackPage> {
             ),
             Container(
               margin: EdgeInsets.only(top: sizeScreen.height * 0.02),
+              height: unitHeight * 50,
               child: TextField(
                 controller: this._nameController,
                 decoration: InputDecoration(
                   hintText: "Имя Фамилия",
-                  labelStyle: TextStyle(
+                  hintStyle: TextStyle(
                     fontSize: unitHeight * 17,
                     color: HexColor("#262626").withOpacity(0.3),
                   ),
@@ -95,11 +66,12 @@ class _CallbackPageState extends State<CallbackPage> {
 
             Container(
               margin: EdgeInsets.only(top: sizeScreen.height * 0.02),
+              height: unitHeight * 50,
               child: TextField(
                 controller: this._phoneController,
                 decoration: InputDecoration(
                   hintText: "Номер телефона",
-                  labelStyle: TextStyle(
+                  hintStyle: TextStyle(
                     fontSize: unitHeight * 17,
                     color: HexColor("#262626").withOpacity(0.3),
                   ),
@@ -108,11 +80,12 @@ class _CallbackPageState extends State<CallbackPage> {
             ),
             Container(
               margin: EdgeInsets.only(top: sizeScreen.height * 0.02),
+              height: unitHeight * 50,
               child: TextField(
                 controller: this._emailController,
                 decoration: InputDecoration(
                   hintText: "Email",
-                  labelStyle: TextStyle(
+                  hintStyle: TextStyle(
                     fontSize: unitHeight * 17,
                     color: HexColor("#262626").withOpacity(0.3),
                   ),
@@ -122,11 +95,12 @@ class _CallbackPageState extends State<CallbackPage> {
 
             Container(
               margin: EdgeInsets.only(top: sizeScreen.height * 0.02),
+              height: unitHeight * 50,
               child: TextField(
                 controller: this._messageController,
                 decoration: InputDecoration(
                   hintText: "Сообщение",
-                  labelStyle: TextStyle(
+                  hintStyle: TextStyle(
                     fontSize: unitHeight * 17,
                     color: HexColor("#262626").withOpacity(0.3),
                   ),

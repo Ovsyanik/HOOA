@@ -4,9 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:hooa/bloc/staffBloc.dart';
+import 'package:hooa/model/staff.dart';
+import 'package:hooa/widget/MyAppBar.dart';
 import 'package:hooa/widget/itemListStaff.dart';
 
 class StaffPage extends StatefulWidget {
+  // final Staff staff;
+
+  // StaffPage({this.staff});
   StaffPageState createState() => StaffPageState();
 }
 
@@ -15,11 +20,8 @@ class StaffPageState extends State<StaffPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-
     _staffBloc = BlocProvider.of<StaffBloc>(context);
-
     _staffBloc.add(GetStaff());
   }
 
@@ -28,31 +30,15 @@ class StaffPageState extends State<StaffPage> {
     final size = MediaQuery.of(context).size;
     final unitHeight = size.height * 0.00125;
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
-        toolbarHeight: unitHeight * 60,
-        elevation: 0,
-        leading: null,
+      resizeToAvoidBottomInset: false,
+      appBar: MyAppBar(
         actions: [
-          IconButton(
-            icon: SvgPicture.asset(
-              'assets/icons/add.svg',
-              color: HexColor("#262626"),
-              height: 20,
-              width: 20,
-            ),
-            highlightColor: Colors.transparent,
-            splashColor: Colors.transparent,
-            onPressed: () => Navigator.pushNamed(context, '/addStaff')
-          )
+          MyAction('assets/icons/add.svg',
+                () => Navigator.pushNamed(context, '/addStaff'),),
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.only(
-          left: 16,
-          right: 16,
-        ),
+        padding: EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           verticalDirection: VerticalDirection.down,
@@ -63,7 +49,7 @@ class StaffPageState extends State<StaffPage> {
                 'Сотрудники',
                 style: TextStyle(
                   color: HexColor('#262626'),
-                  fontSize: 34,
+                  fontSize: unitHeight * 34,
                   fontWeight: FontWeight.w600 
                 ),
               ),
@@ -75,21 +61,27 @@ class StaffPageState extends State<StaffPage> {
                 bloc: _staffBloc,
                 builder: (context, state) {
                   return Container(
-                    child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: state.staff.length,
-                      itemBuilder: (context, index) {
-                        return ItemListStaff(staff: state.staff[index]);
-                      }
-                    )
+                    child: NotificationListener<OverscrollIndicatorNotification>(
+                      onNotification: (overScroll) {
+                        overScroll.disallowGlow();
+                        return;
+                      },
+                      child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: state.staff.length,
+                        itemBuilder: (context, index) {
+                          return ItemListStaff(staff: state.staff[index]);
+                        }
+                      ),
+                    ),
                   );
                 },
-              ) 
+              ),
             )
           ],
         ),
-      )
+      ),
     );
   }
 }

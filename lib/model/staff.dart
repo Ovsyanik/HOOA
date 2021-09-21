@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
-
-import 'Sex.dart';
-
+import 'dart:convert';
 class Staff {
   int id;
   String fullName;
@@ -9,7 +6,8 @@ class Staff {
   double rate;
   String sex;
   String numberPhone;
-  Image image;
+  String image;
+  List<int> services;
 
   Staff({
     this.id,
@@ -18,7 +16,8 @@ class Staff {
     this.rate = 0,
     this.sex,
     this.numberPhone,
-    this.image
+    this.image,
+    this.services
   });
 
   Map<String, dynamic> toDatabaseJson() => {
@@ -28,7 +27,9 @@ class Staff {
     'sex': this.sex,
     'rate': this.rate,
     'numberPhone': this.numberPhone,
-    'image': this.image
+    //переделать
+    'image': this.image,
+    'services': jsonEncode(this.services)
   };
 
   factory Staff.fromDatabaseJson(Map<String, dynamic> data) => Staff(
@@ -38,6 +39,8 @@ class Staff {
     sex: data['sex'],
     rate: data['rate'],
     numberPhone: data['numberPhone'],
-    image: data['image']
+    //переделать
+    image: data['image'],
+    services: jsonDecode(data['services']).cast<int>()
   );
 }

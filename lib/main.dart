@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:hooa/bloc/serviceBloc.dart';
 import 'package:hooa/bloc/signUpBloc.dart';
 import 'package:hooa/bloc/staffBloc.dart';
 import 'package:hooa/bloc/statisticBloc.dart';
 import 'package:hooa/page/callback.dart';
+import 'package:hooa/page/profile/ChangeProfileInstitutuin.dart';
 import 'package:hooa/page/records/addRecord.dart';
+import 'package:hooa/page/sales/AddSalesPage.dart';
+import 'package:hooa/page/sales/SalesPage.dart';
+import 'package:hooa/page/service/ChangeService.dart';
 import 'package:hooa/page/signUpAndSignIn/passwordRecovery.dart';
 import 'package:hooa/page/mainContainer.dart';
 import 'package:hooa/page/service/addService.dart';
@@ -40,6 +45,10 @@ class MyApp extends StatelessWidget {
             create: (BuildContext context) => StatisticBloc(),
             dispose: (_, StatisticBloc statisticBloc) => statisticBloc.dispose(),
           ),
+          Provider<ServicesBloc>(
+            create: (BuildContext context) => ServicesBloc(),
+            // dispose: (_, ServicesBloc servicesBloc) => servicesBloc.dispose(),
+          ),
         ],
         child:  MaterialApp(
           title: 'HOOA',
@@ -47,7 +56,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             fontFamily: 'Proxima Nova',
           ),
-          initialRoute: '/',
+          initialRoute: '/mainContainer',
           routes: {
             '/': (context) => SignInOrSignUpPage(),
             '/signIn': (context) => SignInPage(),
@@ -59,10 +68,14 @@ class MyApp extends StatelessWidget {
             '/addStaff': (context) => AddStaffPage(),
             '/selectedStaff': (context) => SelectedStaffPage(),
             '/changeStaff': (context) => ChangeStaff(),
-            '/services': (context) => ServicesPage(),
+            '/services': (context) => ServicesPage(context),
             '/addService': (context) => AddServicePage(),
+            '/changeService': (context) => ChangeServicePage(context: context),
             '/callback': (context) => CallbackPage(),
             '/addRecord': (context) => AddRecordPage(),
+            '/changeProfileInstitution': (context) => ChangeProfileInstitution(),
+            '/sales': (context) => SalesPage(),
+            '/addSales': (context) => AddSalesPage(),
           },
         )
     );

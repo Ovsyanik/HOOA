@@ -5,9 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:hooa/bloc/serviceBloc.dart';
 import 'package:hooa/bloc/staffBloc.dart';
 import 'package:hooa/model/Sex.dart';
+import 'package:hooa/model/service.dart';
 import 'package:hooa/model/staff.dart';
+import 'package:hooa/widget/CheckBox.dart';
+import 'package:hooa/widget/MyAppBar.dart';
+import 'package:hooa/widget/dropDown/DropDown.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddStaffPage extends StatefulWidget {
@@ -19,7 +24,10 @@ class AddStaffPageState extends State<AddStaffPage> {
   final fullNameController = TextEditingController();
   final numberPhoneController = TextEditingController();
   final positionController = TextEditingController();
+
+  final _picker = new ImagePicker();
   File _image;
+  Map<Service, bool> selectedService = Map<Service, bool>();
 
   Sex _sex = Sex.Female;
 
@@ -28,37 +36,20 @@ class AddStaffPageState extends State<AddStaffPage> {
     final size = MediaQuery.of(context).size;
     final unitHeight = size.height * 0.00125;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        toolbarHeight: unitHeight * 60,
-        elevation: 0,
-        centerTitle: true,
-        title: Text(
-          'Добавление сотрудника',
-          style: TextStyle(
-            fontSize: unitHeight * 17,
-            fontWeight: FontWeight.w700,
-            color: HexColor('#262626')
-          ),
-        ),
-        leading: IconButton(
-          icon: SvgPicture.asset(
-            'assets/icons/return.svg',
-            color: HexColor("#262626"),
-            height: unitHeight * 20,
-            width: unitHeight * 20,
-          ),
-          highlightColor: Colors.transparent,
-          splashColor: Colors.transparent,
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+      resizeToAvoidBottomInset: false,
+      appBar: const MyAppBar(
+        title: 'Добавление сотрудника',
+        actions: [],
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(unitHeight * 16.0),
         child: Column(children: <Widget>[
           Container(
             alignment: Alignment.centerLeft,
-            margin: EdgeInsets.only(bottom: 20, top: 10),
+            margin: EdgeInsets.only(
+                bottom: unitHeight * 20,
+                top: unitHeight * 10
+            ),
             child: Text(
               'ИЗМЕНЕНИЕ ЛИЧНОЙ ИНФОРМАЦИИ',
               style: TextStyle(
@@ -71,14 +62,14 @@ class AddStaffPageState extends State<AddStaffPage> {
           GestureDetector(
             onTap: () => _showPicker(context),
             child: CircleAvatar(
-              radius: unitHeight * 50,
+              radius: unitHeight * 45,
               backgroundColor: HexColor('#E0E0E0'),
               child: _image != null ? ClipRRect(
                 borderRadius: BorderRadius.circular(50),
                 child: Image.file(
                   _image,
-                  width: unitHeight * 100,
-                  height: unitHeight * 100,
+                  width: unitHeight * 90,
+                  height: unitHeight * 90,
                   fit: BoxFit.fill,
                 ),
               ) : Container(
@@ -101,7 +92,7 @@ class AddStaffPageState extends State<AddStaffPage> {
               controller: this.fullNameController,
               decoration: InputDecoration(
                 hintText: "Имя Фамилия",
-                labelStyle: TextStyle(
+                hintStyle: TextStyle(
                   fontSize: unitHeight * 17,
                   color: HexColor("#262626").withOpacity(0.3),
                 ),
@@ -163,7 +154,7 @@ class AddStaffPageState extends State<AddStaffPage> {
               controller: this.numberPhoneController,
               decoration: InputDecoration(
                 hintText: "+375 (00) 000 00 00",
-                labelStyle: TextStyle(
+                hintStyle: TextStyle(
                   fontSize: unitHeight * 17,
                   color: HexColor("#262626").withOpacity(0.3),
                 ),
@@ -178,7 +169,7 @@ class AddStaffPageState extends State<AddStaffPage> {
               controller: this.positionController,
               decoration: InputDecoration(
                 hintText: "Должность",
-                labelStyle: TextStyle(
+                hintStyle: TextStyle(
                   fontSize: unitHeight * 17,
                   color: HexColor("#262626").withOpacity(0.3),
                 ),
@@ -200,72 +191,113 @@ class AddStaffPageState extends State<AddStaffPage> {
           ),
 
           Expanded(
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    height: unitHeight * 50,
-                    width: size.width / 2 - 24,
-                    margin: EdgeInsets.only(bottom: 16, top: 16),
-                    child: MaterialButton(
-                      elevation: 0,
-                      highlightElevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50),
-                        side: BorderSide(color: HexColor("#FF844B")),
-                      ),
-                      color: HexColor("#F8F7F4"),
-                      highlightColor: Colors.transparent,
-                      splashColor: Colors.transparent,
-                      onPressed: () {
-                        Navigator.pop(context);
+            child: Stack(
+              children: [
+                Expanded(
+                  child: Container(
+                    child: BlocBuilder(
+                      bloc: BlocProvider.of<ServicesBloc>(context),
+                      builder: (context, ServicesState state) => ListView.builder(
+                        itemCount: state.categories.length,
+                        itemBuilder: (context, index) {
+                          List<Service> services = state.services.where((element) =>
+                          element.categoryService == state.categories[index].id)
+                          .toList();
+                          if (selectedService.isEmpty) {
+                            for(int i = 0; i < services.length; i++) {
+                              selectedService.putIfAbsent(services[i], () => false);
+                            }
+                          }
+                        return DropDown(
+                          unitHeight: unitHeight,
+                          title: state.categories[index].name,
+                          list: List<Widget>.generate(services.length, (index) =>
+                            _getItemDropdown(unitHeight, services[index], index, selectedService[selectedService.keys.elementAt(index)])
+                            ),
+                          );
                         },
-                      child: Text(
-                        "Сбросить",
-                        style: TextStyle(
+                      ),
+                    ),
+                  ),
+                ),
+
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                        height: unitHeight * 50,
+                        width: size.width / 2 - 24,
+                        margin: EdgeInsets.only(bottom: 16, top: 16),
+                        child: MaterialButton(
+                          elevation: 0,
+                          highlightElevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50),
+                            side: BorderSide(color: HexColor("#FF844B")),
+                          ),
+                          color: HexColor("#F8F7F4"),
+                          highlightColor: Colors.transparent,
+                          splashColor: Colors.transparent,
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            "Сбросить",
+                            style: TextStyle(
+                              color: HexColor("#FF844B"),
+                              fontSize:unitHeight * 15,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: unitHeight * 50,
+                        width: size.width / 2 - 24,
+                        margin: EdgeInsets.only(bottom: 16, top: 16),
+                        child: MaterialButton(
+                          elevation: 0,
+                          highlightElevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40),
+                          ),
                           color: HexColor("#FF844B"),
-                          fontSize:unitHeight * 15,
+                          highlightColor: Colors.transparent,
+                          splashColor: Colors.transparent,
+                          onPressed: () {
+                            List<int> services = [];
+
+                            for(int i = 0; i < selectedService.length; i++) {
+                              if(selectedService.values.elementAt(i) == true) {
+                                services.add(selectedService.keys.elementAt(i).id);
+                              }
+                            }
+
+                            final bloc = BlocProvider.of<StaffBloc>(context);
+                            bloc.add(AddStaff(Staff(
+                              fullName: fullNameController.text,
+                              position: positionController.text,
+                              sex: _sex.value,
+                              numberPhone: numberPhoneController.text,
+                              image: _image != null ? _image.path : null,
+                              services: services
+                            )));
+                            Navigator.pop(context);
+                            },
+                        child: Text(
+                          "Применить",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: unitHeight * 15,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Container(
-                    height: unitHeight * 50,
-                    width: size.width / 2 - 24,
-                    margin: EdgeInsets.only(bottom: 16, top: 16),
-                    child: MaterialButton(
-                      elevation: 0,
-                      highlightElevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(40),
-                      ),
-                      color: HexColor("#FF844B"),
-                      highlightColor: Colors.transparent,
-                      splashColor: Colors.transparent,
-                      onPressed: () {
-                        final bloc = BlocProvider.of<StaffBloc>(context);
-                        bloc.add(AddStaff(Staff(
-                            fullName: fullNameController.text,
-                            position: positionController.text,
-                            sex: _sex.value,
-                            numberPhone: numberPhoneController.text,
-                            image: null
-                        )));
-                        Navigator.pop(context);
-                        },
-                      child: Text(
-                        "Применить",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: unitHeight * 15,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
+              ],
             ),
           ),
         ]),
@@ -273,13 +305,10 @@ class AddStaffPageState extends State<AddStaffPage> {
     );
   }
 
-  final _picker = new ImagePicker();
-
   _imgFromCamera() async {
     final _pickedFile = await _picker.getImage(
         source: ImageSource.camera, imageQuality: 50
     );
-
     setState(() {
       _image = File(_pickedFile.path);
     });
@@ -289,7 +318,6 @@ class AddStaffPageState extends State<AddStaffPage> {
     final _pickedFile = await  _picker.getImage(
         source: ImageSource.gallery, imageQuality: 50
     );
-
     setState(() {
       _image = File(_pickedFile.path);
     });
@@ -298,7 +326,7 @@ class AddStaffPageState extends State<AddStaffPage> {
   void _showPicker(context) {
     showModalBottomSheet(
       context: context,
-      builder: (BuildContext bc) {
+      builder: (BuildContext buildContext) {
         return SafeArea(
           child: Container(
             child: Wrap(children: <Widget>[
@@ -316,12 +344,51 @@ class AddStaffPageState extends State<AddStaffPage> {
                 onTap: () {
                   _imgFromCamera();
                   Navigator.of(context).pop();
-                  },
+                },
               ),
             ]),
           ),
         );
         },
     );
-}
+  }
+
+  Widget _getItemDropdown(double unitHeight, Service service, int index, bool isSelected) {
+    return GestureDetector(
+      onTap: () => setState(() {
+        for(int i = 0; i < selectedService.length; i++) {
+          selectedService[selectedService.keys.elementAt(i)] = false;
+        }
+        print(selectedService[selectedService.keys.elementAt(index)]);
+
+        selectedService[selectedService.keys.elementAt(index)]
+          = !selectedService[selectedService.keys.elementAt(index)];
+        print(selectedService[selectedService.keys.elementAt(index)]);
+      }),
+      child: Container(
+        margin: EdgeInsets.only(bottom: unitHeight * 16),
+        width: unitHeight * 1,
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: HexColor('#262626').withOpacity(0.5)),
+
+            ),
+          ),
+          child: Row(children: [
+            Text(
+              service.name,
+              style: TextStyle(fontSize: unitHeight * 15),
+            ),
+            Expanded(
+              child: Container(
+                alignment: Alignment.bottomRight,
+                child: CheckBox(isSelected: isSelected),
+              ),
+            ),
+          ],
+          ),
+      ),
+    );
+  }
 }

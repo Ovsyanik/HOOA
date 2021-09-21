@@ -54,7 +54,9 @@ class RadioItem extends StatelessWidget {
           child: Text(
             _item.buttonText,
             style: TextStyle(
-              color: _item.isSelected ? HexColor("#FF844B") : HexColor('#99262626'),
+              color: _item.isSelected
+                  ? HexColor("#FF844B")
+                  : HexColor('#99262626'),
               fontSize: unitHeight * 17.0
             )
           ),
@@ -62,7 +64,9 @@ class RadioItem extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border.all(
             width: 1.0,
-            color: _item.isSelected ? HexColor("#FF844B") : HexColor('#99262626'),
+            color: _item.isSelected
+                ? HexColor("#FF844B")
+                : HexColor('#99262626'),
           ),
           borderRadius: BorderRadius.circular(15.0),
         ),

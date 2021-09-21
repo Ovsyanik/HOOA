@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:hooa/widget/MyAppBar.dart';
 
 class PasswordRecoveryPageState extends State<PasswordRecoveryPage> {
   final eMailController = TextEditingController();
@@ -18,20 +19,10 @@ class PasswordRecoveryPageState extends State<PasswordRecoveryPage> {
     final size = MediaQuery.of(context).size;
     final unitHeight = size.height * 0.00125;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        toolbarHeight: unitHeight * 60,
-        leading: IconButton(
-          icon: SvgPicture.asset(
-            'assets/icons/union.svg',
-            height: unitHeight * 20,
-            width: unitHeight * 20,
-          ),
-          highlightColor: Colors.transparent,
-          splashColor: Colors.transparent,
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+      resizeToAvoidBottomInset: false,
+      appBar: const MyAppBar(
+        iconLeading: 'assets/icons/union.svg',
+        actions: [],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -66,11 +57,12 @@ class PasswordRecoveryPageState extends State<PasswordRecoveryPage> {
             Container(
               margin: EdgeInsets.only(top: size.height * 0.03),
               width: size.width,
+              height: unitHeight * 50,
               child: TextField(
                 controller: this.eMailController,
                 decoration: InputDecoration(
                   hintText: "E-mail",
-                  labelStyle: TextStyle(
+                  hintStyle: TextStyle(
                     color: HexColor("#4D262626"),
                     fontSize: unitHeight * 17,
                   ),

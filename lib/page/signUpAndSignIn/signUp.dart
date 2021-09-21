@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:hooa/bloc/signUpBloc.dart';
+import 'package:hooa/widget/MyAppBar.dart';
 import 'package:hooa/widget/customRadioSignUp.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -19,23 +20,9 @@ class SignUpPageState extends State<SignUpPage> {
     final Size size = MediaQuery.of(context).size;
     final double unitHeight = size.height * 0.00125;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: HexColor("#F2F2F2"),
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        toolbarHeight: unitHeight * 60,
-        leading: IconButton(
-          icon: SvgPicture.asset(
-            'assets/icons/return.svg',
-            color: HexColor("#262626"),
-            height: unitHeight * 20,
-            width: unitHeight * 20,
-          ),
-          highlightColor: Colors.transparent,
-          splashColor: Colors.transparent,
-          onPressed: () => Navigator.of(context).pop(),
-        ), 
-      ),
+      appBar: const MyAppBar(actions: []),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -63,7 +50,7 @@ class SignUpPageState extends State<SignUpPage> {
                 highlightElevation: 0,
                 shape: RoundedRectangleBorder(
                   side: BorderSide(color: HexColor("#FF844B")),
-                  borderRadius: BorderRadius.all(Radius.circular(40)),
+                  borderRadius: BorderRadius.circular(40),
                 ),
                 color: HexColor("#FF844B"),
                 highlightColor: Colors.transparent,
@@ -117,7 +104,7 @@ class SignUpPageState extends State<SignUpPage> {
             ),
           ],
         ),
-      )
+      ),
     );
   }
 }

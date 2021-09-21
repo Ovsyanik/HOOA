@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
 import 'package:hooa/model/institution.dart';
 import 'package:hooa/model/user.dart';
 import 'package:hooa/repository/sqfliteRepository.dart';

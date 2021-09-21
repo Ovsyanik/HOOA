@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,9 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:hooa/bloc/signUpBloc.dart';
 import 'package:hooa/model/Sex.dart';
 import 'package:hooa/model/user.dart';
+import 'package:hooa/widget/MyAppBar.dart';
+import 'package:pin_code_text_field/pin_code_text_field.dart';
+import 'package:sms/sms.dart';
 
 class SignUpSecondUserPage extends StatefulWidget {
   @override
@@ -18,6 +23,8 @@ class SignUpSecondUserState extends State<SignUpSecondUserPage> {
   final numberPhoneController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final codeController = TextEditingController();
+  String code;
 
   bool isHidden = true;
   Sex _sex = Sex.Female;
@@ -32,22 +39,8 @@ class SignUpSecondUserState extends State<SignUpSecondUserPage> {
     final Size size = MediaQuery.of(context).size;
     final double unitHeight = size.height * 0.00125;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        toolbarHeight: unitHeight * 60,
-        leading: IconButton(
-          icon: SvgPicture.asset(
-            'assets/icons/return.svg',
-            color: HexColor("#262626"),
-            height: unitHeight * 20,
-            width: unitHeight * 20,
-          ),
-          highlightColor: Colors.transparent,
-          splashColor: Colors.transparent,
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-      ),
+      resizeToAvoidBottomInset: false,
+      appBar: const MyAppBar(actions: []),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -72,7 +65,7 @@ class SignUpSecondUserState extends State<SignUpSecondUserPage> {
                 controller: this.fullNameController,
                 decoration: InputDecoration(
                   hintText: "Имя Фамилия",
-                  labelStyle: TextStyle(
+                  hintStyle: TextStyle(
                     fontSize: unitHeight * 17,
                     color: HexColor("#4D262626"),
                   ),
@@ -136,7 +129,10 @@ class SignUpSecondUserState extends State<SignUpSecondUserPage> {
                 controller: this.numberPhoneController,
                 decoration: InputDecoration(
                   hintText: "Номер телефона",
-                  labelStyle: TextStyle(color: HexColor("#4D262626"))
+                  hintStyle: TextStyle(
+                    fontSize: unitHeight * 17.0,
+                    color: HexColor("#4D262626"),
+                  ),
                 ),
               ),
             ),
@@ -149,7 +145,10 @@ class SignUpSecondUserState extends State<SignUpSecondUserPage> {
                 controller: this.emailController,
                 decoration: InputDecoration(
                   hintText: "E-mail",
-                  labelStyle: TextStyle(color: HexColor("#4D262626"))
+                  hintStyle: TextStyle(
+                    fontSize: unitHeight * 17.0,
+                    color: HexColor("#4D262626"),
+                  ),
                 ),
               ),
             ),
@@ -163,7 +162,10 @@ class SignUpSecondUserState extends State<SignUpSecondUserPage> {
                 controller: this.passwordController,
                 decoration: InputDecoration(
                   hintText: "Пароль",
-                  labelStyle: TextStyle(color: HexColor("#4D262626")),
+                  hintStyle: TextStyle(
+                    fontSize: unitHeight * 17.0,
+                    color: HexColor("#4D262626"),
+                  ),
                   suffixIcon: IconButton(
                     icon: SvgPicture.asset(
                       'assets/icons/eye_close.svg',
@@ -200,16 +202,8 @@ class SignUpSecondUserState extends State<SignUpSecondUserPage> {
                   )
                 ),
                 onPressed: () {
-                  var bloc = BlocProvider.of<SignUpBloc>(context);
-                  User newUser = User(
-                    fullName: fullNameController.text,
-                    sex: _sex.value,
-                    numberPhone: numberPhoneController.text,
-                    email: emailController.text,
-                    password: passwordController.text
-                  );
-                  bloc.register(user: newUser);
-                  Navigator.of(context).pushNamed('/mainContainer');
+                  code = _generateCode();
+                  _showModalVerify(context, code);
                 },
               ),
             ),
@@ -296,4 +290,132 @@ class SignUpSecondUserState extends State<SignUpSecondUserPage> {
 
     super.dispose();
   }
+
+
+  String _generateCode() {
+    Random random = Random();
+    return random.nextInt(9999).toString();
+  }
+
+
+  Future _sendSMS(String message, String recipents) async {
+    SmsSender sender = SmsSender();
+    sender.sendSms(SmsMessage(recipents, message));
+  }
+
+
+  void _showModalVerify(BuildContext context, String code) {
+    Size size = MediaQuery.of(context).size;
+    final unitHeight = size.height * 0.00125;
+    _sendSMS(code, numberPhoneController.text);
+    showModalBottomSheet(
+      context: context,
+      elevation: 3,
+      shape: const RoundedRectangleBorder(
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(10),
+          topRight: Radius.circular(10),
+        ),
+      ),
+      builder: (context) => Padding(
+        padding: EdgeInsets.all(unitHeight * 16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(
+                bottom: unitHeight * 11,
+                top: unitHeight * 34,
+              ),
+              child: Text(
+                'Верификация',
+                style: TextStyle(
+                  fontSize: unitHeight * 34,
+                  fontWeight: FontWeight.w600,
+                  color: HexColor('#262626'),
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(bottom: unitHeight * 30),
+              child: Text(
+                'Введите четырехзначный код отправленный на ваш номер телефона',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: unitHeight * 17,
+                  fontWeight: FontWeight.w400,
+                  color: HexColor('#262626').withOpacity(0.6),
+                ),
+              ),
+            ),
+            Container(
+              alignment: Alignment.center,
+              child: PinCodeTextField(
+                maxLength: 4,
+                onTextChanged: (value) {
+                  print(value);
+                },
+                pinTextStyle: TextStyle(
+                  fontSize: unitHeight * 17,
+                ),
+                controller: codeController,
+                pinBoxHeight: 56,
+                pinBoxWidth: 49,
+                pinBoxDecoration: (Color borderColor, Color pinBoxColor, {
+                  double borderWidth = 0.5,
+                  double radius = 15.0,
+                }) { return BoxDecoration(
+                  border: Border.all(
+                    color: HexColor('#262626'),
+                    width: 0.5,
+                  ),
+                  color: pinBoxColor,
+                  borderRadius: BorderRadius.circular(6.0),);
+                },
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: size.height * 0.05),
+              width: size.width,
+              height: unitHeight * 50,
+              child: MaterialButton(
+                elevation: 0, highlightElevation: 0,
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(color: HexColor("#FF844B")),
+                  borderRadius: BorderRadius.circular(40),
+                ),
+                color: HexColor("#FF844B"),
+                highlightColor: Colors.transparent,
+                splashColor: Colors.transparent,
+                child: Text(
+                  'Отправить',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: unitHeight * 16,
+                  ),
+                ),
+                onPressed: () {
+                  if(code == codeController.text) {
+                    var bloc = BlocProvider.of<SignUpBloc>(context);
+                    User newUser = User(
+                      fullName: fullNameController.text,
+                      sex: _sex.value,
+                      numberPhone: numberPhoneController.text,
+                      email: emailController.text,
+                      password: passwordController.text,
+                    );
+                    bloc.register(user: newUser);
+                    Navigator.of(context).pushNamed('/mainContainer');
+                  }
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
 }

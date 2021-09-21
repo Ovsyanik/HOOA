@@ -31,82 +31,87 @@ class TabBarRecordsState extends State<TabBarRecords> {
         length: tabs.length,
         child: Builder(
           builder: (BuildContext context) {
-            return Scaffold(
-              appBar: TabBar(
-                tabs: tabs,
-                labelColor: HexColor('#262626'),
-                indicatorColor: HexColor('#262626'),
-                unselectedLabelColor: HexColor('#262626').withOpacity(0.6),
-                labelStyle: TextStyle(fontSize: unitHeight * 17),
-              ),
-              body: TabBarView(children: <Widget>[
-                Column(children: <Widget>[
-                  Container(
-                    width: size.width,
-                    alignment: Alignment.centerLeft,
-                    child: IconButton(
-                      icon: SvgPicture.asset(
-                        'assets/icons/calendar.svg',
-                        height: unitHeight * 32,
-                        width: unitHeight * 20,
+            return NotificationListener<OverscrollIndicatorNotification>(
+              onNotification: (overScroll) {
+                overScroll.disallowGlow();
+                return;
+              },
+              child: Scaffold(
+                appBar: TabBar(
+                  tabs: tabs,
+                  labelColor: HexColor('#262626'),
+                  indicatorColor: HexColor('#262626'),
+                  unselectedLabelColor: HexColor('#262626').withOpacity(0.6),
+                  labelStyle: TextStyle(fontSize: unitHeight * 17),
+                ),
+                body: TabBarView(children: <Widget>[
+                  Column(children: <Widget>[
+                    Container(
+                      width: size.width,
+                      alignment: Alignment.centerLeft,
+                      child: IconButton(
+                        icon: SvgPicture.asset(
+                          'assets/icons/calendar.svg',
+                          height: unitHeight * 32,
+                          width: unitHeight * 20,
+                        ),
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        onPressed: () => _showModalCalendar(context),
                       ),
-                      splashColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      onPressed: () => _showModalCalendar(context),
                     ),
-                  ),
-                  Expanded(
-                    child: Timeline(children: <Widget>[
-                      Container(height: unitHeight * 100, color: Colors.amber),
-                      Container(height: unitHeight * 50, color: Colors.amber),
-                      Container(height: unitHeight * 200, color: Colors.amber),
-                      Container(height: unitHeight * 100, color: Colors.amber),
-                      Container(height: unitHeight * 100, color: Colors.amber),
-                      Container(height: unitHeight * 200, color: Colors.amber),
-                    ],
-                      indicators: <Widget>[
-                        Text(
-                          '12:00',
-                          style: TextStyle(
-                            fontSize: unitHeight * 13,
+                    Expanded(
+                      child: Timeline(children: <Widget>[
+                        Container(height: unitHeight * 100, color: Colors.amber),
+                        Container(height: unitHeight * 50, color: Colors.amber),
+                        Container(height: unitHeight * 200, color: Colors.amber),
+                        Container(height: unitHeight * 100, color: Colors.amber),
+                        Container(height: unitHeight * 100, color: Colors.amber),
+                        Container(height: unitHeight * 200, color: Colors.amber),
+                      ],
+                        indicators: <Widget>[
+                          Text(
+                            '12:00',
+                            style: TextStyle(
+                              fontSize: unitHeight * 13,
+                            ),
                           ),
-                        ),
-                        Text(
-                          '12:00',
-                          style: TextStyle(
-                            fontSize: unitHeight * 13,
-                            backgroundColor: Colors.white,
+                          Text(
+                            '12:00',
+                            style: TextStyle(
+                              fontSize: unitHeight * 13,
+                              backgroundColor: Colors.white,
+                            ),
                           ),
-                        ),
-                        Text(
-                          '12:00',
-                          style: TextStyle(
-                              fontSize: unitHeight * 13
+                          Text(
+                            '12:00',
+                            style: TextStyle(
+                              fontSize: unitHeight * 13,
+                            ),
                           ),
-                        ),
-                        Text(
-                          '12:00',
-                          style: TextStyle(
-                            fontSize: unitHeight * 13,
-                            backgroundColor: Colors.white,
+                          Text(
+                            '12:00',
+                            style: TextStyle(
+                              fontSize: unitHeight * 13,
+                              backgroundColor: Colors.white,
+                            ),
                           ),
-                        ),
-                        Text('12:00'),
-                        Text('12:00'),
+                          Text('12:00'),
+                          Text('12:00'),
+                        ],
+                      ),
+                    ),
+                  ],),
+                  Container(
+                    child: Column(
+                      children: <Widget>[
+                        Text('123'),
+                        Text('123'),
                       ],
                     ),
                   ),
-                ],
-                ),
-                Container(
-                  child: Stack(
-                    children: <Widget>[
-                      Text('123'),
-                      Text('123'),
-                    ],
-                  ),
-                ),
-              ]),
+                ]),
+              ),
             );
         },
       )

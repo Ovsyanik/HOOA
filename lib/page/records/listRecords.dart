@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:hooa/widget/MyAppBar.dart';
 import 'package:hooa/widget/tabBarRecords.dart';
 
 class ListRecordsPage extends StatelessWidget {
@@ -11,48 +11,12 @@ class ListRecordsPage extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     final unitHeight = size.height * 0.00125;
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
-        toolbarHeight: unitHeight * 60,
-        elevation: 0,
-        actions: <IconButton>[
-          IconButton(
-            icon: SvgPicture.asset(
-              'assets/icons/filter_black.svg',
-              color: HexColor("#262626"),
-              height: unitHeight * 30,
-              width: unitHeight * 30,
-            ),
-            highlightColor: Colors.transparent,
-            splashColor: Colors.transparent,
-            onPressed: () => showModalBottomSheet<void>(
-              context: context,
-              elevation: 10,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30)
-                )
-              ),
-              builder: (context) {
-                return Container(
-
-                );
-              }
-            )
-          ),
-          IconButton(
-            icon: SvgPicture.asset(
-              'assets/icons/add.svg',
-              color: HexColor("#262626"),
-              height: unitHeight * 20,
-              width: unitHeight * 20,
-            ),
-            highlightColor: Colors.transparent,
-            splashColor: Colors.transparent,
-            onPressed: () => Navigator.pushNamed(context, '/addRecord'),
-          ),
+      resizeToAvoidBottomInset: false,
+      appBar: MyAppBar(
+        actions: [
+          MyAction('assets/icons/filter_black.svg', () => null),
+          MyAction('assets/icons/add.svg',
+                () => Navigator.pushNamed(context, '/addRecord'),),
         ],
       ),
       body: Padding(

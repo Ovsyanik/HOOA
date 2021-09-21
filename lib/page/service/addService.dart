@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:hooa/bloc/serviceBloc.dart';
+import 'package:hooa/model/service.dart';
+import 'package:hooa/widget/MyAppBar.dart';
 
 class AddServicePage extends StatefulWidget {
   final _duration = const Duration(milliseconds: 300);
@@ -16,8 +20,48 @@ class _AddServicePageState extends State<AddServicePage> {
   final _priceController = TextEditingController();
   final _timeController = TextEditingController();
   final _pageController = PageController();
+  FocusNode _timeFocus;
+  FocusNode _priceFocus;
 
   int _selectedIndex = 0;
+  int lengthDescription = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _timeFocus = FocusNode();
+    _priceFocus = FocusNode();
+
+    _priceFocus.addListener(() {
+      setState(() {
+        String str = _priceController.value.text.split(' ')[0];
+        if (_priceFocus.hasFocus) {
+          _priceController.text = str;
+        } else {
+          _priceController.text = '$str BYN';
+        }
+      });
+    });
+
+    _timeFocus.addListener(() {
+      setState(() {
+        String str = _timeController.value.text.split(' ')[0];
+        if (_timeFocus.hasFocus) {
+          _timeController.text = '$str';
+        } else {
+          if (_pageController.page.round() == 0) {
+            _timeController.text = '$str минут';
+          } else {
+            _timeController.text = '$str часа';
+          }
+        }
+      });
+    });
+
+    _descriptionController.addListener(() {
+      lengthDescription = _descriptionController.value.text.length;
+    });
+  }
 
   @override
   void dispose() {
@@ -34,44 +78,25 @@ class _AddServicePageState extends State<AddServicePage> {
     final size = MediaQuery.of(context).size;
     final unitHeight = size.height * 0.00125;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        toolbarHeight: unitHeight * 60,
-        centerTitle: true,
-        title: Text(
-          'Добавление услуги',
-          style: TextStyle(
-              fontSize: 17,
-              fontWeight: FontWeight.w700,
-              color: HexColor('#262626')
-          ),
-        ),
-        leading: IconButton(
-          icon: SvgPicture.asset(
-            'assets/icons/return.svg',
-            color: HexColor("#262626"),
-            height: 20,
-            width: 20,
-          ),
-          highlightColor: Colors.transparent,
-          splashColor: Colors.transparent,
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+      resizeToAvoidBottomInset: false,
+      appBar: const MyAppBar(
+        title: 'Добавление услуги',
+        actions: [],
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: <Widget>[
 
             Container(
               margin: EdgeInsets.only(top: size.height * 0.02),
+              height: unitHeight * 50,
               child: TextField(
                 controller: this._nameController,
                 decoration: InputDecoration(
                   hintText: "Название",
-                  labelStyle: TextStyle(
-                    fontSize: 17,
+                  hintStyle: TextStyle(
+                    fontSize: unitHeight * 17,
                     color: HexColor("#262626").withOpacity(0.3),
                   ),
                 ),
@@ -80,12 +105,15 @@ class _AddServicePageState extends State<AddServicePage> {
 
             Container(
               margin: EdgeInsets.only(top: size.height * 0.02),
+              height: lengthDescription == 0 ? unitHeight * 50 : null,
               child: TextField(
                 controller: this._descriptionController,
+                minLines: 1,
+                maxLines: 20,
                 decoration: InputDecoration(
                   hintText: "Описание",
-                  labelStyle: TextStyle(
-                    fontSize: 17,
+                  hintStyle: TextStyle(
+                    fontSize: unitHeight * 17,
                     color: HexColor("#262626").withOpacity(0.3),
                   ),
                 ),
@@ -94,22 +122,25 @@ class _AddServicePageState extends State<AddServicePage> {
 
             Container(
               margin: EdgeInsets.only(top: size.height * 0.02),
+              height: unitHeight * 50,
               child: Row(
                 children: <Widget>[
                   Expanded(
                     child: Text(
                       'Стоимость',
                       style: TextStyle(
-                        fontSize: 17.0,
+                        fontSize: unitHeight * 17.0,
                       ),
                     ),
                   ),
                   Expanded(
                     child: TextField(
+                      focusNode: _priceFocus,
                       controller: this._priceController,
+                      textAlign: TextAlign.center,
                       decoration: InputDecoration(
-                        labelStyle: TextStyle(
-                          fontSize: 17,
+                        hintStyle: TextStyle(
+                          fontSize: unitHeight * 17,
                           color: HexColor("#262626").withOpacity(0.3),
                         ),
                       ),
@@ -121,33 +152,38 @@ class _AddServicePageState extends State<AddServicePage> {
 
             Container(
               margin: EdgeInsets.only(top: size.height * 0.02),
+              height: unitHeight * 50,
               child: Row(
                 children: <Widget>[
                   Expanded(
                     child: Text(
                       'Длительность',
                       style: TextStyle(
-                        fontSize: 17.0,
+                        fontSize: unitHeight * 17.0,
                       ),
                     ),
                   ),
                   Expanded(
-                    child: TextField(
+                    child: TextFormField(
+                      focusNode: _timeFocus,
                       controller: this._timeController,
+                      textAlign: TextAlign.center,
                       decoration: InputDecoration(
-                        labelStyle: TextStyle(
-                          fontSize: 17,
+                        hintStyle: TextStyle(
+                          fontSize: unitHeight * 17,
                           color: HexColor("#262626").withOpacity(0.3),
                         ),
                       ),
+
+                      ),
                     ),
-                  ),
                 ],
               ),
             ),
 
             Container(
               margin: EdgeInsets.only(top: size.height * 0.02),
+              height: unitHeight * 50,
               child: Row(
                 children: <Widget>[
                   Container(
@@ -155,18 +191,18 @@ class _AddServicePageState extends State<AddServicePage> {
                     child: Text(
                       'Составляющая длительности',
                       style: TextStyle(
-                        fontSize: 17.0,
+                        fontSize: unitHeight * 17.0,
                       ),
                     ),
                   ),
                   Container(
                     width: size.width / 2 - 16,
-                    height: 36,
+                    height: unitHeight * 36,
                     decoration: BoxDecoration(
                       border: Border(
                         bottom: BorderSide(
                           color: HexColor('#262626').withOpacity(0.3),
-                          width: 1,
+                          width: unitHeight * 1,
                         ),
                       ),
                     ),
@@ -181,8 +217,8 @@ class _AddServicePageState extends State<AddServicePage> {
                             icon: SvgPicture.asset(
                               'assets/icons/left_button.svg',
                               color: _selectedIndex == 0 ? HexColor('#BDBDBD') : HexColor('#262626'),
-                              height: 10,
-                              width: 7,
+                              height: unitHeight * 10,
+                              width: unitHeight * 7,
                             ),
                             highlightColor: Colors.transparent,
                             splashColor: Colors.transparent,
@@ -198,6 +234,9 @@ class _AddServicePageState extends State<AddServicePage> {
                             onPageChanged: (index) {
                               setState(() {
                                 _selectedIndex = index;
+                                // String str = _timeController.value.text.split(' ')[0];
+                                // if()
+                                // _timeController.text = '$str минут';
                               });
                             },
                           ),
@@ -211,8 +250,8 @@ class _AddServicePageState extends State<AddServicePage> {
                             icon: SvgPicture.asset(
                               'assets/icons/right_button.svg',
                               color: _selectedIndex == 1 ? HexColor('#BDBDBD') : HexColor('#262626'),
-                              height: 10,
-                              width: 7,
+                              height: unitHeight * 10,
+                              width: unitHeight * 7,
                             ),
                             highlightColor: Colors.transparent,
                             splashColor: Colors.transparent,
@@ -232,9 +271,9 @@ class _AddServicePageState extends State<AddServicePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      height: 50,
+                      height: unitHeight * 50,
                       width: size.width / 2 - 24,
-                      margin: EdgeInsets.only(bottom: 16, top: 16),
+                      margin: EdgeInsets.symmetric(vertical: 16.0),
                       child: MaterialButton(
                         elevation: 0,
                         highlightElevation: 0,
@@ -252,15 +291,15 @@ class _AddServicePageState extends State<AddServicePage> {
                           "Сбросить",
                           style: TextStyle(
                             color: HexColor("#FF844B"),
-                            fontSize: 15,
+                            fontSize: unitHeight * 15,
                           ),
                         ),
                       ),
                     ),
                     Container(
-                      height: 50,
+                      height: unitHeight * 50,
                       width: size.width / 2 - 24,
-                      margin: EdgeInsets.only(bottom: 16, top: 16),
+                      margin: EdgeInsets.symmetric(vertical: 16.0),
                       child: MaterialButton(
                         elevation: 0,
                         highlightElevation: 0,
@@ -271,13 +310,21 @@ class _AddServicePageState extends State<AddServicePage> {
                         highlightColor: Colors.transparent,
                         splashColor: Colors.transparent,
                         onPressed: () {
-                          Navigator.pop(context);
+                          var bloc = BlocProvider.of<ServicesBloc>(context);
+                          bloc.add(AddService(Service(
+                            name: _nameController.value.text,
+                            description: _descriptionController.value.text,
+                            price: _priceController.value.text.split(' ')[0],
+                            time: _timeController.value.text,
+                            categoryService: 1,
+                          )));
+                          Navigator.pushNamed(context, '/services');
                           },
                         child: Text(
                           "Применить",
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 15,
+                            fontSize: unitHeight * 15,
                           ),
                         ),
                       ),
@@ -292,4 +339,11 @@ class _AddServicePageState extends State<AddServicePage> {
       ),
     );
   }
+}
+
+class ServiceModel {
+  bool isSelected;
+  Service service;
+
+  ServiceModel(this.isSelected, this.service);
 }

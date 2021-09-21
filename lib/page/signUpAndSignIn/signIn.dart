@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:hooa/bloc/signUpBloc.dart';
-import 'package:hooa/repository/sqfliteRepository.dart';
+import 'package:hooa/widget/MyAppBar.dart';
 
 class SignInPageState extends State<SignInPage> {
   final emailController = new TextEditingController();
@@ -36,21 +36,8 @@ class SignInPageState extends State<SignInPage> {
     Size size = MediaQuery.of(context).size;
     double unitHeight = size.height * 0.00125;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        toolbarHeight: unitHeight * 60,
-        leading: IconButton(
-          icon: SvgPicture.asset(
-            'assets/icons/return.svg',
-            height: unitHeight * 20,
-            width: unitHeight * 20,
-          ),
-          highlightColor: Colors.transparent,
-          splashColor: Colors.transparent,
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-      ),
+      resizeToAvoidBottomInset: false,
+      appBar: const MyAppBar(actions: []),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -82,9 +69,9 @@ class SignInPageState extends State<SignInPage> {
                 controller: this.emailController,
                 decoration: InputDecoration(
                   hintText: "E-mail",
-                  labelStyle: TextStyle(
+                  hintStyle: TextStyle(
                     color: HexColor("#4D262626"),
-                    fontSize: unitHeight * 0.15,
+                    fontSize: unitHeight * 17,
                   ),
                 ),
               ),
@@ -107,9 +94,9 @@ class SignInPageState extends State<SignInPage> {
                       color: HexColor("#FF844B"),
                     )
                   ),
-                  labelStyle: TextStyle(
-                      color: HexColor("#4D262626"),
-                      fontSize: unitHeight * 0.15
+                  hintStyle: TextStyle(
+                    color: HexColor("#4D262626"),
+                    fontSize: unitHeight * 17,
                   ),
                   suffixIcon: IconButton(
                     icon: SvgPicture.asset(
@@ -148,13 +135,13 @@ class SignInPageState extends State<SignInPage> {
 
             Container(
               margin: EdgeInsets.only(top: size.height * 0.05),
-              height: size.height * 0.067,
+              height: unitHeight * 50,
               width: size.width,
               child: MaterialButton(
                 elevation: 0,
                 highlightElevation: 0,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                  borderRadius: BorderRadius.circular(50),
                 ),
                 color: HexColor("#FF844B") ,
                 highlightColor: Colors.transparent,
@@ -169,8 +156,8 @@ class SignInPageState extends State<SignInPage> {
                   "Войти",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: unitHeight * 16
-                    ),
+                    fontSize: unitHeight * 16,
+                  ),
                 ),
               ),
             ),
@@ -256,7 +243,7 @@ class SignInPageState extends State<SignInPage> {
             )
           ],
         ),
-      ) 
+      ),
     );
   }
 }

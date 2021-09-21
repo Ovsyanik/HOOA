@@ -1,6 +1,4 @@
-import 'dart:developer';
-import 'dart:ffi';
-
+import 'package:hooa/model/categoryService.dart';
 import 'package:hooa/model/institution.dart';
 import 'package:hooa/model/record.dart';
 import 'package:hooa/model/staff.dart';
@@ -26,6 +24,14 @@ class SqfliteRepository {
   Future addStaff(Staff staff) async {
     final db = await dbProvider.database;
     await db.insert(staffTable, staff.toDatabaseJson());
+  }
+
+  Future deleteStaff(int id) async {
+    final db = await dbProvider.database;
+    await db.delete(
+        staffTable,
+        where: 'id = ?',
+        whereArgs: [id]);
   }
 
   Future<List<Staff>> getStaff() async {
@@ -54,9 +60,56 @@ class SqfliteRepository {
   Future<List<Service>> getServices() async {
     final db = await dbProvider.database;
     var result = await db.query (serviceTable);
-    List<Service> sevices = result.isNotEmpty ?
+    List<Service> services = result.isNotEmpty ?
         result.map((item) => Service.fromDatabaseJson(item)).toList()
         : [];
-    return sevices;
+    return services;
+  }
+
+  Future addService(Service service) async {
+    final db = await dbProvider.database;
+    await db.insert(serviceTable, service.toDatabaseJson());
+  }
+
+  Future<List<CategoryService>> getCategoryServices() async {
+    final db = await dbProvider.database;
+    var result = await db.query (categoryServiceTable);
+    List<CategoryService> categories = result.isNotEmpty ?
+    result.map((item) => CategoryService.fromDatabaseJson(item)).toList()
+        : [];
+    return categories;
+  }
+
+  Future deleteService(int id) async {
+    final db = await dbProvider.database;
+    await db.delete(
+        serviceTable,
+        where: 'id = ?',
+        whereArgs: [id]);
+  }
+
+  Future updateService(Service service) async {
+    final db = await dbProvider.database;
+    await db.update(serviceTable, service.toDatabaseJson(),
+      where: 'id = ?', whereArgs: [service.id]);
+  }
+
+  Future<List<Service>> getServicesById(List<int> ids) async {
+    final db = await dbProvider.database;
+    List<Service> services = [];
+    for(int i = 0; i < ids.length; i++) {
+      var result = await db.query (serviceTable, where: 'id = ?', whereArgs: [ids.elementAt(i)]);
+      if(result.isNotEmpty) {
+        services.add(result.map((e) => Service.fromDatabaseJson(e)).first);
+      }
+    }
+
+    return services;
+  }
+
+  Future updateStaff(Staff staff) async {
+    final db = await dbProvider.database;
+    await db.update(staffTable, staff.toDatabaseJson(),
+        where: 'id = ?', whereArgs: [staff.id]);
   }
 }

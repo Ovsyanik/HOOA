@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:hooa/model/categoryService.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -50,7 +51,9 @@ class DatabaseProvider {
         "sex TEXT, "
         "rate REAL, "
         "numberPhone TEXT, "
-        "image TEXT "
+        "image TEXT, "
+        "services TEXT, "
+        "FOREIGN KEY (services) REFERENCES $serviceTable(id)"
         ");");
 
     await database.execute("CREATE TABLE $institutionTable ("
@@ -71,8 +74,10 @@ class DatabaseProvider {
     await database.execute("CREATE TABLE $serviceTable ("
         "id INTEGER PRIMARY KEY, "
         "categoryService INTEGER, "
+        "description TEXT, "
         "name TEXT, "
         "price TEXT, "
+        "time TEXT, "
         "FOREIGN KEY (categoryService) REFERENCES $categoryServiceTable(id)"
         ");");
 
@@ -84,5 +89,8 @@ class DatabaseProvider {
         "price TEXT, "
         "dateTime TEXT "
         ");");
+    var category = CategoryService(name: 'Окрашивание волос');
+
+    await database.insert(categoryServiceTable, category.toDatabaseJson());
   }
 }

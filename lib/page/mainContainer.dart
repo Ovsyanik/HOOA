@@ -2,7 +2,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:hooa/page/records/listRecords.dart';
-import 'package:hooa/page/profile.dart';
+import 'package:hooa/page/profile/profile.dart';
 import 'package:hooa/page/staff/staff.dart';
 import 'package:hooa/page/statistic/statistic.dart';
 
@@ -20,7 +20,7 @@ class MainContainerPageState extends State<MainContainerPage> {
     return Scaffold(
       body: this.getBody(),
       bottomNavigationBar: SizedBox(
-        height: unitHeight * 80,
+        height: unitHeight * 70,
         child: BottomNavigationBar(
           showSelectedLabels: false,
           showUnselectedLabels: false,

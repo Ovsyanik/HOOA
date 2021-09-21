@@ -21,6 +21,12 @@ class StaffBloc extends Bloc<EventStaff, StaffState> {
     } else if(event is AddStaff) {
       _db.addStaff(event.staff);
       yield* _reloadStaff();
+    } else if(event is EditStaff) {
+      _db.updateStaff(event.staff);
+      yield* _reloadStaff();
+    } else if(event is DeleteStaff) {
+      _db.deleteStaff(event.id);
+      yield* _reloadStaff();
     }
   }
 
@@ -45,6 +51,16 @@ class GetSelectedStaff extends EventStaff {
   GetSelectedStaff(this.id);
 }
 
+class EditStaff extends EventStaff {
+  final Staff staff;
+  EditStaff(this.staff);
+}
+
+class DeleteStaff extends EventStaff {
+  final int id;
+  DeleteStaff(this.id);
+}
+
 @immutable
 abstract class StaffState {
   StaffState([List props = const []]);
@@ -55,3 +71,5 @@ class StaffLoaded extends StaffState {
 
   StaffLoaded(this.staff) : super([staff]);
 }
+
+

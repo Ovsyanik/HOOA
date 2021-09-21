@@ -7,6 +7,7 @@ class SignInOrSignUpPage extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     double unitHeight = size.height * 0.00125;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         alignment: Alignment(0, 0),
         children: <Widget>[
