@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:hooa/widget/Button.dart';
 import 'package:hooa/widget/MyAppBar.dart';
 
 class CallbackPage extends StatefulWidget {
@@ -38,107 +38,54 @@ class _CallbackPageState extends State<CallbackPage> {
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
-        child: Column(
-          children: <Widget>[
-            Container(
-              child: Text(
-                'Напиши нам',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: unitHeight * 22,
-                ),
+        child: Column(children: <Widget>[
+          Container(
+            child: Text(
+              'Напиши нам',
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: unitHeight * 22,
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(top: sizeScreen.height * 0.02),
-              height: unitHeight * 50,
-              child: TextField(
-                controller: this._nameController,
-                decoration: InputDecoration(
-                  hintText: "Имя Фамилия",
-                  hintStyle: TextStyle(
-                    fontSize: unitHeight * 17,
-                    color: HexColor("#262626").withOpacity(0.3),
-                  ),
-                ),
-              ),
-            ),
+          ),
 
-            Container(
-              margin: EdgeInsets.only(top: sizeScreen.height * 0.02),
-              height: unitHeight * 50,
-              child: TextField(
-                controller: this._phoneController,
-                decoration: InputDecoration(
-                  hintText: "Номер телефона",
-                  hintStyle: TextStyle(
-                    fontSize: unitHeight * 17,
-                    color: HexColor("#262626").withOpacity(0.3),
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: sizeScreen.height * 0.02),
-              height: unitHeight * 50,
-              child: TextField(
-                controller: this._emailController,
-                decoration: InputDecoration(
-                  hintText: "Email",
-                  hintStyle: TextStyle(
-                    fontSize: unitHeight * 17,
-                    color: HexColor("#262626").withOpacity(0.3),
-                  ),
-                ),
-              ),
-            ),
+          _getTextField(_nameController, 'Имя Фамилия', unitHeight),
 
-            Container(
-              margin: EdgeInsets.only(top: sizeScreen.height * 0.02),
-              height: unitHeight * 50,
-              child: TextField(
-                controller: this._messageController,
-                decoration: InputDecoration(
-                  hintText: "Сообщение",
-                  hintStyle: TextStyle(
-                    fontSize: unitHeight * 17,
-                    color: HexColor("#262626").withOpacity(0.3),
-                  ),
-                ),
-              ),
-            ),
+          _getTextField(_phoneController, 'Номер телефона', unitHeight),
 
-            Expanded(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  height: unitHeight * 50,
-                  width: sizeScreen.width / 2 - 24,
-                  margin: EdgeInsets.only(bottom: 16, top: 16),
-                  child: MaterialButton(
-                    elevation: 0,
-                    highlightElevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(40),
-                    ),
-                    color: HexColor("#FF844B"),
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    onPressed: () {
-                      Navigator.pop(context);
-                      },
-                    child: Text(
-                      "Отправить",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: unitHeight * 15,
-                      ),
-                    ),
-                  ),
-                ),
+          _getTextField(_emailController, 'Email', unitHeight),
+
+          _getTextField(_messageController, 'Сообщение', unitHeight),
+
+          Expanded(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Button(
+                text: 'Отправить',
+                onPressed: () => Navigator.pop(context),
               ),
             ),
-          ],
+          ),
+        ],),
+      ),
+    );
+  }
+
+  Widget _getTextField(
+      TextEditingController controller,
+      String text,
+      double unitHeight) {
+    return Container(
+      margin: EdgeInsets.only(top: unitHeight * 16),
+      height: unitHeight * 50,
+      child: TextField(
+        controller: controller,
+        decoration: InputDecoration(
+          hintText: text,
+          hintStyle: TextStyle(
+            fontSize: unitHeight * 17,
+            color: HexColor("#262626").withOpacity(0.3),
+          ),
         ),
       ),
     );

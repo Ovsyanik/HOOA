@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:hooa/bloc/staffBloc.dart';
-import 'package:hooa/model/staff.dart';
 import 'package:hooa/widget/MyAppBar.dart';
 import 'package:hooa/widget/itemListStaff.dart';
 
@@ -32,6 +30,7 @@ class StaffPageState extends State<StaffPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: MyAppBar(
+        showLeading: false,
         actions: [
           MyAction('assets/icons/add.svg',
                 () => Navigator.pushNamed(context, '/addStaff'),),

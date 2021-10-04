@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:hooa/model/Sale.dart';
 import 'package:hooa/model/categoryService.dart';
 import 'package:hooa/model/institution.dart';
 import 'package:hooa/model/record.dart';
@@ -111,5 +114,66 @@ class SqfliteRepository {
     final db = await dbProvider.database;
     await db.update(staffTable, staff.toDatabaseJson(),
         where: 'id = ?', whereArgs: [staff.id]);
+  }
+
+  Future<List<Sale>> getSales() async {
+    final db = await dbProvider.database;
+    var result = await db.query (salesTable);
+    List<Sale> sales = result.isNotEmpty ?
+    result.map((item) => Sale.fromDatabaseJson(item)).toList()
+        : [];
+    return sales;
+  }
+
+  Future addSale(Sale sale) async {
+    final db = await dbProvider.database;
+    await db.insert(salesTable, sale.toDatabaseJson());
+  }
+
+  Future updateSale(Sale sale) async {
+    final db = await dbProvider.database;
+    await db.update(salesTable, sale.toDatabaseJson(),
+        where: 'id = ?', whereArgs: [sale.id]);
+  }
+
+  Future deleteSale(int id) async {
+    final db = await dbProvider.database;
+    await db.delete(
+        salesTable,
+        where: 'id = ?',
+        whereArgs: [id]);
+  }
+
+  Future<Institution> getInstitution(String email, String password) async {
+    final db = await dbProvider.database;
+    var result = await db.query(institutionTable,
+      where: 'email = ? and password = ?',
+      whereArgs: [email, password],
+    );
+    return result.isNotEmpty ? Institution.fromDatabaseJson(result.first) : null;
+  }
+
+  Future<User> getUser(String email, String password) async {
+    final db = await dbProvider.database;
+    var result = await db.query(userTable,
+      where: 'email = ? and password = ?',
+      whereArgs: [email, password],
+    );
+    return result.isNotEmpty ? User.fromDatabaseJson(result.first) : null;
+  }
+
+  Future updateInstitution(Institution institution) async {
+    final db = await dbProvider.database;
+    await db.update(institutionTable, institution.toDatabaseJson(),
+        where: 'id = ?', whereArgs: [institution.id]);
+  }
+
+  Future<List<Institution>> getInstitutions() async {
+    final db = await dbProvider.database;
+    var result = await db.query (institutionTable);
+    List<Institution> sales = result.isNotEmpty ?
+    result.map((item) => Institution.fromDatabaseJson(item)).toList()
+        : [];
+    return sales;
   }
 }

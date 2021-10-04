@@ -10,6 +10,7 @@ import 'package:hooa/bloc/staffBloc.dart';
 import 'package:hooa/model/Sex.dart';
 import 'package:hooa/model/service.dart';
 import 'package:hooa/model/staff.dart';
+import 'package:hooa/widget/Button.dart';
 import 'package:hooa/widget/MyAppBar.dart';
 import 'package:hooa/widget/CheckBox.dart';
 import 'package:hooa/widget/dropDown/DropDown.dart';
@@ -255,6 +256,7 @@ class _ChangeStaffState extends State<ChangeStaff> {
                     child: Row(children: [
                       SizedBox(width: unitHeight * 2),
                       IconButton(
+                        onPressed: () => null,
                         icon: SvgPicture.asset(
                           'assets/icons/user_minus.svg',
                           color: HexColor("#262626"),
@@ -281,70 +283,31 @@ class _ChangeStaffState extends State<ChangeStaff> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Container(
-                        height: unitHeight * 50,
-                        width: size.width / 2 - 24,
-                        margin: EdgeInsets.only(bottom: 16, top: 16),
-                        child: MaterialButton(
-                          elevation: 0,
-                          highlightElevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50),
-                            side: BorderSide(color: HexColor("#FF844B")),
-                          ),
-                          color: HexColor("#F8F7F4"),
-                          highlightColor: Colors.transparent,
-                          splashColor: Colors.transparent,
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Text(
-                            "Сбросить",
-                            style: TextStyle(
-                              color: HexColor("#FF844B"),
-                              fontSize:unitHeight * 15,
-                            ),
-                          ),
-                        ),
+                      Button(
+                        text: 'Сбросить',
+                        color: HexColor("#F8F7F4"),
+                        textColor: HexColor("#FF844B"),
+                        onPressed: () => Navigator.pop(context),
                       ),
-                      Container(
-                        height: unitHeight * 50,
-                        width: size.width / 2 - 24,
-                        margin: EdgeInsets.only(bottom: 16, top: 16),
-                        child: MaterialButton(
-                          elevation: 0,
-                          highlightElevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                          color: HexColor("#FF844B"),
-                          highlightColor: Colors.transparent,
-                          splashColor: Colors.transparent,
-                          onPressed: () {
-                            List<int> services = [];
+                      Button(
+                        text: 'Применить',
+                        onPressed: () {
+                          List<int> services = [];
 
-                            for(int i = 0; i < selectedService.length; i++) {
-                              if(selectedService.values.elementAt(i) == true) {
-                                services.add(selectedService.keys.elementAt(i).id);
-                              }
+                          for(int i = 0; i < selectedService.length; i++) {
+                            if(selectedService.values.elementAt(i) == true) {
+                              services.add(selectedService.keys.elementAt(i).id);
                             }
-                            widget.staff.sex = _sex.value;
-                            widget.staff.position = positionController.text;
-                            widget.staff.numberPhone = numberPhoneController.text;
-                            widget.staff.fullName = fullNameController.text;
-                            widget.staff.services = services;
-                            final bloc = BlocProvider.of<StaffBloc>(context);
-                            bloc.add(EditStaff(widget.staff));
-                            Navigator.pop(context);
-                          },
-                          child: Text(
-                            "Применить",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: unitHeight * 15,
-                            ),
-                          ),
-                        ),
+                          }
+                          widget.staff.sex = _sex.value;
+                          widget.staff.position = positionController.text;
+                          widget.staff.numberPhone = numberPhoneController.text;
+                          widget.staff.fullName = fullNameController.text;
+                          widget.staff.services = services;
+                          final bloc = BlocProvider.of<StaffBloc>(context);
+                          bloc.add(EditStaff(widget.staff));
+                          Navigator.pop(context);
+                        },
                       ),
                     ],
                   ),

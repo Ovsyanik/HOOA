@@ -7,21 +7,15 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:hooa/bloc/serviceBloc.dart';
 import 'package:hooa/model/service.dart';
+import 'package:hooa/widget/Button.dart';
 import 'package:hooa/widget/MyAppBar.dart';
 import 'package:hooa/widget/dropDown/DropDown.dart';
 
 class ServicesPage extends StatelessWidget {
-  Size size;
-  double unitHeight;
-
-  ServicesPage(BuildContext context) {
-    BlocProvider.of<ServicesBloc>(context).add(GetServices());
-    size = MediaQuery.of(context).size;
-    unitHeight = size.height * 0.00125;
-  }
-
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final unitHeight = size.height * 0.00125;
     ServicesBloc bloc = BlocProvider.of<ServicesBloc>(context);
     bloc.add(GetServices());
     return Scaffold(
@@ -30,7 +24,8 @@ class ServicesPage extends StatelessWidget {
         title: 'Услуги',
         actions: [
           MyAction('assets/icons/add.svg',
-                () => Navigator.of(context).pushNamed('/addService'),),
+            () => Navigator.pushNamed(context, "/addService"),
+          ),
         ],
       ),
       body: Padding(
@@ -132,7 +127,7 @@ class ServicesPage extends StatelessWidget {
                 child: Container(
                   alignment: Alignment.centerRight,
                   child: IconButton(
-                    onPressed: () => _showModalChoice(context, service),
+                    onPressed: () => _showModalChoice(context, service, unitHeight, size),
                     icon: SvgPicture.asset(
                       'assets/icons/service_change.svg',
                       height: unitHeight * 44,
@@ -227,7 +222,7 @@ class ServicesPage extends StatelessWidget {
     );
   }
 
-  void _showModalChoice(BuildContext context, Service service) {
+  void _showModalChoice(BuildContext context, Service service, double unitHeight, Size size) {
     if (Platform.isIOS) {
       showCupertinoModalPopup(
         context: context,
@@ -255,7 +250,7 @@ class ServicesPage extends StatelessWidget {
                   fontSize: unitHeight * 20,
                 ),
               ),
-              onPressed: () => _showModalDeleteService(context, service.id),
+              onPressed: () => _showModalDeleteService(context, service.id, unitHeight, size),
             )
           ],
         ),
@@ -293,14 +288,14 @@ class ServicesPage extends StatelessWidget {
                 fontSize: unitHeight * 20,
               ),
             ),
-            onTap: () => _showModalDeleteService(context, service.id),
+            onTap: () => _showModalDeleteService(context, service.id, unitHeight, size),
           ),
         ]),
       );
     }
   }
 
-  Future<void> _showModalDeleteService(BuildContext context, int id) {
+  Future<void> _showModalDeleteService(BuildContext context, int id, double unitHeight, Size size) {
     return showDialog(
       context: context,
       barrierDismissible: true, //// user must tap button!
@@ -332,60 +327,25 @@ class ServicesPage extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        height: unitHeight * 50,
+                      Button(
+                        text: 'Удалить',
+                        textColor: HexColor('#FF844B'),
+                        color: HexColor('#F8F7F4'),
                         width: size.width / 3 - 10,
-                        margin: EdgeInsets.symmetric(vertical: 16.0),
-                        child: MaterialButton(
-                          elevation: 0,
-                          highlightElevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50),
-                            side: BorderSide(color: HexColor("#FF844B")),
-                          ),
-                          color: Colors.white,
-                          highlightColor: Colors.transparent,
-                          splashColor: Colors.transparent,
-                          onPressed: () {
-                            BlocProvider.of<ServicesBloc>(context).add(DeleteService(id));
-                            BlocProvider.of<ServicesBloc>(context).add(GetServices());
-                            for(int i = 0; i < 3; i++) {
-                              Navigator.pop(context);
-                            }
-                          },
-                          child: Text(
-                            "Удалить",
-                            style: TextStyle(
-                              color: HexColor("#FF844B"),
-                              fontSize: unitHeight * 15,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: unitHeight * 50,
-                        width: size.width / 3 - 10,
-                        margin: EdgeInsets.symmetric(vertical: 16.0),
-                        child: MaterialButton(
-                          elevation: 0,
-                          highlightElevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                          color: HexColor("#FF844B"),
-                          highlightColor: Colors.transparent,
-                          splashColor: Colors.transparent,
-                          onPressed: () {
+                        height: 44,
+                        onPressed: () {
+                          BlocProvider.of<ServicesBloc>(context).add(DeleteService(id));
+                          BlocProvider.of<ServicesBloc>(context).add(GetServices());
+                          for(int i = 0; i < 3; i++)
                             Navigator.pop(context);
-                          },
-                          child: Text(
-                            "Отменить",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: unitHeight * 15,
-                            ),
-                          ),
-                        ),
+                        },
+                      ),
+                      Button(
+                        onPressed: () => Navigator.pop(context),
+                        width: size.width / 3 - 10,
+                        height: 44,
+                        text: 'Отменить',
+                        color: HexColor("#FF844B"),
                       ),
                     ],
                   ),

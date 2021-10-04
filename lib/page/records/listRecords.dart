@@ -4,8 +4,6 @@ import 'package:hooa/widget/MyAppBar.dart';
 import 'package:hooa/widget/tabBarRecords.dart';
 
 class ListRecordsPage extends StatelessWidget {
-  const ListRecordsPage({Key key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -20,35 +18,30 @@ class ListRecordsPage extends StatelessWidget {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.only(
-          left: 16.0,
-          right: 16.0,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0,),
         child: Column(
           children: <Widget>[
             Container(
-              child: Row(
-                children: [
-                  Text(
-                    'Записи ',
-                    style: TextStyle(fontWeight: FontWeight.w600,
-                      fontSize: unitHeight * 34,
-                    ),
+              child: Row(children: [
+                Text(
+                  'Записи ',
+                  style: TextStyle(fontWeight: FontWeight.w600,
+                    fontSize: unitHeight * 34,
                   ),
-                  Text(
-                    '7',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: HexColor('#262626').withOpacity(0.4),
-                        fontSize: unitHeight * 34,
-                    ),
+                ),
+                Text(
+                  '7',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    color: HexColor('#262626').withOpacity(0.4),
+                    fontSize: unitHeight * 34,
                   ),
-                ],
-              ),
+                ),
+              ],),
             ),
             Container(
               width: size.width,
-              height: size.height - 41 - 60,
+              height: size.height - 41 - 190,
               child: TabBarRecords(),
             )
           ],

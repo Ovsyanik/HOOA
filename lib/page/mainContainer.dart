@@ -1,12 +1,19 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:hooa/model/institution.dart';
 import 'package:hooa/page/records/listRecords.dart';
 import 'package:hooa/page/profile/profile.dart';
 import 'package:hooa/page/staff/staff.dart';
 import 'package:hooa/page/statistic/statistic.dart';
 
 class MainContainerPage extends StatefulWidget {
+  final Institution institution;
+
+  MainContainerPage({
+    this.institution
+  });
+
   @override
   MainContainerPageState createState() => MainContainerPageState();
 }
@@ -87,7 +94,7 @@ class MainContainerPageState extends State<MainContainerPage> {
         return StatisticPage();
         break;
       case 3:
-        return ProfilePage();
+        return ProfilePage(institution: widget.institution);
         break;
       default:
         return null;

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -12,10 +13,10 @@ class SignInOrSignUpPage extends StatelessWidget {
         alignment: Alignment(0, 0),
         children: <Widget>[
           Text(
-            "HOOA", 
+            "HOOA",
             style: TextStyle(
-              fontSize: unitHeight * 124,
-              fontFamily: 'Bebas Neue'
+                fontSize: unitHeight * 124,
+                fontFamily: 'Bebas Neue'
             ),
           ),
           Align(
@@ -27,7 +28,7 @@ class SignInOrSignUpPage extends StatelessWidget {
                   constraints: BoxConstraints.tightFor(
                     width: size.width / 2 - 17,
                     height: unitHeight * 50,
-                  ), 
+                  ),
                   child: MaterialButton(
                     elevation: 0,
                     highlightElevation: 0,
@@ -35,40 +36,40 @@ class SignInOrSignUpPage extends StatelessWidget {
                       side: BorderSide(color: HexColor("#FF844B")),
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(25),
-                        bottomLeft: Radius.circular(25) 
+                        bottomLeft: Radius.circular(25),
                       ),
                     ),
                     color: HexColor("#FF844B"),
                     highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent, 
+                    splashColor: Colors.transparent,
                     onPressed: () => Navigator.pushNamed(context, '/signIn'),
                     child: Text(
-                      "Вход", 
+                      "Вход",
                       style: TextStyle(
                         fontSize: unitHeight * 16,
-                        color: Colors.white
+                        color: Colors.white,
                       ),
                     ),
-                  ), 
+                  ),
                 ),
                 ConstrainedBox(
                   constraints: BoxConstraints.tightFor(
-                    width: MediaQuery.of(context).size.width / 2 - 17, 
+                    width: MediaQuery.of(context).size.width / 2 - 17,
                     height: unitHeight * 50,
-                  ), 
-                  child: MaterialButton(   
+                  ),
+                  child: MaterialButton(
                     elevation: 0,
                     highlightElevation: 0,
                     shape: RoundedRectangleBorder(
                       side: BorderSide(color: HexColor("#FF844B")),
                       borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(25),
-                        bottomRight: Radius.circular(25)
-                      ),  
+                          topRight: Radius.circular(25),
+                          bottomRight: Radius.circular(25)
+                      ),
                     ),
                     highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,  
-                    color: Colors.white,                
+                    splashColor: Colors.transparent,
+                    color: HexColor('#F2F2F2'),
                     onPressed: () => Navigator.pushNamed(context, '/signUp'),
                     child: Text(
                       "Регистрация",
@@ -77,11 +78,11 @@ class SignInOrSignUpPage extends StatelessWidget {
                         color: HexColor("#FF844B"),
                       ),
                     ),
-                  ), 
-                )
+                  ),
+                ),
               ],
-            )
-          )
+            ),
+          ),
         ],
       ),
     );

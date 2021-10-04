@@ -51,28 +51,26 @@ class _DropDownState extends State<DropDown> {
                           ),
                         ]),
                       ),
-                    ],
-                    ),
+                    ],),
                   ),
                   ExpandedSection(
                     expand: isStrechedDropDown,
                     height: 100,
-                      child: NotificationListener<OverscrollIndicatorNotification>(
-                        onNotification: (overScroll) {
-                          overScroll.disallowGlow();
-                          return;
+                    child: NotificationListener<OverscrollIndicatorNotification>(
+                      onNotification: (overScroll) {
+                        overScroll.disallowGlow();
+                        return;
                         },
-                        child: ListView.builder(
-                          padding: EdgeInsets.all(0),
-                          shrinkWrap: true,
-                          itemCount: widget.list.length,
-                          itemBuilder: (context, index) =>
-                              widget.list.elementAt(index),
-                        ),
+                      child: ListView.builder(
+                        padding: EdgeInsets.all(0),
+                        shrinkWrap: true,
+                        itemCount: widget.list.length,
+                        itemBuilder: (context, index) =>
+                            widget.list.elementAt(index),
                       ),
                     ),
-
-                ]),
+                  ),
+                ],),
               ),
             ),
           ]

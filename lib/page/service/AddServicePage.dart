@@ -8,38 +8,28 @@ import 'package:hooa/model/service.dart';
 import 'package:hooa/widget/Button.dart';
 import 'package:hooa/widget/MyAppBar.dart';
 
-class ChangeServicePage extends StatefulWidget {
-  final _duration = const Duration(milliseconds: 300);
-  final _kCurve = Curves.ease;
-  final BuildContext context;
-
-  const ChangeServicePage({Key key, this.context}) : super(key: key);
-
+class AddServicePage extends StatefulWidget {
   @override
-  _ChangeServicePageState createState() => _ChangeServicePageState();
-}
+  AddServicePageState createState() => AddServicePageState();
+} 
 
-class _ChangeServicePageState extends State<ChangeServicePage> {
+class AddServicePageState extends State<AddServicePage> {
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _priceController = TextEditingController();
   final _timeController = TextEditingController();
   final _pageController = PageController();
-  FocusNode _timeFocus;
-  FocusNode _priceFocus;
+  FocusNode _timeFocus = FocusNode();
+  FocusNode _priceFocus = FocusNode();
+  final _duration = const Duration(milliseconds: 300);
+  final _kCurve = Curves.ease;
 
   int _selectedIndex = 0;
   int lengthDescription = 0;
 
-  Service service;
-
-
-
   @override
   void initState() {
     super.initState();
-    _timeFocus = FocusNode();
-    _priceFocus = FocusNode();
 
     _priceFocus.addListener(() => setState(() {
       String str = _priceController.value.text.split(' ')[0];
@@ -66,24 +56,6 @@ class _ChangeServicePageState extends State<ChangeServicePage> {
     _descriptionController.addListener(() {
       lengthDescription = _descriptionController.value.text.length;
     });
-
-
-    service = ModalRoute.of(widget.context).settings.arguments as Service;
-
-    _nameController.text = service.name;
-    _descriptionController.text = service.description;
-    _priceController.text = service.price + ' BYN';
-    _timeController.text = service.time;
-  }
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _descriptionController.dispose();
-    _priceController.dispose();
-    _timeController.dispose();
-    _pageController.dispose();
-    super.dispose();
   }
 
   @override
@@ -93,13 +65,12 @@ class _ChangeServicePageState extends State<ChangeServicePage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: const MyAppBar(
-        title: 'Редактирование услуги',
+        title: 'Добавление услуги',
         actions: [],
       ),
       body: Padding(
-        padding: EdgeInsets.all(unitHeight * 16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(children: <Widget>[
-
           Container(
             margin: EdgeInsets.only(top: size.height * 0.02),
             height: unitHeight * 50,
@@ -114,6 +85,7 @@ class _ChangeServicePageState extends State<ChangeServicePage> {
               ),
             ),
           ),
+
           Container(
             margin: EdgeInsets.only(top: size.height * 0.02),
             height: lengthDescription == 0 ? unitHeight * 50 : null,
@@ -130,6 +102,7 @@ class _ChangeServicePageState extends State<ChangeServicePage> {
               ),
             ),
           ),
+
           Container(
             margin: EdgeInsets.only(top: size.height * 0.02),
             height: unitHeight * 50,
@@ -157,35 +130,36 @@ class _ChangeServicePageState extends State<ChangeServicePage> {
               ),
             ],),
           ),
+
           Container(
             margin: EdgeInsets.only(top: size.height * 0.02),
             height: unitHeight * 50,
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: Text(
-                    'Длительность',
-                    style: TextStyle(
-                      fontSize: unitHeight * 17.0,
-                    ),
+            child: Row(children: <Widget>[
+              Expanded(
+                child: Text(
+                  'Длительность',
+                  style: TextStyle(
+                    fontSize: unitHeight * 17.0,
                   ),
                 ),
-                Expanded(
-                  child: TextFormField(
-                    focusNode: _timeFocus,
-                    controller: this._timeController,
-                    textAlign: TextAlign.center,
-                    decoration: InputDecoration(
-                      hintStyle: TextStyle(
-                        fontSize: unitHeight * 17,
-                        color: HexColor("#262626").withOpacity(0.3),
-                      ),
+              ),
+              Expanded(
+                child: TextFormField(
+                  focusNode: _timeFocus,
+                  controller: this._timeController,
+                  textAlign: TextAlign.center,
+                  decoration: InputDecoration(
+                    hintStyle: TextStyle(
+                      fontSize: unitHeight * 17,
+                      color: HexColor("#262626").withOpacity(0.3),
                     ),
                   ),
+
                 ),
-              ],
-            ),
+              ),
+            ],),
           ),
+
           Container(
             margin: EdgeInsets.only(top: size.height * 0.02),
             height: unitHeight * 50,
@@ -200,7 +174,7 @@ class _ChangeServicePageState extends State<ChangeServicePage> {
                 ),
               ),
               Container(
-                width: size.width / 2 - 17,
+                width: size.width / 2 - 16,
                 height: unitHeight * 36,
                 decoration: BoxDecoration(
                   border: Border(
@@ -214,8 +188,8 @@ class _ChangeServicePageState extends State<ChangeServicePage> {
                   Expanded(
                     child: IconButton(
                       onPressed: () => _pageController.previousPage(
-                        duration: widget._duration,
-                        curve: widget._kCurve,
+                        duration: _duration,
+                        curve: _kCurve,
                       ),
                       icon: SvgPicture.asset(
                         'assets/icons/left_button.svg',
@@ -247,23 +221,24 @@ class _ChangeServicePageState extends State<ChangeServicePage> {
                   Expanded(
                     child: IconButton(
                       onPressed: () => _pageController.nextPage(
-                        duration: widget._duration,
-                        curve: widget._kCurve,
+                        duration: _duration,
+                        curve: _kCurve,
                       ),
                       icon: SvgPicture.asset(
                         'assets/icons/right_button.svg',
                         color: _selectedIndex == 1 ? HexColor('#BDBDBD') : HexColor('#262626'),
-                                  height: unitHeight * 10,
+                        height: unitHeight * 10,
                         width: unitHeight * 7,
                       ),
                       highlightColor: Colors.transparent,
                       splashColor: Colors.transparent,
                     ),
                   ),
-                ]),
+                ],),
               ),
-            ]),
+            ],),
           ),
+
           Expanded(
             child: Align(
               alignment: Alignment.bottomCenter,
@@ -279,16 +254,14 @@ class _ChangeServicePageState extends State<ChangeServicePage> {
                   Button(
                     onPressed: () {
                       var bloc = BlocProvider.of<ServicesBloc>(context);
-                      bloc.add(ChangeService(Service(
-                          id: service.id,
-                          name: _nameController.value.text,
-                          description: _descriptionController.value.text,
-                          price: _priceController.value.text.split(' ')[0],
-                          time: _timeController.value.text,
-                          categoryService: 1,
-                        )));
-                      for(int i = 0; i < 3; i++)
-                        Navigator.pop(context);
+                      bloc.add(AddService(Service(
+                        name: _nameController.value.text,
+                        description: _descriptionController.value.text,
+                        price: _priceController.value.text.split(' ')[0],
+                        time: _timeController.value.text,
+                        categoryService: 1,
+                      )));
+                      Navigator.pushNamed(context, '/services');
                       },
                     text: 'Применить',
                     color: HexColor("#FF844B"),
@@ -297,8 +270,27 @@ class _ChangeServicePageState extends State<ChangeServicePage> {
               ),
             ),
           ),
-        ]),
+
+        ],),
       ),
-  );
+    );
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _descriptionController.dispose();
+    _priceController.dispose();
+    _timeController.dispose();
+    _pageController.dispose();
+
+    super.dispose();
+  }
 }
+
+class ServiceModel {
+  bool isSelected;
+  Service service;
+
+  ServiceModel(this.isSelected, this.service);
 }

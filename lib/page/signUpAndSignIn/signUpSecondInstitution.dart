@@ -2,10 +2,15 @@ import 'dart:math';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:hooa/bloc/signUpBloc.dart';
 import 'package:hooa/model/TypeInstitution.dart';
+import 'package:hooa/model/institution.dart';
+import 'package:hooa/page/mainContainer.dart';
 import 'package:hooa/page/signUpAndSignIn/MapPage.dart';
+import 'package:hooa/widget/Button.dart';
 import 'package:hooa/widget/MyAppBar.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
 import 'package:sms/sms.dart';
@@ -198,32 +203,15 @@ class SignUpSecondInstitutionState extends State<SignUpSecondInstitutionPage> {
               ),
             ),
 
-            Container(
-              margin: EdgeInsets.only(top: size.height * 0.05),
+            Button(
+              margin: size.height * 0.05,
+              text: 'Зарегистрироваться',
               width: size.width,
-              height: unitHeight * 50,
-              child: MaterialButton(
-                elevation: 0,
-                highlightElevation: 0,
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(color: HexColor("#FF844B")),
-                  borderRadius: BorderRadius.circular(40),
-                ),
-                color: HexColor("#FF844B"),
-                highlightColor: Colors.transparent,
-                splashColor: Colors.transparent,
-                child: Text(
-                  'Зарегистрироваться',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: unitHeight * 16,
-                  )
-                ),
-                onPressed: () {
-                  code = _generateCode();
-                  _showModalVerify(context, code);
-                }
-              ),
+              textSize: 16.0,
+              onPressed: () {
+                code = _generateCode();
+                _showModalVerify(context, code);
+              }
             ),
 
             Container(
@@ -391,14 +379,14 @@ class SignUpSecondInstitutionState extends State<SignUpSecondInstitutionPage> {
                 pinBoxDecoration: (Color borderColor, Color pinBoxColor, {
                   double borderWidth = 0.5,
                   double radius = 15.0,
-                }) { return BoxDecoration(
+                }) => BoxDecoration(
                   border: Border.all(
                     color: HexColor('#262626'),
                     width: 0.5,
                   ),
                   color: pinBoxColor,
-                  borderRadius: BorderRadius.circular(6.0),);
-                },
+                  borderRadius: BorderRadius.circular(6.0),
+                )
               ),
             ),
             Container(
@@ -406,26 +394,39 @@ class SignUpSecondInstitutionState extends State<SignUpSecondInstitutionPage> {
               width: size.width,
               height: unitHeight * 50,
               child: MaterialButton(
-                  elevation: 0,
-                  highlightElevation: 0,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(color: HexColor("#FF844B")),
-                    borderRadius: BorderRadius.circular(40),
+                elevation: 0,
+                highlightElevation: 0,
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(color: HexColor("#FF844B")),
+                  borderRadius: BorderRadius.circular(40),
+                ),
+                color: HexColor("#FF844B"),
+                highlightColor: Colors.transparent,
+                splashColor: Colors.transparent,
+                child: Text(
+                  'Отправить',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: unitHeight * 16,
                   ),
-                  color: HexColor("#FF844B"),
-                  highlightColor: Colors.transparent,
-                  splashColor: Colors.transparent,
-                  child: Text(
-                      'Отправить',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: unitHeight * 16,
-                      )
-                  ),
-                  onPressed: () {
-                    if(code == codeController.text)
-                      Navigator.of(context).pushNamed('/mainContainer');
-                  }
+                ),
+                onPressed: () {
+                  //if(code == codeController.text) {
+                    Institution institution = Institution(
+                      name: institutionController.text,
+                      type: _typeInstitution.value,
+                      email: emailController.text,
+                      numberPhone: numberPhoneController.text,
+                      address: addressController.text,
+                      password: passwordController.text,
+                    );
+                    BlocProvider.of<SignUpBloc>(context)
+                        .register(institution: institution);
+                    Navigator.push(context, MaterialPageRoute(builder:
+                        (context) => MainContainerPage(institution: institution),
+                    ));
+                    //}
+                  },
               ),
             ),
           ],
@@ -433,6 +434,4 @@ class SignUpSecondInstitutionState extends State<SignUpSecondInstitutionPage> {
       ),
     );
   }
-
-
 }

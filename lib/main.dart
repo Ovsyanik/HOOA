@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:hooa/bloc/salesBloc.dart';
 import 'package:hooa/bloc/serviceBloc.dart';
 import 'package:hooa/bloc/signUpBloc.dart';
 import 'package:hooa/bloc/staffBloc.dart';
 import 'package:hooa/bloc/statisticBloc.dart';
 import 'package:hooa/page/callback.dart';
-import 'package:hooa/page/profile/ChangeProfileInstitutuin.dart';
+import 'package:hooa/page/profile/ChangeProfileInstitution.dart';
 import 'package:hooa/page/records/addRecord.dart';
-import 'package:hooa/page/sales/AddSalesPage.dart';
-import 'package:hooa/page/sales/SalesPage.dart';
 import 'package:hooa/page/service/ChangeService.dart';
 import 'package:hooa/page/signUpAndSignIn/passwordRecovery.dart';
 import 'package:hooa/page/mainContainer.dart';
-import 'package:hooa/page/service/addService.dart';
+import 'package:hooa/page/service/AddServicePage.dart';
 import 'package:hooa/page/service/service.dart';
 import 'package:hooa/page/signUpAndSignIn/signIn.dart';
 import 'package:hooa/page/signUpAndSignIn/signInOrSignUp.dart';
@@ -41,6 +41,11 @@ class MyApp extends StatelessWidget {
             create: (BuildContext context) => StaffBloc(),
             // dispose: (_, StaffBloc staffBloc) => staffBloc.(),
           ),
+
+          Provider<SalesBloc>(
+            create: (BuildContext context) => SalesBloc(),
+            // dispose: (_, StaffBloc staffBloc) => staffBloc.(),
+          ),
           Provider<StatisticBloc>(
             create: (BuildContext context) => StatisticBloc(),
             dispose: (_, StatisticBloc statisticBloc) => statisticBloc.dispose(),
@@ -53,10 +58,12 @@ class MyApp extends StatelessWidget {
         child:  MaterialApp(
           title: 'HOOA',
           debugShowCheckedModeBanner: false,
+          color: Colors.red,
           theme: ThemeData(
             fontFamily: 'Proxima Nova',
+            scaffoldBackgroundColor: HexColor('#F2F2F2')
           ),
-          initialRoute: '/mainContainer',
+          initialRoute: '/',
           routes: {
             '/': (context) => SignInOrSignUpPage(),
             '/signIn': (context) => SignInPage(),
@@ -68,14 +75,12 @@ class MyApp extends StatelessWidget {
             '/addStaff': (context) => AddStaffPage(),
             '/selectedStaff': (context) => SelectedStaffPage(),
             '/changeStaff': (context) => ChangeStaff(),
-            '/services': (context) => ServicesPage(context),
+            '/services': (context) => ServicesPage(),
             '/addService': (context) => AddServicePage(),
             '/changeService': (context) => ChangeServicePage(context: context),
             '/callback': (context) => CallbackPage(),
             '/addRecord': (context) => AddRecordPage(),
             '/changeProfileInstitution': (context) => ChangeProfileInstitution(),
-            '/sales': (context) => SalesPage(),
-            '/addSales': (context) => AddSalesPage(),
           },
         )
     );

@@ -73,7 +73,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
 
 class MyAction {
   final String uri;
-  final Function callback;
+  final Object Function() callback;
 
   MyAction(this.uri, this.callback);
 }

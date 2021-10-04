@@ -10,6 +10,7 @@ final institutionTable = 'Institution';
 final recordsTable = 'Records';
 final categoryServiceTable = 'CategoryService';
 final serviceTable = 'Service';
+final salesTable = 'Sales';
 
 class DatabaseProvider {
   static final DatabaseProvider dbProvider = DatabaseProvider();
@@ -63,7 +64,10 @@ class DatabaseProvider {
         "address TEXT, "
         "numberPhone TEXT, "
         "email TEXT, "
-        "password TEXT "
+        "password TEXT, "
+        "timeStart TEXT, "
+        "timeEnd TEXT, "
+        "instagram TEXT "
         ");");
 
     await database.execute("CREATE TABLE $categoryServiceTable ("
@@ -89,8 +93,22 @@ class DatabaseProvider {
         "price TEXT, "
         "dateTime TEXT "
         ");");
+
+    await database.execute("CREATE TABLE $salesTable ("
+        "id INTEGER PRIMARY KEY, "
+        "institution INTEGER, "
+        "service INTEGER, "
+        "count INTEGER, "
+        "dateStart TEXT, "
+        "dateEnd TEXT, "
+        "FOREIGN KEY (institution) REFERENCES $institutionTable(id), "
+        "FOREIGN KEY (service) REFERENCES $serviceTable(id)"
+        ");");
+
     var category = CategoryService(name: 'Окрашивание волос');
+    var category2 = CategoryService(name: 'покраска волос');
 
     await database.insert(categoryServiceTable, category.toDatabaseJson());
+    await database.insert(categoryServiceTable, category2.toDatabaseJson());
   }
 }

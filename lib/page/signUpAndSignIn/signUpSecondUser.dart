@@ -9,6 +9,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:hooa/bloc/signUpBloc.dart';
 import 'package:hooa/model/Sex.dart';
 import 'package:hooa/model/user.dart';
+import 'package:hooa/widget/Button.dart';
 import 'package:hooa/widget/MyAppBar.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
 import 'package:sms/sms.dart';
@@ -180,32 +181,15 @@ class SignUpSecondUserState extends State<SignUpSecondUserPage> {
               ),
             ),
 
-            Container(
-              margin: EdgeInsets.only(top: size.height * 0.05),
+            Button(
+              margin: size.height * 0.05,
+              text: 'Зарегистрироваться',
               width: size.width,
-              height: unitHeight * 50,
-              child: MaterialButton(
-                elevation: 0,
-                highlightElevation: 0,
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(color: HexColor("#FF844B")),
-                  borderRadius: BorderRadius.circular(40),
-                ),
-                color: HexColor("#FF844B"),
-                highlightColor: Colors.transparent,
-                splashColor: Colors.transparent,
-                child: Text(
-                  'Зарегистрироваться',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: unitHeight * 16
-                  )
-                ),
-                onPressed: () {
-                  code = _generateCode();
-                  _showModalVerify(context, code);
+              textSize: 16.0,
+              onPressed: () {
+                code = _generateCode();
+                _showModalVerify(context, code);
                 },
-              ),
             ),
 
             Container(
@@ -397,7 +381,7 @@ class SignUpSecondUserState extends State<SignUpSecondUserPage> {
                   ),
                 ),
                 onPressed: () {
-                  if(code == codeController.text) {
+                  //if(code == codeController.text) {
                     var bloc = BlocProvider.of<SignUpBloc>(context);
                     User newUser = User(
                       fullName: fullNameController.text,
@@ -408,7 +392,7 @@ class SignUpSecondUserState extends State<SignUpSecondUserPage> {
                     );
                     bloc.register(user: newUser);
                     Navigator.of(context).pushNamed('/mainContainer');
-                  }
+                 // }
                 },
               ),
             ),

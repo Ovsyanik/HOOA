@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:hooa/widget/Button.dart';
 import 'package:hooa/widget/MyAppBar.dart';
 
 class PasswordRecoveryPageState extends State<PasswordRecoveryPage> {
@@ -70,29 +70,14 @@ class PasswordRecoveryPageState extends State<PasswordRecoveryPage> {
               ),
             ),
 
-            Container(
-              margin: EdgeInsets.only(top: size.height * 0.1),
-              height: unitHeight * 50,
+            Button(
+              margin: size.height * 0.175,
+              text: 'Войти',
+              color: HexColor("#FF844B"),
               width: size.width,
-              child: MaterialButton(
-                elevation: 0,
-                highlightElevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                color: HexColor("#FF844B"),
-                highlightColor: Colors.transparent,
-                splashColor: Colors.transparent,
-                onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => null)
-                ),
-                child: Text(
-                  "Войти",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: unitHeight * 16,
-                  ),
-                ),
+              textSize: 16.0,
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => null)
               ),
             ),
 

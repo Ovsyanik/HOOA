@@ -1,13 +1,14 @@
-import 'package:hooa/model/TypeInstitution.dart';
-
 class Institution {
   int id;
   String name;
-  TypeInstitution type;
+  String type;
   String address;
   String numberPhone;
   String email;
   String password;
+  String timeStart;
+  String timeEnd;
+  String instagram;
 
   Institution({
     this.id,
@@ -16,7 +17,10 @@ class Institution {
     this.address,
     this.numberPhone,
     this.email,
-    this.password
+    this.password,
+    this.timeStart,
+    this.timeEnd,
+    this.instagram
   });
 
   Map<String, dynamic> toDatabaseJson() => {
@@ -26,7 +30,10 @@ class Institution {
     'address': this.address,
     'numberPhone': this.numberPhone,
     'email': this.email,
-    'password': this.password
+    'password': this.password,
+    'timeStart': this.timeStart,
+    'timeEnd': this.timeEnd,
+    'instagram': this.instagram
   };
 
   factory Institution.fromDatabaseJson(Map<String, dynamic> data) => Institution(
@@ -36,6 +43,9 @@ class Institution {
     address: data['address'],
     numberPhone: data['numberPhone'],
     email: data['email'],
-    password: data['password']
+    password: data['password'],
+    timeStart: data['timeStart'],
+    timeEnd: data['timeEnd'],
+    instagram: data['instagram']
   );
 }

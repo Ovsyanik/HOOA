@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:hooa/bloc/signUpBloc.dart';
+import 'package:hooa/page/mainContainer.dart';
+import 'package:hooa/widget/Button.dart';
 import 'package:hooa/widget/MyAppBar.dart';
 
 class SignInPageState extends State<SignInPage> {
@@ -133,33 +135,25 @@ class SignInPageState extends State<SignInPage> {
               )
             ),
 
-            Container(
-              margin: EdgeInsets.only(top: size.height * 0.05),
-              height: unitHeight * 50,
+            Button(
+              margin: size.height * 0.04,
+              text: 'Войти',
+              color: HexColor("#FF844B"),
+              disabledColor: HexColor("#66FF844B"),
               width: size.width,
-              child: MaterialButton(
-                elevation: 0,
-                highlightElevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                color: HexColor("#FF844B") ,
-                highlightColor: Colors.transparent,
-                splashColor: Colors.transparent,
-                disabledColor: HexColor("#66FF844B"),
-                onPressed: this.eMail && this.password ?
-                  (){
-                    var bloc = BlocProvider.of<SignUpBloc>(context);
-                    Navigator.of(context).pushNamed('/mainContainer');
-                } : null,
-                child: Text(
-                  "Войти",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: unitHeight * 16,
-                  ),
-                ),
-              ),
+              textSize: 16.0,
+              onPressed: this.eMail && this.password ? () async {
+                var bloc = BlocProvider.of<SignUpBloc>(context);
+                await bloc.signIn(
+                  email: emailController.text,
+                  password: passwordController.text,
+                );
+                print(bloc.institution.name);
+                bloc.institution != null
+                    ? Navigator.push(context, MaterialPageRoute(builder:
+                      (context) => MainContainerPage(institution: bloc.institution,)))
+                    : Navigator.of(context).pushNamed('/');
+              } : null,
             ),
 
             Container(

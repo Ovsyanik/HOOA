@@ -1,24 +1,17 @@
 
 import 'package:flutter/widgets.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
-import 'package:simple_gesture_detector/simple_gesture_detector.dart';
-
 import 'shared/utils.dart';
 import 'table_calendar_base.dart';
 import 'widgets/calendar_header.dart';
 import 'widgets/cell_content.dart';
+import 'package:simple_gesture_detector/simple_gesture_detector.dart';
 
-/// Signature for `onDaySelected` callback. Contains the selected day and focused day.
 typedef OnDaySelected = void Function(
     DateTime selectedDay, DateTime focusedDay);
 
-/// Signature for `onRangeSelected` callback.
-/// Contains start and end of the selected range, as well as currently focused day.
 typedef OnRangeSelected = void Function(
     DateTime start, DateTime end, DateTime focusedDay);
-
-/// Modes that range selection can operate in.
 enum RangeSelectionMode { disabled, toggledOff, toggledOn, enforced }
 
 /// Highly customizable, feature-packed Flutter calendar with gestures, animations and multiple formats.
@@ -118,11 +111,14 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
   PageController _pageController;
   ValueNotifier<DateTime> _focusedDay;
   List<BoxDecoration> decorations;
+  DateTime selectedDate;
+
 
   @override
   void initState() {
     super.initState();
     _focusedDay = ValueNotifier(widget.focusedDay);
+    selectedDate = widget.selectedDay;
   }
 
   @override
@@ -173,62 +169,6 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
     }
   }
 
-  void _onFirstButtonTap() {
-    decorations = [
-      BoxDecoration(
-        color: HexColor('#4E7D96'),
-        border: Border.all(color: HexColor('#4E7D96'), width: 1.0),
-        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-      ),
-      null,
-      null,
-      null
-    ];
-    _pageController.jumpToPage(DateTime.now().month + 2);
-  }
-
-  void _onSecondButtonTap() {
-    decorations = [
-      null,
-      BoxDecoration(
-        color: HexColor('#4E7D96'),
-        border: Border.all(color: HexColor('#4E7D96'), width: 1.0),
-        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-      ),
-      null,
-      null
-    ];
-    _pageController.jumpToPage(DateTime.now().month + 3);
-  }
-
-  void _onThirdButtonTap() {
-    decorations = [
-      null,
-      null,
-      BoxDecoration(
-        color: HexColor('#4E7D96'),
-        border: Border.all(color: HexColor('#4E7D96'), width: 1.0),
-        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-      ), 
-      null
-    ];
-    _pageController.jumpToPage(DateTime.now().month + 4);
-  }
-
-  void _onFourthButtonTap() {
-    decorations = [
-      null,
-      null,
-      null,
-      BoxDecoration(
-        color: HexColor('#4E7D96'),
-        border: Border.all(color: HexColor('#4E7D96'), width: 1.0),
-        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-      )
-    ];
-    _pageController.jumpToPage(DateTime.now().month + 5);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -237,12 +177,10 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
           valueListenable: _focusedDay,
           builder: (context, value, _) {
             return CalendarHeader(
-              decorations: this.decorations,
               selectedDate: widget.selectedDay,
-              onFirstButtonTap: _onFirstButtonTap, 
-              onFourthButtonTap: _onFourthButtonTap, 
-              onSecondButtonTap: _onSecondButtonTap, 
-              onThirdButtonTap: _onThirdButtonTap,
+              onSelectMonth: (month) {
+                _pageController.jumpToPage(widget.selectedDay.month + month > 12 ? widget.selectedDay.month + month - 13 : widget.selectedDay.month + month-1);
+              },
             );
           },
         ),

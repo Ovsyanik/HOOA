@@ -3,9 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:hooa/bloc/signUpBloc.dart';
+import 'package:hooa/widget/Button.dart';
 import 'package:hooa/widget/MyAppBar.dart';
 import 'package:hooa/widget/customRadioSignUp.dart';
 
@@ -41,36 +41,19 @@ class SignUpPageState extends State<SignUpPage> {
 
             CustomRadio(size),
 
-            Container(
-              margin: EdgeInsets.only(top: size.height * 0.09),
-              height: unitHeight * 50,
+            Button(
+              margin: size.height * 0.09,
+              text: 'Продолжить',
               width: size.width - 32,
-              child: MaterialButton(
-                elevation: 0,
-                highlightElevation: 0,
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(color: HexColor("#FF844B")),
-                  borderRadius: BorderRadius.circular(40),
-                ),
-                color: HexColor("#FF844B"),
-                highlightColor: Colors.transparent,
-                splashColor: Colors.transparent,
-                onPressed:  () {
-                  final bloc = BlocProvider.of<SignUpBloc>(context);
-                  if(bloc.selectedType == 0){
-                    Navigator.pushNamed(context, '/signUpUser');
-                  } else if(bloc.selectedType == 1) {
-                    Navigator.pushNamed(context, '/signUpInstitution');
-                  } else return null;
-                },
-                child: Text(
-                  "Продолжить",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: unitHeight * 16,
-                    ),
-                ),
-              ),
+              textSize: 16.0,
+              onPressed: () {
+                final bloc = BlocProvider.of<SignUpBloc>(context);
+                if(bloc.selectedType == 0){
+                  Navigator.pushNamed(context, '/signUpUser');
+                } else if(bloc.selectedType == 1) {
+                  Navigator.pushNamed(context, '/signUpInstitution');
+                } else return null;
+              },
             ),
 
             Expanded(

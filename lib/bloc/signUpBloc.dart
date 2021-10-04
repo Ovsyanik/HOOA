@@ -11,12 +11,12 @@ class SignUpBloc extends BlocBase {
     new RadioModel(false, 'Клиент/Мастер'),
     new RadioModel(false, 'Заведение')
   ];
-  User _user;
-  Institution _institution;
-
-  final _sqfliteRepository = SqfliteRepository();
+  final _sqliteRepository = SqfliteRepository();
 
   List<RadioModel> get types => _types;
+
+  Institution institution;
+  User user;
 
   int get selectedType =>
       _types.indexWhere((element) => element.isSelected == true);
@@ -25,9 +25,7 @@ class SignUpBloc extends BlocBase {
   Sink<List<RadioModel>> get sink => typeController.sink;
   Stream<List<RadioModel>> get stream => typeController.stream;
 
-  SignUpBloc(
-
-      ) : super(null);
+  SignUpBloc() : super(null);
 
   void selectType(int index) async {
     _types.forEach((element) => element.isSelected = false);
@@ -38,18 +36,25 @@ class SignUpBloc extends BlocBase {
   Future<int> register({User user, Institution institution}) {
     var id;
     if (selectedType == 0) {
-      id = _sqfliteRepository.insertUser(user);
+      id = _sqliteRepository.insertUser(user);
     } else if(selectedType == 1) {
-      id = _sqfliteRepository.insertInstitution(institution);
+      id = _sqliteRepository.insertInstitution(institution);
     }
     return id;
   }
 
-  // User signIn({String email, String password}) {
-  //   _sqfliteRepository.signIn(email: email, password: password)
-  //       .then((value) => value)
-  //       .catchError((value) => print('Error: value = $value'));
-  // }
+  signIn({String email, String password}) async {
+    await _sqliteRepository.getInstitution(email, password)
+        .then((value) async {
+          if(value == null) {
+            await _sqliteRepository.getUser(email, password).then((value) {
+              user = value;
+            }).catchError((error) => print('Error: value = $error'));
+          } else {
+            institution = value;
+          }
+        }).catchError((value) => print('Error: value = $value'));
+  }
 
   void dispose() {
     typeController.close();

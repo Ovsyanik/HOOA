@@ -2,12 +2,23 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:hooa/bloc/signUpBloc.dart';
+import 'package:hooa/model/institution.dart';
+import 'package:hooa/page/profile/ChangeProfileInstitution.dart';
+import 'package:hooa/page/sales/SalesPage.dart';
 import 'package:hooa/widget/MyAppBar.dart';
 import 'package:hooa/widget/starRating.dart';
 
 class ProfilePage extends StatelessWidget {
+  final Institution institution;
+
+  ProfilePage({
+    this.institution
+  });
+
   File _image;
   @override
   Widget build(BuildContext context) {
@@ -16,9 +27,11 @@ class ProfilePage extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: MyAppBar(
+        showLeading: false,
         actions: [
           MyAction('assets/icons/settings.svg',
-                () => Navigator.pushNamed(context, "/changeProfileInstitution"),
+                () => Navigator.push(context, MaterialPageRoute(builder:
+                    (context) => ChangeProfileInstitution(institution: institution,))),
           ),
         ],
       ),
@@ -66,7 +79,7 @@ class ProfilePage extends StatelessWidget {
             SizedBox(height: unitHeight * 20),
 
             Text(
-              'Home beauty lounge Новая Боровая',
+              institution.name,
               style: TextStyle(
                 fontSize: unitHeight * 17,
                 fontWeight: FontWeight.w600,
@@ -173,7 +186,8 @@ class ProfilePage extends StatelessWidget {
                 ),
               ),
               child: GestureDetector(
-                onTap: () => Navigator.pushNamed(context, "/sales"),
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder:
+                    (context) => SalesPage(institution: institution))),
                 child: ListTile(
                   contentPadding: EdgeInsets.only(left: unitHeight * 8, right: unitHeight * 16),
                   trailing: SvgPicture.asset(
@@ -229,7 +243,10 @@ class ProfilePage extends StatelessWidget {
             Container(
               margin: EdgeInsets.only(top: unitHeight * 8),
               child: GestureDetector(
-                onTap: () => Navigator.pushNamed(context, "/"),
+                onTap: () {
+                  BlocProvider.of<SignUpBloc>(context).institution = null;
+                  Navigator.pushNamed(context, "/");
+                },
                 child: ListTile(
                   contentPadding: EdgeInsets.only(left: unitHeight * 8),
                   leading: SvgPicture.asset(
