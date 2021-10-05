@@ -13,24 +13,19 @@ import 'package:hooa/widget/MyAppBar.dart';
 import 'package:hooa/widget/starRating.dart';
 
 class ProfilePage extends StatelessWidget {
-  final Institution institution;
-
-  ProfilePage({
-    this.institution
-  });
-
   File _image;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final unitHeight = size.height * 0.00125;
+    Institution institution = BlocProvider.of<SignUpBloc>(context).institution;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: MyAppBar(
         showLeading: false,
         actions: [
           MyAction('assets/icons/settings.svg',
-                () => Navigator.push(context, MaterialPageRoute(builder:
+                () async => await Navigator.push<Institution>(context, MaterialPageRoute(builder:
                     (context) => ChangeProfileInstitution(institution: institution,))),
           ),
         ],
@@ -99,7 +94,7 @@ class ProfilePage extends StatelessWidget {
             SizedBox(height: unitHeight * 12),
 
             Text(
-              'Время работы: 09:00 - 21:00',
+              'Время работы: ${institution.timeStart} - ${institution.timeEnd}',
               style: TextStyle(
                   fontSize: unitHeight * 16,
                   color: HexColor('#262626')
@@ -109,7 +104,7 @@ class ProfilePage extends StatelessWidget {
             SizedBox(height: unitHeight * 12),
 
             Text(
-              'Адрес: ул. Авиационная 14',
+              'Адрес: ${institution.address}',
               style: TextStyle(
                   fontSize: unitHeight * 16,
                   color: HexColor('#262626')
@@ -128,7 +123,7 @@ class ProfilePage extends StatelessWidget {
                     width: unitHeight * 18,
                   ),
                   Text(
-                    ' @home_beautylounge',
+                    ' ${institution.instagram}',
                     style: TextStyle(
                       fontSize: unitHeight * 16,
                       color: HexColor('#262626'),

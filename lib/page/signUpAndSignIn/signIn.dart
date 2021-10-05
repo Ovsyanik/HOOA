@@ -148,10 +148,9 @@ class SignInPageState extends State<SignInPage> {
                   email: emailController.text,
                   password: passwordController.text,
                 );
-                print(bloc.institution.name);
                 bloc.institution != null
                     ? Navigator.push(context, MaterialPageRoute(builder:
-                      (context) => MainContainerPage(institution: bloc.institution,)))
+                      (context) => MainContainerPage()))
                     : Navigator.of(context).pushNamed('/');
               } : null,
             ),

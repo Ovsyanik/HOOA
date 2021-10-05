@@ -67,6 +67,7 @@ class DatabaseProvider {
         "password TEXT, "
         "timeStart TEXT, "
         "timeEnd TEXT, "
+        "image TEXT, "
         "instagram TEXT "
         ");");
 

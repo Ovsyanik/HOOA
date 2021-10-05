@@ -9,6 +9,8 @@ class Institution {
   String timeStart;
   String timeEnd;
   String instagram;
+  String image;
+
 
   Institution({
     this.id,
@@ -20,7 +22,8 @@ class Institution {
     this.password,
     this.timeStart,
     this.timeEnd,
-    this.instagram
+    this.instagram,
+    this.image
   });
 
   Map<String, dynamic> toDatabaseJson() => {
@@ -33,7 +36,8 @@ class Institution {
     'password': this.password,
     'timeStart': this.timeStart,
     'timeEnd': this.timeEnd,
-    'instagram': this.instagram
+    'instagram': this.instagram,
+    'image': this.image
   };
 
   factory Institution.fromDatabaseJson(Map<String, dynamic> data) => Institution(
@@ -46,6 +50,7 @@ class Institution {
     password: data['password'],
     timeStart: data['timeStart'],
     timeEnd: data['timeEnd'],
-    instagram: data['instagram']
+    instagram: data['instagram'],
+    image: data['image']
   );
 }

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:hooa/bloc/InstitutionBloc.dart';
+import 'package:hooa/bloc/signUpBloc.dart';
 import 'package:hooa/model/institution.dart';
 import 'package:hooa/widget/Button.dart';
 import 'package:hooa/widget/MyAppBar.dart';
@@ -427,7 +428,9 @@ class ChangeProfileInstitutionState extends State<ChangeProfileInstitution> {
                     bottom: unitHeight * 70,
                   ),
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      _showConfirmationPicker(context, size, unitHeight);
+                    },
                     child: ListTile(
                       contentPadding: EdgeInsets.only(left: unitHeight * 12),
                       leading: SvgPicture.asset(
@@ -437,7 +440,7 @@ class ChangeProfileInstitutionState extends State<ChangeProfileInstitution> {
                         width: unitHeight * 25,
                       ),
                       title: Text(
-                        "Выйти из аккаунта",
+                        "Удалить аккаунт",
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontSize: unitHeight * 17,
@@ -465,20 +468,26 @@ class ChangeProfileInstitutionState extends State<ChangeProfileInstitution> {
                   onPressed: () {
                     //Допилить пароль
                     var bloc = BlocProvider.of<InstitutionBloc>(context);
-                    String password = widget.institution.password;
+                    String password ;
                     if(newPasswordController.text == confirmedPasswordController.text) {
-                      password = newPasswordController.text;
+                      password = newPasswordController.text == "" ?
+                          widget.institution.password : newPasswordController.text;
                     }
-                    bloc.add(EditInstitution(Institution(
+                    Institution institution = Institution(
                       id: widget.institution.id,
                       name: nameController.text,
                       address: addressController.text,
+                      email: emailController.text,
+                      type: _selectedIndex == 0 ? "Парикмахерская" : "Барбершоп",
                       numberPhone: phoneController.text,
                       instagram: socialController.text,
                       timeStart: timeStartController.text,
                       timeEnd: timeEndController.text,
-                      password: password
-                    )));
+                      password: password,
+                      image: _image.path,
+                    );
+                    bloc.add(EditInstitution(institution));
+                    BlocProvider.of<SignUpBloc>(context).institution = institution;
                     Navigator.pop(context);
                   },
                   text: 'Применить',
@@ -537,6 +546,103 @@ class ChangeProfileInstitutionState extends State<ChangeProfileInstitution> {
           ),
         );
       },
+    );
+  }
+
+  Future _showConfirmationPicker(BuildContext context, Size size, double unitHeight) {
+    return showDialog(
+      context: context,
+      barrierDismissible: true, //// user must tap button!
+      builder: (context) => Container(
+        height: unitHeight * 50,
+        child: AlertDialog(
+          elevation: 3,
+          title: Text(
+            'Удалить заведение',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: unitHeight * 17,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          content: Container(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'При этом будут удалены все данные заведения',
+                  textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: unitHeight * 14,
+                    ),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        height: unitHeight * 50,
+                        width: size.width / 3 - 10,
+                        margin: EdgeInsets.symmetric(vertical: 8.0),
+                        child: MaterialButton(
+                          elevation: 0,
+                          highlightElevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50),
+                            side: BorderSide(color: HexColor("#FF844B")),
+                          ),
+                          color: Colors.white,
+                          highlightColor: Colors.transparent,
+                          splashColor: Colors.transparent,
+                          onPressed: () {
+                            BlocProvider.of<InstitutionBloc>(context).add(
+                                DeleteInstitution(widget.institution.id));
+                            BlocProvider.of<SignUpBloc>(context).institution = null;
+                            while(Navigator.canPop(context)) {
+                              Navigator.pop(context);
+                            }
+                            },
+                          child: Text(
+                          "Удалить",
+                          style: TextStyle(
+                            color: HexColor("#FF844B"),
+                            fontSize: unitHeight * 15,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: unitHeight * 50,
+                        width: size.width / 3 - 10,
+                        margin: EdgeInsets.symmetric(vertical: 8.0),
+                        child: MaterialButton(
+                          elevation: 0,
+                          highlightElevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40),
+                          ),
+                          color: HexColor("#FF844B"),
+                          highlightColor: Colors.transparent,
+                          splashColor: Colors.transparent,
+                          onPressed: () => Navigator.pop(context),
+                          child: Text(
+                            "Отменить",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: unitHeight * 15,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

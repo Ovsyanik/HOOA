@@ -423,7 +423,7 @@ class SignUpSecondInstitutionState extends State<SignUpSecondInstitutionPage> {
                     BlocProvider.of<SignUpBloc>(context)
                         .register(institution: institution);
                     Navigator.push(context, MaterialPageRoute(builder:
-                        (context) => MainContainerPage(institution: institution),
+                        (context) => MainContainerPage(),
                     ));
                     //}
                   },

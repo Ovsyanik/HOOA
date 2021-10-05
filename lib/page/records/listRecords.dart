@@ -11,6 +11,7 @@ class ListRecordsPage extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: MyAppBar(
+        showLeading: false,
         actions: [
           MyAction('assets/icons/filter_black.svg', () => null),
           MyAction('assets/icons/add.svg',

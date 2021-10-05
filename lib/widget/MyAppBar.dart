@@ -42,7 +42,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         highlightColor: Colors.transparent,
         splashColor: Colors.transparent,
         onPressed: () => Navigator.of(context).pop(),
-      ) : null,
+      ) : Container(),
       actions: _getActions(unitHeight),
     );
   }

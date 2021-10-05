@@ -176,4 +176,12 @@ class SqfliteRepository {
         : [];
     return sales;
   }
+
+  Future deleteInstitution(int id) async {
+    final db = await dbProvider.database;
+    await db.delete(
+        institutionTable,
+        where: 'id = ?',
+        whereArgs: [id]);
+  }
 }

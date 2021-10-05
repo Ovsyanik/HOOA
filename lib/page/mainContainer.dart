@@ -8,12 +8,6 @@ import 'package:hooa/page/staff/staff.dart';
 import 'package:hooa/page/statistic/statistic.dart';
 
 class MainContainerPage extends StatefulWidget {
-  final Institution institution;
-
-  MainContainerPage({
-    this.institution
-  });
-
   @override
   MainContainerPageState createState() => MainContainerPageState();
 }
@@ -29,6 +23,7 @@ class MainContainerPageState extends State<MainContainerPage> {
       bottomNavigationBar: SizedBox(
         height: unitHeight * 70,
         child: BottomNavigationBar(
+          backgroundColor: HexColor('#F8F7F4'),
           showSelectedLabels: false,
           showUnselectedLabels: false,
           type: BottomNavigationBarType.fixed,
@@ -85,17 +80,13 @@ class MainContainerPageState extends State<MainContainerPage> {
   Widget getBody() {
     switch (_selectedIndex) {
       case 0:
-        return ListRecordsPage();
-        break;
+        return ListRecordsPage(); break;
       case 1:
-        return StaffPage();
-        break;
+        return StaffPage();       break;
       case 2:
-        return StatisticPage();
-        break;
+        return StatisticPage();   break;
       case 3:
-        return ProfilePage(institution: widget.institution);
-        break;
+        return ProfilePage();     break;
       default:
         return null;
     }

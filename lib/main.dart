@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:hooa/bloc/InstitutionBloc.dart';
 import 'package:hooa/bloc/salesBloc.dart';
 import 'package:hooa/bloc/serviceBloc.dart';
 import 'package:hooa/bloc/signUpBloc.dart';
@@ -54,14 +55,17 @@ class MyApp extends StatelessWidget {
             create: (BuildContext context) => ServicesBloc(),
             // dispose: (_, ServicesBloc servicesBloc) => servicesBloc.dispose(),
           ),
+          Provider<InstitutionBloc>(
+            create: (BuildContext context) => InstitutionBloc(),
+            // dispose: (_, ServicesBloc servicesBloc) => servicesBloc.dispose(),
+          ),
         ],
         child:  MaterialApp(
           title: 'HOOA',
           debugShowCheckedModeBanner: false,
-          color: Colors.red,
           theme: ThemeData(
             fontFamily: 'Proxima Nova',
-            scaffoldBackgroundColor: HexColor('#F2F2F2')
+            scaffoldBackgroundColor: HexColor('#F2F2F2'),
           ),
           initialRoute: '/',
           routes: {
