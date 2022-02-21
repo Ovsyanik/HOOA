@@ -244,6 +244,4 @@ class SignInPageState extends State<SignInPage> {
 class SignInPage extends StatefulWidget {
   @override
   SignInPageState createState() => SignInPageState();
-
-
 }

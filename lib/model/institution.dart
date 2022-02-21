@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:hooa/model/service.dart';
+
 class Institution {
   int id;
   String name;
@@ -10,7 +14,8 @@ class Institution {
   String timeEnd;
   String instagram;
   String image;
-
+  double rate;
+  List<int> services;
 
   Institution({
     this.id,
@@ -23,34 +28,41 @@ class Institution {
     this.timeStart,
     this.timeEnd,
     this.instagram,
-    this.image
+    this.image,
+    this.rate,
+    this.services,
   });
 
   Map<String, dynamic> toDatabaseJson() => {
-    'id': this.id,
-    'name': this.name,
-    'type': this.type ,
-    'address': this.address,
-    'numberPhone': this.numberPhone,
-    'email': this.email,
-    'password': this.password,
-    'timeStart': this.timeStart,
-    'timeEnd': this.timeEnd,
-    'instagram': this.instagram,
-    'image': this.image
-  };
+        'id': this.id,
+        'name': this.name,
+        'type': this.type,
+        'address': this.address,
+        'numberPhone': this.numberPhone,
+        'email': this.email,
+        'password': this.password,
+        'timeStart': this.timeStart,
+        'timeEnd': this.timeEnd,
+        'instagram': this.instagram,
+        'image': this.image,
+        'rate': this.rate,
+        'services': jsonEncode(this.services),
+      };
 
-  factory Institution.fromDatabaseJson(Map<String, dynamic> data) => Institution(
-    id: data['id'],
-    name: data['name'],
-    type: data['type'],
-    address: data['address'],
-    numberPhone: data['numberPhone'],
-    email: data['email'],
-    password: data['password'],
-    timeStart: data['timeStart'],
-    timeEnd: data['timeEnd'],
-    instagram: data['instagram'],
-    image: data['image']
-  );
+  factory Institution.fromDatabaseJson(Map<String, dynamic> data) =>
+      Institution(
+        id: data['id'],
+        name: data['name'],
+        type: data['type'],
+        address: data['address'],
+        numberPhone: data['numberPhone'],
+        email: data['email'],
+        password: data['password'],
+        timeStart: data['timeStart'],
+        timeEnd: data['timeEnd'],
+        instagram: data['instagram'],
+        image: data['image'],
+        rate: data['rate'],
+        services: jsonDecode(data['services']).cast<int>(),
+      );
 }

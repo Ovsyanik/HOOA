@@ -26,14 +26,21 @@ class SelectedStaffPage extends StatefulWidget {
 class _SelectedStaffPageState extends State<SelectedStaffPage> {
   final _pageController = PageController();
 
-  File _image;
   int currentIndex = 0;
+
+  ServicesBloc _servicesBloc;
+  Size size;
+  double unitHeight;
 
   @override
   void initState() {
     super.initState();
-    _pageController.addListener(() =>
-      currentIndex = _pageController.page.round());
+
+    _servicesBloc = BlocProvider.of<ServicesBloc>(context);
+    _servicesBloc.add(GetServicesById(widget.staff.services));
+
+    _pageController
+        .addListener(() => currentIndex = _pageController.page.round());
   }
 
   @override
@@ -44,15 +51,16 @@ class _SelectedStaffPageState extends State<SelectedStaffPage> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    double unitHeight = size.height * 0.00125;
-    ServicesBloc bloc = BlocProvider.of<ServicesBloc>(context);
-    bloc.add(GetServicesById(widget.staff.services));
+    size = MediaQuery.of(context).size;
+    unitHeight = size.height * 0.00125;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: MyAppBar(
         actions: [
-          MyAction('assets/icons/add.svg', () => null,),
+          MyAction(
+            'assets/icons/add.svg',
+            () => {},
+          ),
         ],
       ),
       body: Column(
@@ -61,185 +69,192 @@ class _SelectedStaffPageState extends State<SelectedStaffPage> {
           CircleAvatar(
             radius: unitHeight * 50,
             backgroundColor: HexColor('#E0E0E0'),
-            child: widget.staff.image != null ? ClipRRect(
-              borderRadius: BorderRadius.circular(50),
-              child: Image.file(
-                File(widget.staff.image),
-                width: unitHeight * 100,
-                height: unitHeight * 100,
-                fit: BoxFit.fill,
-              ),
-            ) : ClipRRect(
-              borderRadius: BorderRadius.circular(50),
-              child: Image.asset(
-                "assets/images/photo_user.jpg",
-                width: unitHeight * 100,
-                height: unitHeight * 100,
-                fit: BoxFit.fill,
-              ),
-            ),
+            child: widget.staff.image != null
+                ? ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: Image.file(
+                      File(widget.staff.image),
+                      width: unitHeight * 100,
+                      height: unitHeight * 100,
+                      fit: BoxFit.fill,
+                    ),
+                  )
+                : ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: Image.asset(
+                      "assets/images/photo_user.jpg",
+                      width: unitHeight * 100,
+                      height: unitHeight * 100,
+                      fit: BoxFit.fill,
+                    ),
+                  ),
           ),
 
           SizedBox(height: unitHeight * 6),
 
           Text(
-              widget.staff.fullName,
-              style: TextStyle(
-                  fontSize: unitHeight * 17,
-                  color: HexColor('#262626')
-              ),
+            widget.staff.fullName,
+            style: TextStyle(
+              fontSize: unitHeight * 17,
+              color: HexColor('#262626'),
             ),
+          ),
 
           SizedBox(height: unitHeight * 4),
 
           Text(
-              widget.staff.position,
-              style: TextStyle(
-                  fontSize: unitHeight * 14,
-                  color: HexColor('#262626').withOpacity(0.3)
-              ),
+            widget.staff.position,
+            style: TextStyle(
+              fontSize: unitHeight * 14,
+              color: HexColor('#262626').withOpacity(0.3),
             ),
+          ),
 
           SizedBox(height: unitHeight * 4),
 
-            //переделать
+          //переделать
           Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                StarRating(size: unitHeight * 17, rating: widget.staff.rate,),
-              ],
-            ),
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              StarRating(
+                size: unitHeight * 17,
+                rating: widget.staff.rate,
+              ),
+            ],
+          ),
 
           SizedBox(height: unitHeight * 4),
 
           GestureDetector(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SvgPicture.asset(
-                    'assets/icons/phone.svg',
-                    height: unitHeight * 14,
-                    width: unitHeight * 14,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  'assets/icons/phone.svg',
+                  height: unitHeight * 14,
+                  width: unitHeight * 14,
+                ),
+                Text(
+                  widget.staff.numberPhone,
+                  style: TextStyle(
+                    fontSize: unitHeight * 14,
+                    color: HexColor('#262626'),
                   ),
-                  Text(
-                    widget.staff.numberPhone,
-                    style: TextStyle(
-                      fontSize: unitHeight * 14,
-                      color: HexColor('#262626'),
-                    ),
-                  ),
-                ],
-              ),
-              onTap: () => null,
+                ),
+              ],
             ),
+            onTap: () => null,
+          ),
 
           SizedBox(height: unitHeight * 4),
 
           RichText(
-              textAlign: TextAlign.center,
-              text: TextSpan(
-                text: 'Редактировать',
-                style: TextStyle(
-                  fontSize: unitHeight * 13,
-                  color: HexColor("#4E7D96"),
-                ),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () => Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ChangeStaff(staff: widget.staff))),
+            textAlign: TextAlign.center,
+            text: TextSpan(
+              text: 'Редактировать',
+              style: TextStyle(
+                fontSize: unitHeight * 13,
+                color: HexColor("#4E7D96"),
               ),
+              recognizer: TapGestureRecognizer()
+                ..onTap = () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChangeStaff(staff: widget.staff),
+                      ),
+                    ),
             ),
+          ),
 
           SizedBox(height: unitHeight * 4),
 
           Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: SingleChildScrollView(
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Container(
-                        height: unitHeight * 38,
-                        child: MaterialButton(
-                          elevation: 0,
-                          highlightElevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                          color: currentIndex == 0
-                              ? HexColor("#FF844B")
-                              : HexColor("#F2F2F2"),
-                          highlightColor: Colors.transparent,
-                          splashColor: Colors.transparent,
-                          onPressed: () =>
-                              setState(() => _pageController.jumpToPage(0)),
-                          child: Text(
-                            "Режим работы",
-                            style: TextStyle(
-                              color: currentIndex == 0
-                                  ? Colors.white
-                                  : HexColor("#262626"),
-                              fontSize: unitHeight * 13,
-                            ),
+            padding: const EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Container(
+                      height: unitHeight * 38,
+                      child: MaterialButton(
+                        elevation: 0,
+                        highlightElevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                        color: currentIndex == 0
+                            ? HexColor("#FF844B")
+                            : HexColor("#F2F2F2"),
+                        highlightColor: Colors.transparent,
+                        splashColor: Colors.transparent,
+                        onPressed: () =>
+                            setState(() => _pageController.jumpToPage(0)),
+                        child: Text(
+                          "Режим работы",
+                          style: TextStyle(
+                            color: currentIndex == 0
+                                ? Colors.white
+                                : HexColor("#262626"),
+                            fontSize: unitHeight * 13,
                           ),
                         ),
                       ),
-
-                      Container(
-                        height: unitHeight * 38,
-                        child: MaterialButton(
-                          elevation: 0,
-                          highlightElevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                          color: currentIndex == 1
-                              ? HexColor("#FF844B")
-                              : HexColor("#F2F2F2"),
-                          highlightColor: Colors.transparent,
-                          splashColor: Colors.transparent,
-                          onPressed: () =>
-                              setState(() => _pageController.jumpToPage(1)),
-                          child: Text(
-                            "Услуги",
-                            style: TextStyle(
-                              color: currentIndex == 1
-                                  ? Colors.white
-                                  : HexColor("#262626"),
-                              fontSize: unitHeight * 13,
-                            ),
+                    ),
+                    Container(
+                      height: unitHeight * 38,
+                      child: MaterialButton(
+                        elevation: 0,
+                        highlightElevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                        color: currentIndex == 1
+                            ? HexColor("#FF844B")
+                            : HexColor("#F2F2F2"),
+                        highlightColor: Colors.transparent,
+                        splashColor: Colors.transparent,
+                        onPressed: () =>
+                            setState(() => _pageController.jumpToPage(1)),
+                        child: Text(
+                          "Услуги",
+                          style: TextStyle(
+                            color: currentIndex == 1
+                                ? Colors.white
+                                : HexColor("#262626"),
+                            fontSize: unitHeight * 13,
                           ),
                         ),
                       ),
-
-                      Container(
-                        height: unitHeight * 38,
-                        child: MaterialButton(
-                          elevation: 0,
-                          highlightElevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                          color: currentIndex == 2
-                              ? HexColor("#FF844B")
-                              : HexColor("#F2F2F2"),
-                          highlightColor: Colors.transparent,
-                          splashColor: Colors.transparent,
-                          onPressed: () =>
-                              setState(() => _pageController.jumpToPage(2)),
-                          child: Text(
-                            'Отзывы',
-                            style: TextStyle(
-                              color: currentIndex == 2
-                                  ? Colors.white
-                                  : HexColor("#262626"),
-                              fontSize: unitHeight * 13,
-                            ),
+                    ),
+                    Container(
+                      height: unitHeight * 38,
+                      child: MaterialButton(
+                        elevation: 0,
+                        highlightElevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                        color: currentIndex == 2
+                            ? HexColor("#FF844B")
+                            : HexColor("#F2F2F2"),
+                        highlightColor: Colors.transparent,
+                        splashColor: Colors.transparent,
+                        onPressed: () =>
+                            setState(() => _pageController.jumpToPage(2)),
+                        child: Text(
+                          'Отзывы',
+                          style: TextStyle(
+                            color: currentIndex == 2
+                                ? Colors.white
+                                : HexColor("#262626"),
+                            fontSize: unitHeight * 13,
                           ),
                         ),
                       ),
-                    ]),
-              ),
+                    ),
+                  ]),
             ),
+          ),
 
           Expanded(
             child: Padding(
@@ -268,66 +283,83 @@ class _SelectedStaffPageState extends State<SelectedStaffPage> {
                       ),
                     ),
                   ),
-                  Center(child: BlocBuilder(
-                      bloc: BlocProvider.of<ServicesBloc>(context),
-                      builder: (context, ServicesState state) => ListView.builder(
+                  Center(
+                    child: BlocBuilder(
+                      bloc: _servicesBloc,
+                      builder: (context, ServicesState state) =>
+                          ListView.builder(
                         itemCount: state.categories.length,
                         itemBuilder: (context, index) {
-                          List<Service> services = state.services.where((element) =>
-                          element.categoryService == state.categories[index].id).toList();
+                          List<Service> services = state.services
+                              .where((element) =>
+                                  element.categoryService ==
+                                  state.categories[index].id)
+                              .toList();
                           return DropDown(
                             unitHeight: unitHeight,
                             title: state.categories[index].name,
-                            list: List<Widget>.generate(services.length, (index) => GestureDetector(
-                              onTap: () => _showModalBottomSheet(context, services[index]),
-                              child: Container(
-                                margin: EdgeInsets.only(bottom: unitHeight * 8),
-                                decoration: BoxDecoration(
-                                  border: Border(
-                                    bottom: BorderSide(
-                                      color: HexColor('#262626').withOpacity(0.3),
-                                      width: unitHeight * 1,
+                            list: List<Widget>.generate(
+                              services.length,
+                              (index) => GestureDetector(
+                                onTap: () =>
+                                    _showModalBottomSheet(services[index]),
+                                child: Container(
+                                  margin:
+                                      EdgeInsets.only(bottom: unitHeight * 8),
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                      bottom: BorderSide(
+                                        color: HexColor('#262626')
+                                            .withOpacity(0.3),
+                                        width: unitHeight * 1,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      margin: EdgeInsets.only(bottom: unitHeight * 12),
-                                      child: Text(
-                                        services[index].name,
-                                        style: TextStyle(
-                                          fontSize: unitHeight * 15,
-                                        ),
-                                      ),
-                                    ),
-                                    Row(children: [
-                                      Text(
-                                        'Подробнее',
-                                        style: TextStyle(
-                                          fontSize: unitHeight * 13,
-                                          color: HexColor('#262626').withOpacity(0.6),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          alignment: Alignment.bottomRight,
-                                          child: Text(
-                                            '${services[index].price} BYN',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: unitHeight * 15,
-                                            ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                            bottom: unitHeight * 12),
+                                        child: Text(
+                                          services[index].name,
+                                          style: TextStyle(
+                                            fontSize: unitHeight * 15,
                                           ),
                                         ),
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'Подробнее',
+                                            style: TextStyle(
+                                              fontSize: unitHeight * 13,
+                                              color: HexColor('#262626')
+                                                  .withOpacity(0.6),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Container(
+                                              alignment: Alignment.bottomRight,
+                                              child: Text(
+                                                '${services[index].price} BYN',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: unitHeight * 15,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
                                       )
-                                    ],)
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),),
-                          );},
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ),
@@ -343,9 +375,7 @@ class _SelectedStaffPageState extends State<SelectedStaffPage> {
     );
   }
 
-  void _showModalBottomSheet(BuildContext context, Service service) {
-    Size size = MediaQuery.of(context).size;
-    final unitHeight = size.height * 0.00125;
+  void _showModalBottomSheet(Service service) {
     showModalBottomSheet(
       context: context,
       elevation: 3,
@@ -360,32 +390,33 @@ class _SelectedStaffPageState extends State<SelectedStaffPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(children: [
-              Text(
-                'Услуга',
-                style: TextStyle(
-                  fontSize: unitHeight * 34,
-                  fontWeight: FontWeight.w600,
-                  color: HexColor('#262626'),
-                ),
-              ),
-
-              Expanded(
-                child: Container(
-                  alignment: Alignment.centerRight,
-                  child: IconButton(
-                    icon: SvgPicture.asset(
-                      'assets/icons/service_change.svg',
-                      height: unitHeight * 44,
-                      width: unitHeight * 44,
-                    ),
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
+            Row(
+              children: [
+                Text(
+                  'Услуга',
+                  style: TextStyle(
+                    fontSize: unitHeight * 34,
+                    fontWeight: FontWeight.w600,
+                    color: HexColor('#262626'),
                   ),
                 ),
-              ),
-            ],),
-
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.centerRight,
+                    child: IconButton(
+                      onPressed: () => null,
+                      icon: SvgPicture.asset(
+                        'assets/icons/service_change.svg',
+                        height: unitHeight * 44,
+                        width: unitHeight * 44,
+                      ),
+                      highlightColor: Colors.transparent,
+                      splashColor: Colors.transparent,
+                    ),
+                  ),
+                ),
+              ],
+            ),
             Container(
               margin: EdgeInsets.only(
                 top: unitHeight * 22,

@@ -12,7 +12,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.title,
     this.showLeading = true,
     this.actions,
-    this.iconLeading = 'assets/icons/return.svg'
+    this.iconLeading = 'assets/icons/return.svg',
   });
 
   @override
@@ -24,25 +24,29 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       toolbarHeight: unitHeight * 60,
       elevation: 0,
       centerTitle: true,
-      title: title != null ? Text(
-        title,
-        style: TextStyle(
-          fontSize: unitHeight * 17,
-          fontWeight: FontWeight.w700,
-          color: HexColor('#262626'),
-        ),
-      ) : null,
-      leading: showLeading ? IconButton(
-        icon: SvgPicture.asset(
-          iconLeading,
-          color: HexColor("#262626"),
-          height: unitHeight * 20,
-          width: unitHeight * 20,
-        ),
-        highlightColor: Colors.transparent,
-        splashColor: Colors.transparent,
-        onPressed: () => Navigator.of(context).pop(),
-      ) : Container(),
+      title: title != null
+          ? Text(
+              title,
+              style: TextStyle(
+                fontSize: unitHeight * 17,
+                fontWeight: FontWeight.w700,
+                color: HexColor('#262626'),
+              ),
+            )
+          : null,
+      leading: showLeading
+          ? IconButton(
+              icon: SvgPicture.asset(
+                iconLeading,
+                color: HexColor("#262626"),
+                height: unitHeight * 20,
+                width: unitHeight * 20,
+              ),
+              highlightColor: Colors.transparent,
+              splashColor: Colors.transparent,
+              onPressed: () => Navigator.of(context).pop(),
+            )
+          : Container(),
       actions: _getActions(unitHeight),
     );
   }
@@ -51,23 +55,20 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => new Size.fromHeight(kToolbarHeight);
 
   List<Widget> _getActions(double unitHeight) {
-    List<Widget> widgets = [];
-
-    for (int i = 0; i < actions.length; i++) {
-      widgets.add(IconButton(
+    return List.generate(
+      actions.length,
+      (index) => IconButton(
         icon: SvgPicture.asset(
-          actions[i].uri,
+          actions[index].uri,
           color: HexColor("#262626"),
           height: unitHeight * 20,
           width: unitHeight * 20,
         ),
         highlightColor: Colors.transparent,
         splashColor: Colors.transparent,
-        onPressed: actions[i].callback,
-      ));
-    }
-
-    return widgets;
+        onPressed: actions[index].callback,
+      ),
+    );
   }
 }
 
@@ -75,5 +76,8 @@ class MyAction {
   final String uri;
   final Object Function() callback;
 
-  MyAction(this.uri, this.callback);
+  const MyAction(
+    this.uri,
+    this.callback,
+  );
 }

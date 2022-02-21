@@ -8,6 +8,7 @@ class Staff {
   String numberPhone;
   String image;
   List<int> services;
+  List<String> busyTime;
 
   Staff({
     this.id,
@@ -17,7 +18,8 @@ class Staff {
     this.sex,
     this.numberPhone,
     this.image,
-    this.services
+    this.services,
+    this.busyTime,
   });
 
   Map<String, dynamic> toDatabaseJson() => {
@@ -27,9 +29,9 @@ class Staff {
     'sex': this.sex,
     'rate': this.rate,
     'numberPhone': this.numberPhone,
-    //переделать
     'image': this.image,
-    'services': jsonEncode(this.services)
+    'services': jsonEncode(this.services),
+    'busyTime': jsonEncode(this.busyTime)
   };
 
   factory Staff.fromDatabaseJson(Map<String, dynamic> data) => Staff(
@@ -41,6 +43,7 @@ class Staff {
     numberPhone: data['numberPhone'],
     //переделать
     image: data['image'],
-    services: jsonDecode(data['services']).cast<int>()
+    services: jsonDecode(data['services']).cast<int>(),
+    busyTime: jsonDecode(data['busyTime']).cast<String>(),
   );
 }

@@ -5,6 +5,7 @@ import 'package:hooa/bloc/statisticBloc.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class StatisticPage extends StatelessWidget {
   final List<ChartData> chartData = [
     ChartData('David', 43, HexColor('#828282')),
@@ -13,11 +14,13 @@ class StatisticPage extends StatelessWidget {
   ];
 
   StatisticBloc bloc;
+  Size size;
+  double unitHeight;
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    final unitHeight = size.height * 0.00125;
+    size = MediaQuery.of(context).size;
+    unitHeight = size.height * 0.00125;
     bloc = BlocProvider.of<StatisticBloc>(context);
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -34,98 +37,13 @@ class StatisticPage extends StatelessWidget {
               ),
             ),
           ),
-
           Container(
             margin: EdgeInsets.only(top: size.height * 0.05),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  height: size.height * 0.0015 * 38,
-                  width: size.width / 3 - 24,
-                  child: StreamBuilder<Object>(
-                    stream: bloc.stream,
-                    builder: (context, snapshot) {
-                      return MaterialButton(
-                        elevation: 0,
-                        highlightElevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                        color: snapshot.data == 0 ? HexColor("#FF844B") : HexColor("#F2F2F2"),
-                        highlightColor: Colors.transparent,
-                        splashColor: Colors.transparent,
-                        onPressed: () => bloc.selectButton(0),
-                        child: Text(
-                          "1 неделя",
-                          style: TextStyle(
-                            color: snapshot.data == 0 ? Colors.white : HexColor("#262626"),
-                            fontSize: unitHeight * 15,
-                          ),
-                        ),
-                      );
-                    }
-                  ),
-                ),
-                Container(
-                  height: size.height * 0.0015 * 38,
-                  width: size.width / 3 - 24,
-                  child: StreamBuilder<Object>(
-                    stream: bloc.stream,
-                    builder: (context, snapshot) {
-                      return MaterialButton(
-                        elevation: 0,
-                        highlightElevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40),
-                        ),
-                        color: snapshot.data == 1 ? HexColor("#FF844B") : HexColor("#F2F2F2"),
-                        highlightColor: Colors.transparent,
-                        splashColor: Colors.transparent,
-                        onPressed: () => bloc.selectButton(1),
-                        child: Text(
-                          "2 недели",
-                          style: TextStyle(
-                            color: snapshot.data == 1 ? Colors.white : HexColor("#262626"),
-                            fontSize: unitHeight * 15,
-                          ),
-                        ),
-                      );
-                    }
-                  ),
-                ),
-
-                Container(
-                  height: size.height * 0.0015 * 38,
-                  width: size.width / 3 - 24,
-                  child: StreamBuilder<Object>(
-                    stream: bloc.stream,
-                    builder: (context, snapshot) {
-                      return MaterialButton(
-                        elevation: 0,
-                        highlightElevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                        color: snapshot.data == 2 ? HexColor("#FF844B") : HexColor("#F2F2F2"),
-                        highlightColor: Colors.transparent,
-                        splashColor: Colors.transparent,
-                        onPressed: () => bloc.selectButton(2),
-                        child: Text(
-                          "1 месяц",
-                          style: TextStyle(
-                            color: snapshot.data == 2 ? Colors.white : HexColor("#262626"),
-                            fontSize: unitHeight * 15,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
+              children: _buildListButton(),
             ),
           ),
-
           Container(
             margin: EdgeInsets.only(top: size.height * 0.14),
             height: size.height * 0.1,
@@ -141,7 +59,6 @@ class StatisticPage extends StatelessWidget {
               ],
             ),
           ),
-
           Container(
             margin: EdgeInsets.only(top: size.height * 0.11, left: 13),
             child: Row(
@@ -166,7 +83,6 @@ class StatisticPage extends StatelessWidget {
               ],
             ),
           ),
-
           Container(
             margin: EdgeInsets.only(top: size.height * 0.03, left: 13),
             child: Row(children: [
@@ -189,7 +105,6 @@ class StatisticPage extends StatelessWidget {
               ),
             ]),
           ),
-
           Container(
             margin: EdgeInsets.only(top: size.height * 0.03, left: 13),
             child: Row(
@@ -215,6 +130,44 @@ class StatisticPage extends StatelessWidget {
             ),
           )
         ],
+      ),
+    );
+  }
+
+  List<Container> _buildListButton() {
+    List<String> titleButtons = ['1 неделя', '2 недели', '1 месяц'];
+
+    return List.generate(
+      3,
+      (index) => Container(
+        height: size.height * 0.0015 * 38,
+        width: size.width / 3 - 24,
+        child: StreamBuilder<Object>(
+          stream: bloc.stream,
+          builder: (context, snapshot) {
+            return MaterialButton(
+              elevation: 0,
+              highlightElevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50),
+              ),
+              color: snapshot.data == index
+                  ? HexColor("#FF844B")
+                  : HexColor("#F2F2F2"),
+              highlightColor: Colors.transparent,
+              splashColor: Colors.transparent,
+              onPressed: () => bloc.selectButton(index),
+              child: Text(
+                titleButtons[index],
+                style: TextStyle(
+                  color:
+                      snapshot.data == 0 ? Colors.white : HexColor("#262626"),
+                  fontSize: unitHeight * 15,
+                ),
+              ),
+            );
+          },
+        ),
       ),
     );
   }

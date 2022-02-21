@@ -29,13 +29,25 @@ class AddStaffPageState extends State<AddStaffPage> {
   final _picker = new ImagePicker();
   File _image;
   Map<Service, bool> selectedService = Map<Service, bool>();
+  StaffBloc _staffBloc;
+  ServicesBloc _servicesBloc;
 
   Sex _sex = Sex.Female;
+  Size size;
+  double unitHeight;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _staffBloc = BlocProvider.of<StaffBloc>(context);
+    _servicesBloc = BlocProvider.of<ServicesBloc>(context);
+  }
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final unitHeight = size.height * 0.00125;
+    size = MediaQuery.of(context).size;
+    unitHeight = size.height * 0.00125;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: const MyAppBar(
@@ -47,10 +59,8 @@ class AddStaffPageState extends State<AddStaffPage> {
         child: Column(children: <Widget>[
           Container(
             alignment: Alignment.centerLeft,
-            margin: EdgeInsets.only(
-                bottom: unitHeight * 20,
-                top: unitHeight * 10
-            ),
+            margin:
+                EdgeInsets.only(bottom: unitHeight * 20, top: unitHeight * 10),
             child: Text(
               'ИЗМЕНЕНИЕ ЛИЧНОЙ ИНФОРМАЦИИ',
               style: TextStyle(
@@ -59,33 +69,33 @@ class AddStaffPageState extends State<AddStaffPage> {
               ),
             ),
           ),
-
           GestureDetector(
-            onTap: () => _showPicker(context),
+            onTap: () => _showPicker(),
             child: CircleAvatar(
               radius: unitHeight * 45,
               backgroundColor: HexColor('#E0E0E0'),
-              child: _image != null ? ClipRRect(
-                borderRadius: BorderRadius.circular(50),
-                child: Image.file(
-                  _image,
-                  width: unitHeight * 90,
-                  height: unitHeight * 90,
-                  fit: BoxFit.fill,
-                ),
-              ) : Container(
-                width: unitHeight * 40,
-                height: unitHeight * 40,
-                child: SvgPicture.asset(
-                  'assets/icons/add.svg',
-                  color: Colors.white,
-                  height: unitHeight * 28,
-                  width: unitHeight * 28,
-                ),
-              ),
+              child: _image != null
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(50),
+                      child: Image.file(
+                        _image,
+                        width: unitHeight * 90,
+                        height: unitHeight * 90,
+                        fit: BoxFit.fill,
+                      ),
+                    )
+                  : Container(
+                      width: unitHeight * 40,
+                      height: unitHeight * 40,
+                      child: SvgPicture.asset(
+                        'assets/icons/add.svg',
+                        color: Colors.white,
+                        height: unitHeight * 28,
+                        width: unitHeight * 28,
+                      ),
+                    ),
             ),
           ),
-
           Container(
             margin: EdgeInsets.only(top: size.height * 0.015),
             height: unitHeight * 50,
@@ -100,7 +110,6 @@ class AddStaffPageState extends State<AddStaffPage> {
               ),
             ),
           ),
-
           Container(
             margin: EdgeInsets.only(top: size.height * 0.015),
             height: unitHeight * 50,
@@ -108,7 +117,7 @@ class AddStaffPageState extends State<AddStaffPage> {
               Expanded(
                 child: ListTile(
                   title: Align(
-                    alignment: Alignment( -1.8, 0),
+                    alignment: Alignment(-1.8, 0),
                     child: Text(
                       Sex.Female.value,
                       style: TextStyle(fontSize: unitHeight * 17),
@@ -119,9 +128,7 @@ class AddStaffPageState extends State<AddStaffPage> {
                     value: Sex.Female,
                     activeColor: HexColor('#262626'),
                     groupValue: _sex,
-                    onChanged: ((Sex value) =>
-                        setState(() => _sex = value)
-                    ),
+                    onChanged: ((Sex value) => setState(() => _sex = value)),
                   ),
                 ),
               ),
@@ -139,15 +146,12 @@ class AddStaffPageState extends State<AddStaffPage> {
                     value: Sex.Male,
                     groupValue: _sex,
                     activeColor: HexColor('#262626'),
-                    onChanged: ((Sex value) =>
-                        setState(() => _sex = value)
-                    ),
+                    onChanged: ((Sex value) => setState(() => _sex = value)),
                   ),
                 ),
               ),
             ]),
           ),
-
           Container(
             margin: EdgeInsets.only(top: size.height * 0.015),
             height: unitHeight * 50,
@@ -162,7 +166,6 @@ class AddStaffPageState extends State<AddStaffPage> {
               ),
             ),
           ),
-
           Container(
             margin: EdgeInsets.only(top: size.height * 0.015),
             height: unitHeight * 50,
@@ -177,11 +180,9 @@ class AddStaffPageState extends State<AddStaffPage> {
               ),
             ),
           ),
-
           Container(
             alignment: Alignment.centerLeft,
             margin: EdgeInsets.only(top: size.height * 0.04),
-
             child: Text(
               'ИЗМЕНЕНИЕ УСЛУГ',
               style: TextStyle(
@@ -190,30 +191,39 @@ class AddStaffPageState extends State<AddStaffPage> {
               ),
             ),
           ),
-
           Expanded(
             child: Stack(
               children: [
                 Expanded(
                   child: Container(
                     child: BlocBuilder(
-                      bloc: BlocProvider.of<ServicesBloc>(context),
-                      builder: (context, ServicesState state) => ListView.builder(
+                      bloc: _servicesBloc,
+                      builder: (context, ServicesState state) =>
+                          ListView.builder(
                         itemCount: state.categories.length,
                         itemBuilder: (context, index) {
-                          List<Service> services = state.services.where((element) =>
-                          element.categoryService == state.categories[index].id)
-                          .toList();
+                          List<Service> services = state.services
+                              .where((element) =>
+                                  element.categoryService ==
+                                  state.categories[index].id)
+                              .toList();
                           if (selectedService.isEmpty) {
-                            for(int i = 0; i < services.length; i++) {
-                              selectedService.putIfAbsent(services[i], () => false);
+                            for (int i = 0; i < services.length; i++) {
+                              selectedService.putIfAbsent(
+                                  services[i], () => false);
                             }
                           }
-                        return DropDown(
-                          unitHeight: unitHeight,
-                          title: state.categories[index].name,
-                          list: List<Widget>.generate(services.length, (index) =>
-                            _getItemDropdown(unitHeight, services[index], index, selectedService[selectedService.keys.elementAt(index)])
+                          return DropDown(
+                            unitHeight: unitHeight,
+                            title: state.categories[index].name,
+                            list: List<Widget>.generate(
+                              services.length,
+                              (index) => _getItemDropdown(
+                                services[index],
+                                index,
+                                selectedService[
+                                    selectedService.keys.elementAt(index)],
+                              ),
                             ),
                           );
                         },
@@ -221,7 +231,6 @@ class AddStaffPageState extends State<AddStaffPage> {
                     ),
                   ),
                 ),
-
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Row(
@@ -230,28 +239,28 @@ class AddStaffPageState extends State<AddStaffPage> {
                       Button(
                         text: 'Сбросить',
                         color: HexColor("#F8F7F4"),
-                          textColor: HexColor("#FF844B"),
-                        onPressed: () => Navigator.pop(context)
+                        textColor: HexColor("#FF844B"),
+                        onPressed: () => Navigator.pop(context),
                       ),
                       Button(
                         text: 'Применить',
                         onPressed: () {
                           List<int> services = [];
 
-                          for(int i = 0; i < selectedService.length; i++) {
-                            if(selectedService.values.elementAt(i) == true) {
-                              services.add(selectedService.keys.elementAt(i).id);
+                          for (int i = 0; i < selectedService.length; i++) {
+                            if (selectedService.values.elementAt(i) == true) {
+                              services
+                                  .add(selectedService.keys.elementAt(i).id);
                             }
                           }
-
-                          final bloc = BlocProvider.of<StaffBloc>(context);
-                          bloc.add(AddStaff(Staff(
-                              fullName: fullNameController.text,
-                              position: positionController.text,
-                              sex: _sex.value,
-                              numberPhone: numberPhoneController.text,
-                              image: _image != null ? _image.path : null,
-                              services: services
+                          _staffBloc.add(AddStaff(Staff(
+                            fullName: fullNameController.text,
+                            position: positionController.text,
+                            sex: _sex.value,
+                            numberPhone: numberPhoneController.text,
+                            image: _image != null ? _image.path : null,
+                            services: services,
+                            busyTime: [],
                           )));
                           Navigator.pop(context);
                         },
@@ -267,25 +276,15 @@ class AddStaffPageState extends State<AddStaffPage> {
     );
   }
 
-  _imgFromCamera() async {
-    final _pickedFile = await _picker.getImage(
-        source: ImageSource.camera, imageQuality: 50
-    );
+  _pickImage(ImageSource source) async {
+    final _pickedFile =
+        await _picker.pickImage(source: source, imageQuality: 50);
     setState(() {
       _image = File(_pickedFile.path);
     });
   }
 
-  _imgFromGallery() async {
-    final _pickedFile = await  _picker.getImage(
-        source: ImageSource.gallery, imageQuality: 50
-    );
-    setState(() {
-      _image = File(_pickedFile.path);
-    });
-  }
-
-  void _showPicker(context) {
+  void _showPicker() {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext buildContext) {
@@ -296,45 +295,44 @@ class AddStaffPageState extends State<AddStaffPage> {
                 leading: Icon(Icons.photo_library),
                 title: Text('Photo Library'),
                 onTap: () {
-                  _imgFromGallery();
+                  _pickImage(ImageSource.gallery);
                   Navigator.of(context).pop();
-                  },
+                },
               ),
               ListTile(
                 leading: Icon(Icons.photo_camera),
                 title: Text('Camera'),
                 onTap: () {
-                  _imgFromCamera();
+                  _pickImage(ImageSource.camera);
                   Navigator.of(context).pop();
                 },
               ),
             ]),
           ),
         );
-        },
+      },
     );
   }
 
-  Widget _getItemDropdown(double unitHeight, Service service, int index, bool isSelected) {
+  Widget _getItemDropdown(Service service, int index, bool isSelected) {
     return GestureDetector(
       onTap: () => setState(() {
-        for(int i = 0; i < selectedService.length; i++) {
+        for (int i = 0; i < selectedService.length; i++) {
           selectedService[selectedService.keys.elementAt(i)] = false;
         }
-        selectedService[selectedService.keys.elementAt(index)]
-          = !selectedService[selectedService.keys.elementAt(index)];
+        selectedService[selectedService.keys.elementAt(index)] =
+            !selectedService[selectedService.keys.elementAt(index)];
       }),
       child: Container(
         margin: EdgeInsets.only(bottom: unitHeight * 16),
         width: unitHeight * 1,
         decoration: BoxDecoration(
           border: Border(
-            bottom: BorderSide(
-              color: HexColor('#262626').withOpacity(0.5)),
-
-            ),
+            bottom: BorderSide(color: HexColor('#262626').withOpacity(0.5)),
           ),
-          child: Row(children: [
+        ),
+        child: Row(
+          children: [
             Text(
               service.name,
               style: TextStyle(fontSize: unitHeight * 15),
@@ -346,7 +344,7 @@ class AddStaffPageState extends State<AddStaffPage> {
               ),
             ),
           ],
-          ),
+        ),
       ),
     );
   }

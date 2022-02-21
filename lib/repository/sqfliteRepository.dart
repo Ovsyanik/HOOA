@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:hooa/model/Card.dart';
 import 'package:hooa/model/Sale.dart';
 import 'package:hooa/model/categoryService.dart';
 import 'package:hooa/model/institution.dart';
@@ -31,18 +32,15 @@ class SqfliteRepository {
 
   Future deleteStaff(int id) async {
     final db = await dbProvider.database;
-    await db.delete(
-        staffTable,
-        where: 'id = ?',
-        whereArgs: [id]);
+    await db.delete(staffTable, where: 'id = ?', whereArgs: [id]);
   }
 
   Future<List<Staff>> getStaff() async {
     final db = await dbProvider.database;
-    var result = await db.query (staffTable);
-    List<Staff> staff = result.isNotEmpty ?
-      result.map((item) => Staff.fromDatabaseJson(item)).toList()
-      : [];
+    var result = await db.query(staffTable);
+    List<Staff> staff = result.isNotEmpty
+        ? result.map((item) => Staff.fromDatabaseJson(item)).toList()
+        : [];
     return staff;
   }
 
@@ -53,18 +51,18 @@ class SqfliteRepository {
 
   Future<List<Record>> getRecords() async {
     final db = await dbProvider.database;
-    var result = await db.query (recordsTable);
-    List<Record> records = result.isNotEmpty ?
-      result.map((item) => Record.fromDatabaseJson(item)).toList()
-      : [];
+    var result = await db.query(recordsTable);
+    List<Record> records = result.isNotEmpty
+        ? result.map((item) => Record.fromDatabaseJson(item)).toList()
+        : [];
     return records;
   }
 
   Future<List<Service>> getServices() async {
     final db = await dbProvider.database;
-    var result = await db.query (serviceTable);
-    List<Service> services = result.isNotEmpty ?
-        result.map((item) => Service.fromDatabaseJson(item)).toList()
+    var result = await db.query(serviceTable);
+    List<Service> services = result.isNotEmpty
+        ? result.map((item) => Service.fromDatabaseJson(item)).toList()
         : [];
     return services;
   }
@@ -76,33 +74,35 @@ class SqfliteRepository {
 
   Future<List<CategoryService>> getCategoryServices() async {
     final db = await dbProvider.database;
-    var result = await db.query (categoryServiceTable);
-    List<CategoryService> categories = result.isNotEmpty ?
-    result.map((item) => CategoryService.fromDatabaseJson(item)).toList()
+    var result = await db.query(categoryServiceTable);
+    List<CategoryService> categories = result.isNotEmpty
+        ? result.map((item) => CategoryService.fromDatabaseJson(item)).toList()
         : [];
     return categories;
   }
 
   Future deleteService(int id) async {
     final db = await dbProvider.database;
-    await db.delete(
-        serviceTable,
-        where: 'id = ?',
-        whereArgs: [id]);
+    await db.delete(serviceTable, where: 'id = ?', whereArgs: [id]);
   }
 
   Future updateService(Service service) async {
     final db = await dbProvider.database;
-    await db.update(serviceTable, service.toDatabaseJson(),
-      where: 'id = ?', whereArgs: [service.id]);
+    await db.update(
+      serviceTable,
+      service.toDatabaseJson(),
+      where: 'id = ?',
+      whereArgs: [service.id],
+    );
   }
 
   Future<List<Service>> getServicesById(List<int> ids) async {
     final db = await dbProvider.database;
     List<Service> services = [];
-    for(int i = 0; i < ids.length; i++) {
-      var result = await db.query (serviceTable, where: 'id = ?', whereArgs: [ids.elementAt(i)]);
-      if(result.isNotEmpty) {
+    for (int i = 0; i < ids.length; i++) {
+      var result = await db
+          .query(serviceTable, where: 'id = ?', whereArgs: [ids.elementAt(i)]);
+      if (result.isNotEmpty) {
         services.add(result.map((e) => Service.fromDatabaseJson(e)).first);
       }
     }
@@ -112,15 +112,19 @@ class SqfliteRepository {
 
   Future updateStaff(Staff staff) async {
     final db = await dbProvider.database;
-    await db.update(staffTable, staff.toDatabaseJson(),
-        where: 'id = ?', whereArgs: [staff.id]);
+    await db.update(
+      staffTable,
+      staff.toDatabaseJson(),
+      where: 'id = ?',
+      whereArgs: [staff.id],
+    );
   }
 
   Future<List<Sale>> getSales() async {
     final db = await dbProvider.database;
-    var result = await db.query (salesTable);
-    List<Sale> sales = result.isNotEmpty ?
-    result.map((item) => Sale.fromDatabaseJson(item)).toList()
+    var result = await db.query(salesTable);
+    List<Sale> sales = result.isNotEmpty
+        ? result.map((item) => Sale.fromDatabaseJson(item)).toList()
         : [];
     return sales;
   }
@@ -132,30 +136,51 @@ class SqfliteRepository {
 
   Future updateSale(Sale sale) async {
     final db = await dbProvider.database;
-    await db.update(salesTable, sale.toDatabaseJson(),
-        where: 'id = ?', whereArgs: [sale.id]);
+    await db.update(
+      salesTable,
+      sale.toDatabaseJson(),
+      where: 'id = ?',
+      whereArgs: [sale.id],
+    );
   }
 
   Future deleteSale(int id) async {
     final db = await dbProvider.database;
-    await db.delete(
-        salesTable,
-        where: 'id = ?',
-        whereArgs: [id]);
+    await db.delete(salesTable, where: 'id = ?', whereArgs: [id]);
   }
 
   Future<Institution> getInstitution(String email, String password) async {
     final db = await dbProvider.database;
-    var result = await db.query(institutionTable,
+    var result = await db.query(
+      institutionTable,
       where: 'email = ? and password = ?',
       whereArgs: [email, password],
     );
-    return result.isNotEmpty ? Institution.fromDatabaseJson(result.first) : null;
+    return result.isNotEmpty
+        ? Institution.fromDatabaseJson(result.first)
+        : null;
+  }
+
+  Future<List<Institution>> getInstitutionsById(List<int> ids) async {
+    final db = await dbProvider.database;
+    List<Institution> institutions = [];
+    
+    for (int i = 0; i < ids.length; i++) {
+      var result = await db.query(institutionTable,
+          where: 'id = ?', whereArgs: [ids.elementAt(i)]);
+      if (result.isNotEmpty) {
+        institutions
+            .add(result.map((e) => Institution.fromDatabaseJson(e)).first);
+      }
+    }
+
+    return institutions;
   }
 
   Future<User> getUser(String email, String password) async {
     final db = await dbProvider.database;
-    var result = await db.query(userTable,
+    var result = await db.query(
+      userTable,
       where: 'email = ? and password = ?',
       whereArgs: [email, password],
     );
@@ -164,15 +189,19 @@ class SqfliteRepository {
 
   Future updateInstitution(Institution institution) async {
     final db = await dbProvider.database;
-    await db.update(institutionTable, institution.toDatabaseJson(),
-        where: 'id = ?', whereArgs: [institution.id]);
+    await db.update(
+      institutionTable,
+      institution.toDatabaseJson(),
+      where: 'id = ?',
+      whereArgs: [institution.id],
+    );
   }
 
   Future<List<Institution>> getInstitutions() async {
     final db = await dbProvider.database;
-    var result = await db.query (institutionTable);
-    List<Institution> sales = result.isNotEmpty ?
-    result.map((item) => Institution.fromDatabaseJson(item)).toList()
+    var result = await db.query(institutionTable);
+    List<Institution> sales = result.isNotEmpty
+        ? result.map((item) => Institution.fromDatabaseJson(item)).toList()
         : [];
     return sales;
   }
@@ -180,8 +209,63 @@ class SqfliteRepository {
   Future deleteInstitution(int id) async {
     final db = await dbProvider.database;
     await db.delete(
-        institutionTable,
-        where: 'id = ?',
-        whereArgs: [id]);
+      userTable,
+      where: 'id = ?',
+      whereArgs: [id],
+    );
   }
+
+  Future updateUser(User user) async {
+    final db = await dbProvider.database;
+    await db.update(
+      userTable,
+      user.toDatabaseJson(),
+      where: 'id = ?',
+      whereArgs: [user.id],
+    );
+  }
+
+  Future deleteUser(int id) async {
+    final db = await dbProvider.database;
+    await db.delete(
+      userTable,
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
+
+  Future<List<Card>> getCards() async {
+    final db = await dbProvider.database;
+    var result = await db.query(cardsTable);
+    List<Card> cards = result.isNotEmpty
+        ? result.map((item) => Card.fromDatabaseJson(item)).toList()
+        : [];
+    return cards;
+  }
+
+  Future addCard(Card card) async {
+    final db = await dbProvider.database;
+    await db.insert(salesTable, card.toDatabaseJson());
+  }
+
+  Future updateCard(Card card) async {
+    final db = await dbProvider.database;
+    await db.update(
+      cardsTable,
+      card.toDatabaseJson(),
+      where: 'id = ?',
+      whereArgs: [card.id],
+    );
+  }
+
+  Future deleteCard(int id) async {
+    final db = await dbProvider.database;
+    await db.delete(
+      cardsTable,
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
+
+  getInstitutionsById(List<int> institutionsId) {}
 }

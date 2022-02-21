@@ -37,8 +37,10 @@ class SignUpBloc extends BlocBase {
     var id;
     if (selectedType == 0) {
       id = _sqliteRepository.insertUser(user);
+      this.user = user;
     } else if(selectedType == 1) {
       id = _sqliteRepository.insertInstitution(institution);
+      this.institution = institution;
     }
     return id;
   }

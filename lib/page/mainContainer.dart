@@ -1,7 +1,6 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:hooa/model/institution.dart';
 import 'package:hooa/page/records/listRecords.dart';
 import 'package:hooa/page/profile/profile.dart';
 import 'package:hooa/page/staff/staff.dart';

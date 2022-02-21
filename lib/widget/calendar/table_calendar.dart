@@ -1,5 +1,6 @@
 
 import 'package:flutter/widgets.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'shared/utils.dart';
 import 'table_calendar_base.dart';
@@ -89,7 +90,6 @@ class TableCalendar<T> extends StatefulWidget {
     this.selectedDayPredicate,
     this.holidayPredicate,
     this.onDaySelected,
-    // this.decorations = new List.empty(),
     this.onDisabledDayTapped,
     this.onDisabledDayLongPressed,
     this.onPageChanged,
@@ -111,14 +111,12 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
   PageController _pageController;
   ValueNotifier<DateTime> _focusedDay;
   List<BoxDecoration> decorations;
-  DateTime selectedDate;
 
 
   @override
   void initState() {
     super.initState();
     _focusedDay = ValueNotifier(widget.focusedDay);
-    selectedDate = widget.selectedDay;
   }
 
   @override
@@ -151,7 +149,7 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
     _updateFocusOnTap(day);
 
     widget.onDaySelected?.call(day, _focusedDay.value);
-    
+
   }
 
   void _updateFocusOnTap(DateTime day) {
@@ -169,6 +167,62 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
     }
   }
 
+  void _onFirstButtonTap() {
+    decorations = [
+      BoxDecoration(
+        color: HexColor('#4E7D96'),
+        border: Border.all(color: HexColor('#4E7D96'), width: 1.0),
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+      ),
+      null,
+      null,
+      null
+    ];
+    _pageController.jumpToPage(DateTime.now().month + 2);
+  }
+
+  void _onSecondButtonTap() {
+    decorations = [
+      null,
+      BoxDecoration(
+        color: HexColor('#4E7D96'),
+        border: Border.all(color: HexColor('#4E7D96'), width: 1.0),
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+      ),
+      null,
+      null
+    ];
+    _pageController.jumpToPage(DateTime.now().month + 3);
+  }
+
+  void _onThirdButtonTap() {
+    decorations = [
+      null,
+      null,
+      BoxDecoration(
+        color: HexColor('#4E7D96'),
+        border: Border.all(color: HexColor('#4E7D96'), width: 1.0),
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+      ),
+      null
+    ];
+    _pageController.jumpToPage(DateTime.now().month + 4);
+  }
+
+  void _onFourthButtonTap() {
+    decorations = [
+      null,
+      null,
+      null,
+      BoxDecoration(
+        color: HexColor('#4E7D96'),
+        border: Border.all(color: HexColor('#4E7D96'), width: 1.0),
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+      )
+    ];
+    _pageController.jumpToPage(DateTime.now().month + 5);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -177,10 +231,12 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
           valueListenable: _focusedDay,
           builder: (context, value, _) {
             return CalendarHeader(
+              decorations: this.decorations,
               selectedDate: widget.selectedDay,
-              onSelectMonth: (month) {
-                _pageController.jumpToPage(widget.selectedDay.month + month > 12 ? widget.selectedDay.month + month - 13 : widget.selectedDay.month + month-1);
-              },
+              onFirstButtonTap: _onFirstButtonTap,
+              onFourthButtonTap: _onFourthButtonTap,
+              onSecondButtonTap: _onSecondButtonTap,
+              onThirdButtonTap: _onThirdButtonTap,
             );
           },
         ),

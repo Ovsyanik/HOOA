@@ -28,9 +28,10 @@ class SignUpSecondInstitutionState extends State<SignUpSecondInstitutionPage> {
   final passwordController = TextEditingController();
   final codeController = TextEditingController();
   String code;
-
   bool isHidden = true;
   TypeInstitution _typeInstitution = TypeInstitution.HairdressingSalon;
+  Size size;
+  double unitHeight;
 
   @override
   void initState() {
@@ -39,8 +40,8 @@ class SignUpSecondInstitutionState extends State<SignUpSecondInstitutionPage> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final unitHeight = size.height * 0.00125;
+    size = MediaQuery.of(context).size;
+    unitHeight = size.height * 0.00125;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: const MyAppBar(actions: []),
@@ -48,7 +49,6 @@ class SignUpSecondInstitutionState extends State<SignUpSecondInstitutionPage> {
         padding: EdgeInsets.all(unitHeight * 16.0),
         child: Column(
           children: <Widget>[
-
             Container(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -60,7 +60,6 @@ class SignUpSecondInstitutionState extends State<SignUpSecondInstitutionPage> {
                 ),
               ),
             ),
-
             Container(
               margin: EdgeInsets.only(top: size.height * 0.02),
               width: size.width,
@@ -76,7 +75,6 @@ class SignUpSecondInstitutionState extends State<SignUpSecondInstitutionPage> {
                 ),
               ),
             ),
-
             Container(
               margin: EdgeInsets.only(top: size.height * 0.02),
               width: size.width,
@@ -97,35 +95,29 @@ class SignUpSecondInstitutionState extends State<SignUpSecondInstitutionPage> {
                         value: TypeInstitution.HairdressingSalon,
                         groupValue: _typeInstitution,
                         onChanged: ((TypeInstitution value) =>
-                          setState(() => _typeInstitution = value)
-                        ),
+                            setState(() => _typeInstitution = value)),
                       ),
                     ),
                   ),
-
                   Expanded(
                     child: ListTile(
                       title: Align(
                         alignment: Alignment(-2, 0),
-                        child: Text(
-                          TypeInstitution.Barbershop.value,
-                          style: TextStyle(fontSize: unitHeight * 17)
-                        ),
+                        child: Text(TypeInstitution.Barbershop.value,
+                            style: TextStyle(fontSize: unitHeight * 17)),
                       ),
                       contentPadding: EdgeInsets.all(0),
                       leading: Radio(
                         value: TypeInstitution.Barbershop,
                         groupValue: _typeInstitution,
                         onChanged: ((TypeInstitution value) =>
-                          setState(() => _typeInstitution = value)
-                        ),
+                            setState(() => _typeInstitution = value)),
                       ),
                     ),
                   ),
                 ],
               ),
             ),
-
             Container(
               margin: EdgeInsets.only(top: size.height * 0.02),
               width: size.width,
@@ -140,13 +132,13 @@ class SignUpSecondInstitutionState extends State<SignUpSecondInstitutionPage> {
                     highlightColor: Colors.transparent,
                     splashColor: Colors.transparent,
                     onTap: () async {
-                      addressController.text = await Navigator.push(context, MaterialPageRoute(builder: (context) => MapPage()));
+                      addressController.text = await Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => MapPage()));
                     },
                   ),
                 ),
               ),
             ),
-
             Container(
               margin: EdgeInsets.only(top: size.height * 0.02),
               width: size.width,
@@ -154,12 +146,11 @@ class SignUpSecondInstitutionState extends State<SignUpSecondInstitutionPage> {
               child: TextField(
                 controller: this.numberPhoneController,
                 decoration: InputDecoration(
-                    hintText: "Номер телефона",
-                    hintStyle: TextStyle(color: HexColor("#4D262626")),
+                  hintText: "Номер телефона",
+                  hintStyle: TextStyle(color: HexColor("#4D262626")),
                 ),
               ),
             ),
-
             Container(
               margin: EdgeInsets.only(top: size.height * 0.02),
               width: size.width,
@@ -175,7 +166,6 @@ class SignUpSecondInstitutionState extends State<SignUpSecondInstitutionPage> {
                 ),
               ),
             ),
-
             Container(
               margin: EdgeInsets.only(top: size.height * 0.02),
               width: size.width,
@@ -202,61 +192,52 @@ class SignUpSecondInstitutionState extends State<SignUpSecondInstitutionPage> {
                 ),
               ),
             ),
-
             Button(
-              margin: size.height * 0.05,
-              text: 'Зарегистрироваться',
-              width: size.width,
-              textSize: 16.0,
-              onPressed: () {
-                code = _generateCode();
-                _showModalVerify(context, code);
-              }
-            ),
-
+                margin: size.height * 0.05,
+                text: 'Зарегистрироваться',
+                width: size.width,
+                textSize: 16.0,
+                onPressed: () {
+                  code = _generateCode();
+                  _showModalVerify(code);
+                }),
             Container(
               margin: EdgeInsets.only(top: size.height * 0.02),
               width: size.width,
               child: Container(
-                child: Column(children: <Widget> [
-                  Container(
-                    alignment: Alignment.center,
-                    child: RichText(
-                      text: TextSpan(
-                        text: 'Регистрируясь вы принимаете условия',
-                        style:  TextStyle(
-                          fontSize: unitHeight * 13,
-                          color: HexColor("#828282"),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      alignment: Alignment.center,
+                      child: RichText(
+                        text: TextSpan(
+                          text: 'Регистрируясь вы принимаете условия',
+                          style: TextStyle(
+                            fontSize: unitHeight * 13,
+                            color: HexColor("#828282"),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-
-                  Container(
-                    margin: EdgeInsets.only(top: 5),
-                    alignment: Alignment.center,
-                    child: RichText(
-                      text: TextSpan(
-                        text: 'Политики конфиденциальности',
-                        style:  TextStyle(
-                          fontSize: unitHeight * 13,
-                          color: HexColor("#FF844B"),
-                          fontWeight: FontWeight.w700,
+                    Container(
+                      margin: EdgeInsets.only(top: 5),
+                      alignment: Alignment.center,
+                      child: RichText(
+                        text: TextSpan(
+                          text: 'Политики конфиденциальности',
+                          style: TextStyle(
+                            fontSize: unitHeight * 13,
+                            color: HexColor("#FF844B"),
+                            fontWeight: FontWeight.w700,
+                          ),
+                          recognizer: TapGestureRecognizer()..onTap = () {},
                         ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-
-                          },
                       ),
                     ),
-                  ),
-
-
                   ],
                 ),
               ),
             ),
-
             Expanded(
               child: Container(
                 margin: EdgeInsets.only(bottom: size.height * 0.03),
@@ -266,27 +247,27 @@ class SignUpSecondInstitutionState extends State<SignUpSecondInstitutionPage> {
                   textAlign: TextAlign.center,
                   text: TextSpan(
                     text: 'Зарегистрированы? ',
-                    style:  TextStyle(
+                    style: TextStyle(
                       fontSize: unitHeight * 15,
                       color: HexColor("#FF844B"),
                     ),
-                    children: <TextSpan> [
+                    children: <TextSpan>[
                       TextSpan(
                         text: 'Войти',
-                        style:  TextStyle(
+                        style: TextStyle(
                           fontSize: unitHeight * 15,
                           color: HexColor("#FF844B"),
                           fontWeight: FontWeight.w600,
                         ),
                         recognizer: TapGestureRecognizer()
-                          ..onTap = () => Navigator.of(context).pushNamed('/signIn'),
+                          ..onTap =
+                              () => Navigator.of(context).pushNamed('/signIn'),
                       ),
                     ],
                   ),
                 ),
               ),
             ),
-
           ],
         ),
       ),
@@ -304,22 +285,17 @@ class SignUpSecondInstitutionState extends State<SignUpSecondInstitutionPage> {
     super.dispose();
   }
 
-
   String _generateCode() {
     Random random = Random();
     return random.nextInt(9999).toString();
   }
-
 
   Future _sendSMS(String message, String recipents) async {
     SmsSender sender = SmsSender();
     sender.sendSms(SmsMessage(recipents, message));
   }
 
-
-  void _showModalVerify(BuildContext context, String code) {
-    Size size = MediaQuery.of(context).size;
-    final unitHeight = size.height * 0.00125;
+  void _showModalVerify(String code) {
     _sendSMS(code, numberPhoneController.text);
     showModalBottomSheet(
       context: context,
@@ -366,28 +342,30 @@ class SignUpSecondInstitutionState extends State<SignUpSecondInstitutionPage> {
             Container(
               alignment: Alignment.center,
               child: PinCodeTextField(
-                maxLength: 4,
-                onTextChanged: (value) {
-                  print(value);
-                },
-                pinTextStyle: TextStyle(
-                  fontSize: unitHeight * 17,
-                ),
-                controller: codeController,
-                pinBoxHeight: 56,
-                pinBoxWidth: 49,
-                pinBoxDecoration: (Color borderColor, Color pinBoxColor, {
-                  double borderWidth = 0.5,
-                  double radius = 15.0,
-                }) => BoxDecoration(
-                  border: Border.all(
-                    color: HexColor('#262626'),
-                    width: 0.5,
+                  maxLength: 4,
+                  onTextChanged: (value) {
+                    print(value);
+                  },
+                  pinTextStyle: TextStyle(
+                    fontSize: unitHeight * 17,
                   ),
-                  color: pinBoxColor,
-                  borderRadius: BorderRadius.circular(6.0),
-                )
-              ),
+                  controller: codeController,
+                  pinBoxHeight: 56,
+                  pinBoxWidth: 49,
+                  pinBoxDecoration: (
+                    Color borderColor,
+                    Color pinBoxColor, {
+                    double borderWidth = 0.5,
+                    double radius = 15.0,
+                  }) =>
+                      BoxDecoration(
+                        border: Border.all(
+                          color: HexColor('#262626'),
+                          width: 0.5,
+                        ),
+                        color: pinBoxColor,
+                        borderRadius: BorderRadius.circular(6.0),
+                      )),
             ),
             Container(
               margin: EdgeInsets.only(top: size.height * 0.05),
@@ -412,21 +390,25 @@ class SignUpSecondInstitutionState extends State<SignUpSecondInstitutionPage> {
                 ),
                 onPressed: () {
                   //if(code == codeController.text) {
-                    Institution institution = Institution(
-                      name: institutionController.text,
-                      type: _typeInstitution.value,
-                      email: emailController.text,
-                      numberPhone: numberPhoneController.text,
-                      address: addressController.text,
-                      password: passwordController.text,
-                    );
-                    BlocProvider.of<SignUpBloc>(context)
-                        .register(institution: institution);
-                    Navigator.push(context, MaterialPageRoute(builder:
-                        (context) => MainContainerPage(),
-                    ));
-                    //}
-                  },
+                  Institution institution = Institution(
+                    name: institutionController.text,
+                    type: _typeInstitution.value,
+                    email: emailController.text,
+                    numberPhone: numberPhoneController.text,
+                    timeStart: '8:00',
+                    timeEnd: '20:00',
+                    address: addressController.text,
+                    password: passwordController.text,
+                  );
+                  BlocProvider.of<SignUpBloc>(context)
+                      .register(institution: institution);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MainContainerPage(),
+                      ));
+                  //}
+                },
               ),
             ),
           ],

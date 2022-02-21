@@ -11,6 +11,7 @@ final recordsTable = 'Records';
 final categoryServiceTable = 'CategoryService';
 final serviceTable = 'Service';
 final salesTable = 'Sales';
+final cardsTable = 'Cards';
 
 class DatabaseProvider {
   static final DatabaseProvider dbProvider = DatabaseProvider();
@@ -54,6 +55,7 @@ class DatabaseProvider {
         "numberPhone TEXT, "
         "image TEXT, "
         "services TEXT, "
+        "busyTime TEXT, "
         "FOREIGN KEY (services) REFERENCES $serviceTable(id)"
         ");");
 
@@ -68,7 +70,10 @@ class DatabaseProvider {
         "timeStart TEXT, "
         "timeEnd TEXT, "
         "image TEXT, "
-        "instagram TEXT "
+        "instagram TEXT, "
+        "rate REAL, "
+        "services TEXT, "
+        "FOREIGN KEY (services) REFERENCES $serviceTable(id)"
         ");");
 
     await database.execute("CREATE TABLE $categoryServiceTable ("
@@ -88,11 +93,13 @@ class DatabaseProvider {
 
     await database.execute("CREATE TABLE $recordsTable ("
         "id INTEGER PRIMARY KEY, "
-        "service INTEGER, "
+        "services INTEGER, "
         "client TEXT, "
-        "master TEXT, "
+        "master INTEGER, "
         "price TEXT, "
-        "dateTime TEXT "
+        "dateTime TEXT, "
+        "FOREIGN KEY (master) REFERENCES $staffTable(id),"
+        "FOREIGN KEY (services) REFERENCES $serviceTable(id)"
         ");");
 
     await database.execute("CREATE TABLE $salesTable ("
@@ -104,6 +111,16 @@ class DatabaseProvider {
         "dateEnd TEXT, "
         "FOREIGN KEY (institution) REFERENCES $institutionTable(id), "
         "FOREIGN KEY (service) REFERENCES $serviceTable(id)"
+        ");");
+
+    await database.execute("CREATE TABLE $cardsTable ("
+        "id INTEGER PRIMARY KEY, "
+        "number TEXT, "
+        "date TEXT, "
+        "typeCard TEXT, "
+        "cvv TEXT, "
+        "user INTEGER, "
+        "FOREIGN KEY (user) REFERENCES $userTable(id)"
         ");");
 
     var category = CategoryService(name: 'Окрашивание волос');

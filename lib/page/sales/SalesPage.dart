@@ -7,12 +7,10 @@ import 'package:hooa/page/sales/AddSalesPage.dart';
 import 'package:hooa/widget/CardSales.dart';
 import 'package:hooa/widget/MyAppBar.dart';
 
-class SalesPage extends StatefulWidget{
+class SalesPage extends StatefulWidget {
   final Institution institution;
 
-  SalesPage({
-    this.institution
-  });
+  SalesPage({this.institution});
 
   @override
   SalesPageState createState() => SalesPageState();
@@ -21,7 +19,6 @@ class SalesPage extends StatefulWidget{
 class SalesPageState extends State<SalesPage> {
   SalesBloc _salesBloc;
 
-
   @override
   void initState() {
     super.initState();
@@ -29,24 +26,12 @@ class SalesPageState extends State<SalesPage> {
     _salesBloc.add(GetSales());
   }
 
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final unitHeight = size.height * 0.00125;
     return Scaffold(
-      appBar: MyAppBar(
-        title: 'Скидки',
-        actions: [
-          MyAction('assets/icons/settings.svg',
-                () => Navigator.pushNamed(context, "/changeProfileInstitution"),
-          ),
-          MyAction('assets/icons/add.svg',
-                () => Navigator.push(context, MaterialPageRoute(builder:
-                    (context) => AddSalesPage(institution: widget.institution))),
-          ),
-        ],
-      ),
+      appBar: _buildAppBar(),
       body: Padding(
         padding: EdgeInsets.all(unitHeight * 16.0),
         child: BlocBuilder(
@@ -59,11 +44,14 @@ class SalesPageState extends State<SalesPage> {
                 childAspectRatio: 0.8,
                 crossAxisSpacing: 10.0,
                 mainAxisSpacing: 15.0,
-                children: List.generate(state.sales.length, (index) => CardSale(
-                  institution: widget.institution,
-                  sale: state.sales[index],
-                  service: state.services[index],
-                ),),
+                children: List.generate(
+                  state.sales.length,
+                  (index) => CardSale(
+                    institution: widget.institution,
+                    sale: state.sales[index],
+                    service: state.services[index],
+                  ),
+                ),
               ),
             );
           },
@@ -72,4 +60,25 @@ class SalesPageState extends State<SalesPage> {
     );
   }
 
+  Widget _buildAppBar() {
+    return MyAppBar(
+      title: 'Скидки',
+      actions: [
+        MyAction(
+          'assets/icons/settings.svg',
+          () => Navigator.pushNamed(context, "/changeProfileInstitution"),
+        ),
+        MyAction(
+          'assets/icons/add.svg',
+          () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  AddSalesPage(institution: widget.institution),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 }

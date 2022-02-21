@@ -29,6 +29,8 @@ dependencies:
   sms: ^0.2.0
   pin_code_text_field: ^1.8.0
   geocoder: ^0.2.1
+  group_button: ^4.1.0
+  http: ^0.13.4
 
 dev_dependencies:
   flutter_test:

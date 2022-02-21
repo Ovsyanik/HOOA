@@ -205,7 +205,7 @@ class AddSalesPageState extends State<AddSalesPage> {
                                                 unitHeight, services[index],
                                                 index,
                                                 selectedService[selectedService
-                                                    .keys.elementAt(index)])
+                                                    .keys.elementAt(index)],)
                                         ),
                                       );
                                       },

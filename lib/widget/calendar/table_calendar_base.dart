@@ -1,6 +1,3 @@
-// Copyright 2019 Aleksander Woźniak
-// SPDX-License-Identifier: Apache-2.0
-
 import 'package:flutter/material.dart';
 import 'package:simple_gesture_detector/simple_gesture_detector.dart';
 
@@ -107,7 +104,7 @@ class _TableCalendarBaseState extends State<TableCalendarBase>
 
   bool get _canScrollHorizontally =>
       widget.availableGestures == AvailableGestures.all ||
-      widget.availableGestures == AvailableGestures.horizontalSwipe;
+          widget.availableGestures == AvailableGestures.horizontalSwipe;
 
   void _updatePage({bool shouldAnimate = false}) {
     final currentIndex = _calculateFocusedPage(
@@ -125,7 +122,7 @@ class _TableCalendarBaseState extends State<TableCalendarBase>
     if (shouldAnimate && widget.pageAnimationEnabled) {
       if ((currentIndex - _previousIndex).abs() > 1) {
         final jumpIndex =
-            currentIndex > _previousIndex ? currentIndex - 1 : currentIndex + 1;
+        currentIndex > _previousIndex ? currentIndex - 1 : currentIndex + 1;
 
         _pageController.jumpToPage(jumpIndex);
       }
@@ -156,7 +153,7 @@ class _TableCalendarBaseState extends State<TableCalendarBase>
             valueListenable: _pageHeight,
             builder: (context, value, child) {
               final height =
-                  constraints.hasBoundedHeight ? constraints.maxHeight : value;
+              constraints.hasBoundedHeight ? constraints.maxHeight : value;
 
               return AnimatedSize(
                 vsync: this,
@@ -216,7 +213,7 @@ class _TableCalendarBaseState extends State<TableCalendarBase>
   }
 
   int _calculateFocusedPage(DateTime startDay, DateTime focusedDay) {
-    return _getMonthCount(startDay, focusedDay);   
+    return _getMonthCount(startDay, focusedDay);
   }
 
   int _getMonthCount(DateTime first, DateTime last) {

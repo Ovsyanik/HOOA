@@ -46,7 +46,6 @@ class SignUpSecondUserState extends State<SignUpSecondUserPage> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: <Widget>[
-
             Container(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -58,7 +57,6 @@ class SignUpSecondUserState extends State<SignUpSecondUserPage> {
                 ),
               ),
             ),
-
             Container(
               margin: EdgeInsets.only(top: size.height * 0.05),
               height: unitHeight * 50,
@@ -73,7 +71,6 @@ class SignUpSecondUserState extends State<SignUpSecondUserPage> {
                 ),
               ),
             ),
-
             Container(
               margin: EdgeInsets.only(top: size.height * 0.02),
               width: size.width,
@@ -83,19 +80,16 @@ class SignUpSecondUserState extends State<SignUpSecondUserPage> {
                   Expanded(
                     child: ListTile(
                       title: Align(
-                        alignment: Alignment( -1.8, 0),
-                        child: Text(
-                          Sex.Female.value,
-                          style: TextStyle(fontSize: unitHeight * 17)
-                        ),
+                        alignment: Alignment(-1.8, 0),
+                        child: Text(Sex.Female.value,
+                            style: TextStyle(fontSize: unitHeight * 17)),
                       ),
                       contentPadding: EdgeInsets.all(0),
                       leading: Radio(
                         value: Sex.Female,
                         groupValue: _sex,
                         onChanged: ((Sex value) =>
-                          setState(() => _sex = value)
-                        ),
+                            setState(() => _sex = value)),
                       ),
                     ),
                   ),
@@ -103,25 +97,21 @@ class SignUpSecondUserState extends State<SignUpSecondUserPage> {
                     child: ListTile(
                       title: Align(
                         alignment: Alignment(-1.8, 0),
-                        child: Text(
-                          Sex.Male.value,
-                          style: TextStyle(fontSize: unitHeight * 17)
-                        ),
+                        child: Text(Sex.Male.value,
+                            style: TextStyle(fontSize: unitHeight * 17)),
                       ),
                       contentPadding: EdgeInsets.all(0),
                       leading: Radio(
                         value: Sex.Male,
                         groupValue: _sex,
                         onChanged: ((Sex value) =>
-                          setState(() => _sex = value)
-                        ),
+                            setState(() => _sex = value)),
                       ),
                     ),
                   ),
                 ],
               ),
             ),
-
             Container(
               margin: EdgeInsets.only(top: size.height * 0.02),
               width: size.width,
@@ -137,7 +127,6 @@ class SignUpSecondUserState extends State<SignUpSecondUserPage> {
                 ),
               ),
             ),
-
             Container(
               margin: EdgeInsets.only(top: size.height * 0.02),
               width: size.width,
@@ -153,7 +142,6 @@ class SignUpSecondUserState extends State<SignUpSecondUserPage> {
                 ),
               ),
             ),
-
             Container(
               margin: EdgeInsets.only(top: size.height * 0.02),
               width: size.width,
@@ -162,25 +150,22 @@ class SignUpSecondUserState extends State<SignUpSecondUserPage> {
                 obscureText: isHidden,
                 controller: this.passwordController,
                 decoration: InputDecoration(
-                  hintText: "Пароль",
-                  hintStyle: TextStyle(
-                    fontSize: unitHeight * 17.0,
-                    color: HexColor("#4D262626"),
-                  ),
-                  suffixIcon: IconButton(
-                    icon: SvgPicture.asset(
-                      'assets/icons/eye_close.svg',
-                      height: unitHeight * 20,
-                      width: unitHeight * 20,
+                    hintText: "Пароль",
+                    hintStyle: TextStyle(
+                      fontSize: unitHeight * 17.0,
+                      color: HexColor("#4D262626"),
                     ),
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    onPressed: () => setState(() => isHidden = !isHidden)
-                  )
-                ),
+                    suffixIcon: IconButton(
+                        icon: SvgPicture.asset(
+                          'assets/icons/eye_close.svg',
+                          height: unitHeight * 20,
+                          width: unitHeight * 20,
+                        ),
+                        highlightColor: Colors.transparent,
+                        splashColor: Colors.transparent,
+                        onPressed: () => setState(() => isHidden = !isHidden))),
               ),
             ),
-
             Button(
               margin: size.height * 0.05,
               text: 'Зарегистрироваться',
@@ -189,9 +174,8 @@ class SignUpSecondUserState extends State<SignUpSecondUserPage> {
               onPressed: () {
                 code = _generateCode();
                 _showModalVerify(context, code);
-                },
+              },
             ),
-
             Container(
               margin: EdgeInsets.only(top: size.height * 0.02),
               width: size.width,
@@ -212,24 +196,22 @@ class SignUpSecondUserState extends State<SignUpSecondUserPage> {
                     alignment: Alignment.center,
                     child: RichText(
                       text: TextSpan(
-                        text: 'Политики конфиденциальности',
-                        style: TextStyle(
-                          fontSize: unitHeight * 13,
-                          color: HexColor("#FF844B"),
-                          fontWeight: FontWeight.w700,
-                        ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => null));
-                        }
-                      ),
+                          text: 'Политики конфиденциальности',
+                          style: TextStyle(
+                            fontSize: unitHeight * 13,
+                            color: HexColor("#FF844B"),
+                            fontWeight: FontWeight.w700,
+                          ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => null));
+                            }),
                     ),
                   ),
                 ],
               ),
             ),
-
             Expanded(
               child: Container(
                 margin: EdgeInsets.only(bottom: size.height * 0.03),
@@ -252,7 +234,8 @@ class SignUpSecondUserState extends State<SignUpSecondUserPage> {
                           fontWeight: FontWeight.w600,
                         ),
                         recognizer: TapGestureRecognizer()
-                          ..onTap = () => Navigator.of(context).pushNamed('/signIn'),
+                          ..onTap =
+                              () => Navigator.of(context).pushNamed('/signIn'),
                       ),
                     ],
                   ),
@@ -275,18 +258,15 @@ class SignUpSecondUserState extends State<SignUpSecondUserPage> {
     super.dispose();
   }
 
-
   String _generateCode() {
     Random random = Random();
     return random.nextInt(9999).toString();
   }
 
-
   Future _sendSMS(String message, String recipents) async {
     SmsSender sender = SmsSender();
     sender.sendSms(SmsMessage(recipents, message));
   }
-
 
   void _showModalVerify(BuildContext context, String code) {
     Size size = MediaQuery.of(context).size;
@@ -347,16 +327,20 @@ class SignUpSecondUserState extends State<SignUpSecondUserPage> {
                 controller: codeController,
                 pinBoxHeight: 56,
                 pinBoxWidth: 49,
-                pinBoxDecoration: (Color borderColor, Color pinBoxColor, {
+                pinBoxDecoration: (
+                  Color borderColor,
+                  Color pinBoxColor, {
                   double borderWidth = 0.5,
                   double radius = 15.0,
-                }) { return BoxDecoration(
-                  border: Border.all(
-                    color: HexColor('#262626'),
-                    width: 0.5,
-                  ),
-                  color: pinBoxColor,
-                  borderRadius: BorderRadius.circular(6.0),);
+                }) {
+                  return BoxDecoration(
+                    border: Border.all(
+                      color: HexColor('#262626'),
+                      width: 0.5,
+                    ),
+                    color: pinBoxColor,
+                    borderRadius: BorderRadius.circular(6.0),
+                  );
                 },
               ),
             ),
@@ -365,7 +349,8 @@ class SignUpSecondUserState extends State<SignUpSecondUserPage> {
               width: size.width,
               height: unitHeight * 50,
               child: MaterialButton(
-                elevation: 0, highlightElevation: 0,
+                elevation: 0,
+                highlightElevation: 0,
                 shape: RoundedRectangleBorder(
                   side: BorderSide(color: HexColor("#FF844B")),
                   borderRadius: BorderRadius.circular(40),
@@ -382,17 +367,17 @@ class SignUpSecondUserState extends State<SignUpSecondUserPage> {
                 ),
                 onPressed: () {
                   //if(code == codeController.text) {
-                    var bloc = BlocProvider.of<SignUpBloc>(context);
-                    User newUser = User(
-                      fullName: fullNameController.text,
-                      sex: _sex.value,
-                      numberPhone: numberPhoneController.text,
-                      email: emailController.text,
-                      password: passwordController.text,
-                    );
-                    bloc.register(user: newUser);
-                    Navigator.of(context).pushNamed('/mainContainer');
-                 // }
+                  var bloc = BlocProvider.of<SignUpBloc>(context);
+                  User newUser = User(
+                    fullName: fullNameController.text,
+                    sex: _sex.value,
+                    numberPhone: numberPhoneController.text,
+                    email: emailController.text,
+                    password: passwordController.text,
+                  );
+                  bloc.register(user: newUser);
+                  Navigator.of(context).pushNamed('/mainContainerUser');
+                  // }
                 },
               ),
             ),
@@ -401,5 +386,4 @@ class SignUpSecondUserState extends State<SignUpSecondUserPage> {
       ),
     );
   }
-
 }
