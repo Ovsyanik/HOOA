@@ -164,7 +164,7 @@ class SqfliteRepository {
   Future<List<Institution>> getInstitutionsById(List<int> ids) async {
     final db = await dbProvider.database;
     List<Institution> institutions = [];
-    
+
     for (int i = 0; i < ids.length; i++) {
       var result = await db.query(institutionTable,
           where: 'id = ?', whereArgs: [ids.elementAt(i)]);
@@ -266,6 +266,4 @@ class SqfliteRepository {
       whereArgs: [id],
     );
   }
-
-  getInstitutionsById(List<int> institutionsId) {}
 }

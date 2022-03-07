@@ -7,6 +7,7 @@ import 'package:hooa/model/Sale.dart';
 import 'package:hooa/model/institution.dart';
 import 'package:hooa/model/service.dart';
 import 'package:hooa/page/user/SearchInstitution.dart';
+import 'package:hooa/widget/FilterUser.dart';
 import 'package:hooa/widget/MyAppBar.dart';
 
 class SalesPage extends StatefulWidget {
@@ -18,6 +19,8 @@ class SalesPageState extends State<SalesPage> {
   SalesBloc _salesBloc;
   Size size;
   double unitHeight;
+
+  FilterUserResult filterUserResult;
 
   @override
   void initState() {
@@ -64,7 +67,7 @@ class SalesPageState extends State<SalesPage> {
   Widget _buildAppBar() {
     return MyAppBar(
       showLeading: false,
-      title: 'Каталог',
+      title: 'Скидки',
       actions: [
         MyAction(
           'assets/icons/search.svg',
@@ -75,9 +78,28 @@ class SalesPageState extends State<SalesPage> {
         ),
         MyAction(
           'assets/icons/filter_black.svg',
-          () => null,
+          () => _buildFilterDialog(),
         ),
       ],
+    );
+  }
+
+  _buildFilterDialog() async {
+    //задать высоту по содержимому
+    filterUserResult = await showModalBottomSheet<FilterUserResult>(
+      isScrollControlled: true,
+      elevation: 1.0,
+      backgroundColor: HexColor('#F8F7F4'),
+      shape: const RoundedRectangleBorder(
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      context: context,
+      builder: (BuildContext buildContext) {
+        return FilterUser();
+      },
     );
   }
 }

@@ -124,9 +124,25 @@ class DatabaseProvider {
         ");");
 
     var category = CategoryService(name: 'Окрашивание волос');
-    var category2 = CategoryService(name: 'покраска волос');
+    var category2 = CategoryService(name: 'Покраска волос');
+    var category3 = CategoryService(name: 'Стрижка женская');
+    var category4 = CategoryService(name: 'Стрижка мужская');
+    var category5 = CategoryService(name: 'Химическая завивка');
+    var category6 = CategoryService(name: 'Окрашивание');
+    var category7 = CategoryService(name: 'Укладка и причёска');
+    var category8 = CategoryService(name: 'Лечение волос');
+    var category9 = CategoryService(name: 'Уходовые процедуры');
+    var category10 = CategoryService(name: 'Наращивание волос');
 
     await database.insert(categoryServiceTable, category.toDatabaseJson());
     await database.insert(categoryServiceTable, category2.toDatabaseJson());
+    await database.insert(categoryServiceTable, category3.toDatabaseJson());
+    await database.insert(categoryServiceTable, category4.toDatabaseJson());
+    await database.insert(categoryServiceTable, category5.toDatabaseJson());
+    await database.insert(categoryServiceTable, category6.toDatabaseJson());
+    await database.insert(categoryServiceTable, category7.toDatabaseJson());
+    await database.insert(categoryServiceTable, category8.toDatabaseJson());
+    await database.insert(categoryServiceTable, category9.toDatabaseJson());
+    await database.insert(categoryServiceTable, category10.toDatabaseJson());
   }
 }

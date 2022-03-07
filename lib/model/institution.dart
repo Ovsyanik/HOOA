@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:hooa/model/service.dart';
-
 class Institution {
   int id;
   String name;

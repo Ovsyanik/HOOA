@@ -21,22 +21,7 @@ class ProfilePage extends StatelessWidget {
     Institution institution = BlocProvider.of<SignUpBloc>(context).institution;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: MyAppBar(
-        showLeading: false,
-        actions: [
-          MyAction(
-            'assets/icons/settings.svg',
-            () async => await Navigator.push<Institution>(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ChangeProfileInstitution(
-                  institution: institution,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
+      appBar: _buildAppBar(context, institution),
       body: Padding(
         padding: EdgeInsets.all(unitHeight * 8.0),
         child: NotificationListener<OverscrollIndicatorNotification>(
@@ -53,7 +38,9 @@ class ProfilePage extends StatelessWidget {
                   child: Text(
                     "Профиль",
                     style: TextStyle(
-                        fontWeight: FontWeight.w600, fontSize: unitHeight * 34),
+                      fontWeight: FontWeight.w600,
+                      fontSize: unitHeight * 34,
+                    ),
                   ),
                 ),
                 SizedBox(height: unitHeight * 25),
@@ -81,15 +68,20 @@ class ProfilePage extends StatelessWidget {
                           ),
                         ),
                 ),
+                
                 SizedBox(height: unitHeight * 20),
+
                 Text(
                   institution.name,
                   style: TextStyle(
-                      fontSize: unitHeight * 17,
-                      fontWeight: FontWeight.w600,
-                      color: HexColor('#262626')),
+                    fontSize: unitHeight * 17,
+                    fontWeight: FontWeight.w600,
+                    color: HexColor('#262626'),
+                  ),
                 ),
+
                 SizedBox(height: unitHeight * 12),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -99,19 +91,29 @@ class ProfilePage extends StatelessWidget {
                     ),
                   ],
                 ),
+
                 SizedBox(height: unitHeight * 12),
+
                 Text(
                   'Время работы: ${institution.timeStart} - ${institution.timeEnd}',
                   style: TextStyle(
-                      fontSize: unitHeight * 16, color: HexColor('#262626')),
+                    fontSize: unitHeight * 16,
+                    color: HexColor('#262626'),
+                  ),
                 ),
+
                 SizedBox(height: unitHeight * 12),
+
                 Text(
                   'Адрес: ${institution.address}',
                   style: TextStyle(
-                      fontSize: unitHeight * 16, color: HexColor('#262626')),
+                    fontSize: unitHeight * 16,
+                    color: HexColor('#262626'),
+                  ),
                 ),
+
                 SizedBox(height: unitHeight * 12),
+
                 GestureDetector(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -132,7 +134,9 @@ class ProfilePage extends StatelessWidget {
                   ),
                   onTap: () => null,
                 ),
+
                 SizedBox(height: unitHeight * 57),
+                
                 Container(
                   height: unitHeight * 50,
                   decoration: BoxDecoration(
@@ -166,44 +170,9 @@ class ProfilePage extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: unitHeight * 8,
-                ),
-                Container(
-                  height: unitHeight * 50,
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: HexColor('#C6C6C8').withOpacity(0.3),
-                        width: 1,
-                      ),
-                    ),
-                  ),
-                  child: GestureDetector(
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  SalesPage(institution: institution))),
-                      child: ListTile(
-                        contentPadding: EdgeInsets.only(
-                            left: unitHeight * 8, right: unitHeight * 16),
-                        trailing: SvgPicture.asset(
-                          'assets/icons/arrow.svg',
-                          color: HexColor("#262626"),
-                          height: unitHeight * 15,
-                          width: unitHeight * 15,
-                        ),
-                        title: Text(
-                          "Скидки",
-                          style: TextStyle(
-                            fontSize: unitHeight * 17,
-                            color: HexColor('#262626'),
-                          ),
-                        ),
-                      )),
-                ),
+
                 SizedBox(height: unitHeight * 8),
+
                 Container(
                   height: unitHeight * 50,
                   decoration: BoxDecoration(
@@ -215,27 +184,71 @@ class ProfilePage extends StatelessWidget {
                     ),
                   ),
                   child: GestureDetector(
-                      onTap: () => Navigator.pushNamed(context, "/callback"),
-                      child: ListTile(
-                        contentPadding: EdgeInsets.only(
-                          left: unitHeight * 8,
-                          right: unitHeight * 16,
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            SalesPage(institution: institution),
+                      ),
+                    ),
+                    child: ListTile(
+                      contentPadding: EdgeInsets.only(
+                        left: unitHeight * 8,
+                        right: unitHeight * 16,
+                      ),
+                      trailing: SvgPicture.asset(
+                        'assets/icons/arrow.svg',
+                        color: HexColor("#262626"),
+                        height: unitHeight * 15,
+                        width: unitHeight * 15,
+                      ),
+                      title: Text(
+                        "Скидки",
+                        style: TextStyle(
+                          fontSize: unitHeight * 17,
+                          color: HexColor('#262626'),
                         ),
-                        trailing: SvgPicture.asset(
-                          'assets/icons/arrow.svg',
-                          color: HexColor("#262626"),
-                          height: unitHeight * 15,
-                          width: unitHeight * 15,
-                        ),
-                        title: Text(
-                          "Обратная связь",
-                          style: TextStyle(
-                            fontSize: unitHeight * 17,
-                            color: HexColor('#262626'),
-                          ),
-                        ),
-                      )),
+                      ),
+                    ),
+                  ),
                 ),
+
+                SizedBox(height: unitHeight * 8),
+
+                Container(
+                  height: unitHeight * 50,
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: HexColor('#C6C6C8').withOpacity(0.3),
+                        width: 1,
+                      ),
+                    ),
+                  ),
+                  child: GestureDetector(
+                    onTap: () => Navigator.pushNamed(context, "/callback"),
+                    child: ListTile(
+                      contentPadding: EdgeInsets.only(
+                        left: unitHeight * 8,
+                        right: unitHeight * 16,
+                      ),
+                      trailing: SvgPicture.asset(
+                        'assets/icons/arrow.svg',
+                        color: HexColor("#262626"),
+                        height: unitHeight * 15,
+                        width: unitHeight * 15,
+                      ),
+                      title: Text(
+                        "Обратная связь",
+                        style: TextStyle(
+                          fontSize: unitHeight * 17,
+                          color: HexColor('#262626'),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                
                 Container(
                   margin: EdgeInsets.only(top: unitHeight * 8),
                   child: GestureDetector(
@@ -266,6 +279,25 @@ class ProfilePage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildAppBar(BuildContext context, Institution institution) {
+    return MyAppBar(
+      showLeading: false,
+      actions: [
+        MyAction(
+          'assets/icons/settings.svg',
+          () async => await Navigator.push<Institution>(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ChangeProfileInstitution(
+                institution: institution,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

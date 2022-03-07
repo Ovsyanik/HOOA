@@ -5,6 +5,7 @@ import 'package:hooa/bloc/InstitutionBloc.dart';
 import 'package:hooa/model/institution.dart';
 import 'package:hooa/page/user/InstitutionUserPage.dart';
 import 'package:hooa/page/user/SearchInstitution.dart';
+import 'package:hooa/widget/FilterUser.dart';
 import 'package:hooa/widget/MyAppBar.dart';
 
 class ListInstitutionPage extends StatefulWidget {
@@ -17,6 +18,8 @@ class _ListInstitutionPage extends State<ListInstitutionPage> {
 
   Size size;
   double unitHeight;
+
+  FilterUserResult filterUserResult;
 
   @override
   void initState() {
@@ -31,23 +34,7 @@ class _ListInstitutionPage extends State<ListInstitutionPage> {
     size = MediaQuery.of(context).size;
     unitHeight = size.height * 0.00125;
     return Scaffold(
-      appBar: MyAppBar(
-        showLeading: false,
-        title: 'Каталог',
-        actions: [
-          MyAction(
-            'assets/icons/search.svg',
-            () => showSearch(
-              context: context,
-              delegate: SearchInstitutionDelegate(unitHeight: unitHeight),
-            ),
-          ),
-          MyAction(
-            'assets/icons/filter_black.svg',
-            () => _getFilterDialog(),
-          ),
-        ],
-      ),
+      appBar: _buildAppBar(),
       body: NotificationListener<OverscrollIndicatorNotification>(
         onNotification: (overScroll) {
           overScroll.disallowGlow();
@@ -60,6 +47,26 @@ class _ListInstitutionPage extends State<ListInstitutionPage> {
           ),
         ),
       ),
+    );
+  }
+
+  MyAppBar _buildAppBar() {
+    return MyAppBar(
+      showLeading: false,
+      title: 'Каталог',
+      actions: [
+        MyAction(
+          'assets/icons/search.svg',
+          () => showSearch(
+            context: context,
+            delegate: SearchInstitutionDelegate(unitHeight: unitHeight),
+          ),
+        ),
+        MyAction(
+          'assets/icons/filter_black.svg',
+          () => _buildFilterDialog(),
+        ),
+      ],
     );
   }
 
@@ -109,15 +116,21 @@ class _ListInstitutionPage extends State<ListInstitutionPage> {
     );
   }
 
-  _getFilterDialog() {
-    showModalBottomSheet(
+  _buildFilterDialog() async {
+    //задать высоту по содержимому
+    filterUserResult = await showModalBottomSheet<FilterUserResult>(
+      isScrollControlled: true,
+      elevation: 1.0,
+      backgroundColor: HexColor('#F8F7F4'),
+      shape: const RoundedRectangleBorder(
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
       context: context,
       builder: (BuildContext buildContext) {
-        return Column(
-          children: [
-            SizedBox(height: unitHeight * 10),
-          ],
-        );
+        return FilterUser();
       },
     );
   }
@@ -164,9 +177,7 @@ class InstitutionBlock extends StatelessWidget {
             //   ),
             // ),
           ]),
-          SizedBox(
-            height: unitHeight * 4,
-          ),
+          SizedBox(height: unitHeight * 4),
           Text(
             institution.name,
             style: TextStyle(
@@ -175,9 +186,7 @@ class InstitutionBlock extends StatelessWidget {
               color: HexColor('#262626'),
             ),
           ),
-          SizedBox(
-            height: unitHeight * 4,
-          ),
+          SizedBox(height: unitHeight * 4),
           Row(
             children: [
               Icon(
@@ -188,9 +197,7 @@ class InstitutionBlock extends StatelessWidget {
               //доделать
               Text(
                 '  ${institution.name}',
-                style: TextStyle(
-                  fontSize: unitHeight * 13,
-                ),
+                style: TextStyle(fontSize: unitHeight * 13),
               ),
             ],
           ),
